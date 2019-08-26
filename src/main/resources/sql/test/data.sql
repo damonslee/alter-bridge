@@ -1,4 +1,4 @@
-INSERT INTO t_board (
+INSERT INTO board (
       title
      ,contents
      ,created_at

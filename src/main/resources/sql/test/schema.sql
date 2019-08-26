@@ -1,4 +1,4 @@
-CREATE TABLE t_board (
+CREATE TABLE board (
     id INT(11) NOT NULL AUTO_INCREMENT,
     title VARCHAR(300) NOT NULL,
     contents TEXT NOT NULL,

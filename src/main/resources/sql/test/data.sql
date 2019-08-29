@@ -5,8 +5,8 @@ INSERT INTO board (
      ,created_by
 )
 VALUES (
-    'Sample Blog'
-    ,'Lorem Ipsum'
+    'Lorem ipsum dolor sit amet'
+    ,'Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.'
     ,NOW()
     ,'yaboong'
 );

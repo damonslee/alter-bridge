@@ -1,13 +1,21 @@
+server.port: 18080
+
 spring:
   datasource:
     driver-class-name: org.h2.Driver
     url: jdbc:h2:mem:testdb;MODE=MySQL
     username: sa
     password:
+#    schema: classpath:/sql/test/schema.sql
+#    data: classpath:/sql/test/data.sql
   h2:
     console:
       enabled: true
       path: /console
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: create-drop
+
+
+
+

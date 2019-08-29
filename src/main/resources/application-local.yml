@@ -13,8 +13,10 @@ spring:
       enabled: true
       path: /console
   jpa:
+    show-sql: true
     hibernate:
-      ddl-auto: create-drop
+      ddl-auto: update
+
 
 
 

@@ -1,1 +1,2 @@
-INSERT INTO board (title,contents,created_at,created_by)VALUES ('Lorem ipsum dolor sit amet','Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',NOW(),'yaboong');
+-- INSERT INTO post (category, title, content, created_by) VALUES ('dev', 'test title', 'test content', 'yaboong');
+-- INSERT INTO comment (post_id, content, created_by) VALUES (1, 'test comment', 'oyabun');

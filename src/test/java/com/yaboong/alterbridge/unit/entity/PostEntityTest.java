@@ -3,7 +3,7 @@ package com.yaboong.alterbridge.unit.entity;
 import com.yaboong.alterbridge.TestProfile;
 import com.yaboong.alterbridge.application.api.post.Post;
 import com.yaboong.alterbridge.application.api.post.PostRepository;
-import com.yaboong.alterbridge.config.querydsl.QuerydslConfiguration;
+import com.yaboong.alterbridge.configuration.querydsl.QuerydslConfiguration;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;

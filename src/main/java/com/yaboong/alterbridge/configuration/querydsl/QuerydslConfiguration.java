@@ -1,4 +1,4 @@
-package com.yaboong.alterbridge.config.querydsl;
+package com.yaboong.alterbridge.configuration.querydsl;
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.springframework.context.annotation.Bean;

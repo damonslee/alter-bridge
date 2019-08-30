@@ -15,12 +15,14 @@ spring:
     show-sql: true
     hibernate:
       ddl-auto: update
+  devtools:
+    livereload:
+      enabled: true
 
 # LOGGING
 logging:
   level:
-    com.yaboong: DEBUG
-    org.springframework.web: INFO
+    com.yaboong: info
 
 
 

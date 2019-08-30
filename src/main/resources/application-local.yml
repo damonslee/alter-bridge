@@ -1,13 +1,12 @@
 server.port: 18080
 
+# SPRING
 spring:
   datasource:
     driver-class-name: org.h2.Driver
     url: jdbc:h2:mem:testdb;MODE=MySQL
     username: sa
     password:
-#    schema: classpath:/sql/test/schema.sql
-#    data: classpath:/sql/test/data.sql
   h2:
     console:
       enabled: true
@@ -16,13 +15,12 @@ spring:
     show-sql: true
     hibernate:
       ddl-auto: update
+
+# LOGGING
 logging:
   level:
-    org:
-#      hibernate: DEBUG
-      springframework:
-        web: DEBUG
-
+    com.yaboong: DEBUG
+    org.springframework.web: INFO
 
 
 

@@ -29,13 +29,13 @@ import static org.junit.Assert.assertThat;
 public class JpaAuditingTest {
 
     @Autowired
-    private TestEntityManager testEntityManager;
+    private TestEntityManager em;
 
     @Autowired
     private PostRepository postRepository;
 
     @Test
-    public void jpaAuditing_동작확인() {
+    public void JpaAuditing_PostRepository_동작확인() {
         // GIVEN
         Post post = Post.builder()
                 .title("Old Post")
@@ -60,10 +60,39 @@ public class JpaAuditingTest {
         // WHEN
         modifiedPost.setTitle("New Post");
         postRepository.saveAndFlush(modifiedPost);
-        testEntityManager.refresh(modifiedPost); // refresh 해주지 않으면 값이 업데이트가 안됨. 계속 캐싱하고 있는 값으로 사용함.
 
         // THEN
         assertEquals(modifiedPost.getTitle(), "New Post");
         assertThat(modifiedPost.getModifiedAt(), greaterThan(oldModifiedAt));
+    }
+
+    @Test
+    public void JpaAuditing_EntityManager_동작확인() {
+        Post post = Post.builder()
+                .title("Old Post")
+                .category("DEV")
+                .content("Old Content")
+                .build();
+
+        // WHEN
+        em.persistAndFlush(post);
+
+        // THEN
+        assertEquals(post.getTitle(), "Old Post");
+        assertEquals(post.getCreatedBy(), "admin");
+        assertThat(post.getCreatedAt(), is(notNullValue()));
+        assertEquals(post.getModifiedBy(), "admin");
+        assertThat(post.getModifiedAt(), is(notNullValue()));
+
+        // GIVEN
+        LocalDateTime oldModifiedAt = post.getModifiedAt();
+
+        // WHEN
+        post.setTitle("New Post");
+        em.persistAndFlush(post);
+
+        // THEN
+        assertEquals(post.getTitle(), "New Post");
+        assertThat(post.getModifiedAt(), greaterThan(oldModifiedAt));
     }
 }

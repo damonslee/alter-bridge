@@ -37,6 +37,9 @@ public class Comment extends Auditable<String> {
     @ColumnDefault("0")
     Long likeCount;
 
+    @ColumnDefault("'N'")
+    String deletedYn;
+
     @Column(nullable = false)
     String content;
 

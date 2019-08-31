@@ -3,18 +3,18 @@ package com.yaboong.alterbridge.application.api.post;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.yaboong.alterbridge.application.api.comment.Comment;
+import com.yaboong.alterbridge.application.common.auditing.Auditable;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
-import org.hibernate.annotations.*;
+import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
 
-import javax.persistence.CascadeType;
 import javax.persistence.*;
-import javax.persistence.Entity;
-import javax.persistence.Table;
-import java.time.LocalDateTime;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Created by yaboong on 2019-08-29.
@@ -26,12 +26,12 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@EqualsAndHashCode(of = "postId")
+@EqualsAndHashCode(of = "postId", callSuper = false)
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @DynamicInsert
 @DynamicUpdate
 @JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class, property = "postId")
-public class Post {
+public class Post extends Auditable<String> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -57,22 +57,19 @@ public class Post {
     @ColumnDefault("'N'")
     String deletedYn;
 
-    @Column(nullable = false)
-    String createdBy;
-
-    @Column(nullable = false)
-    @CreationTimestamp
-    LocalDateTime createdAt;
-
-    @UpdateTimestamp
-    LocalDateTime updatedAt;
-
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    List<Comment> comments;
+    @Builder.Default // 이거 없으면 lombok Builder 로 객체생성할때 new HashSet<>() 적용안돼서 add() 시 NPE 발생
+    Set<Comment> comments = new HashSet<>();
+
+    public void add(Comment comment) {
+        comments.add(comment);
+        comment.setPost(this);
+    }
 
     // 양방향 매핑시 순환참조가 일어날 수 있으므로, toString() 을 직접 구현함
     @Override
     public String toString() {
         return ToStringBuilder.reflectionToString(this, ToStringStyle.SHORT_PREFIX_STYLE);
     }
+
 }

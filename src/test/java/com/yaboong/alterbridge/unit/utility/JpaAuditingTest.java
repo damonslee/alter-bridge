@@ -13,6 +13,7 @@ import org.springframework.context.annotation.Import;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import javax.persistence.EntityTransaction;
 import java.time.LocalDateTime;
 
 import static org.hamcrest.Matchers.*;
@@ -68,6 +69,7 @@ public class JpaAuditingTest {
 
     @Test
     public void JpaAuditing_EntityManager_동작확인() {
+        // GIVEN
         Post post = Post.builder()
                 .title("Old Post")
                 .category("DEV")
@@ -75,7 +77,9 @@ public class JpaAuditingTest {
                 .build();
 
         // WHEN
-        em.persistAndFlush(post);
+        em.persist(post);
+        EntityTransaction transaction1 = em.getEntityManager().getTransaction();
+        transaction1.commit();
 
         // THEN
         assertEquals(post.getTitle(), "Old Post");
@@ -85,11 +89,14 @@ public class JpaAuditingTest {
         assertThat(post.getModifiedAt(), is(notNullValue()));
 
         // GIVEN
+        EntityTransaction transaction2 = em.getEntityManager().getTransaction();
+        transaction2.begin();
         LocalDateTime oldModifiedAt = post.getModifiedAt();
 
         // WHEN
         post.setTitle("New Post");
-        em.persistAndFlush(post);
+        em.persist(post);
+        transaction2.commit();
 
         // THEN
         assertEquals(post.getTitle(), "New Post");

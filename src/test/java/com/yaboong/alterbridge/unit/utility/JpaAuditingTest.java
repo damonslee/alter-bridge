@@ -61,7 +61,7 @@ public class JpaAuditingTest {
         // WHEN
         modifiedPost.setTitle("New Post");
         postRepository.saveAndFlush(modifiedPost);
-        testEntityManager.refresh(modifiedPost);
+        testEntityManager.refresh(modifiedPost); // refresh 해주지 않으면 값이 업데이트가 안됨. 계속 캐싱하고 있는 값으로 사용함.
 
         // THEN
         assertEquals(modifiedPost.getTitle(), "New Post");

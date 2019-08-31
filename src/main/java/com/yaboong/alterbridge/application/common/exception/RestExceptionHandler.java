@@ -19,7 +19,7 @@ public class RestExceptionHandler  {
     @ExceptionHandler(Exception.class)
     @ResponseBody
     public ResponseEntity handleException(Exception exception) {
-        return error(
+        return responseError(
                 ApiResponse.SOMETHING_WENT_WRONG,
                 HttpStatus.INTERNAL_SERVER_ERROR,
                 exception
@@ -29,14 +29,14 @@ public class RestExceptionHandler  {
     @ExceptionHandler(ApiException.class)
     @ResponseBody
     public ResponseEntity handleApiException(ApiException apiException) {
-        return error(
+        return responseError(
                 ApiResponse.UNKNOWN_ERROR,
                 HttpStatus.INTERNAL_SERVER_ERROR,
                 apiException
         );
     }
 
-    private ResponseEntity error(ApiResponse apiResponse, HttpStatus status, Exception exception) {
+    private ResponseEntity responseError(ApiResponse apiResponse, HttpStatus status, Exception exception) {
         log.error(exception.getMessage(), exception);
         return ResponseEntity
                 .status(status)

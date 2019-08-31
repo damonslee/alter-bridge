@@ -4,7 +4,6 @@ import com.yaboong.alterbridge.TestProfile;
 import com.yaboong.alterbridge.application.api.post.Post;
 import com.yaboong.alterbridge.application.api.post.PostRepository;
 import com.yaboong.alterbridge.configuration.jpa.JpaConfiguration;
-import com.yaboong.alterbridge.configuration.querydsl.QuerydslConfiguration;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +24,7 @@ import static org.junit.Assert.assertThat;
  */
 @DataJpaTest
 @RunWith(SpringRunner.class)
-@Import(value = {QuerydslConfiguration.class, JpaConfiguration.class})
+@Import(value = {JpaConfiguration.class})
 @ActiveProfiles(TestProfile.TEST)
 public class JpaAuditingTest {
 

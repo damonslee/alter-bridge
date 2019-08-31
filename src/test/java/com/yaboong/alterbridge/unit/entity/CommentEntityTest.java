@@ -4,7 +4,7 @@ import com.yaboong.alterbridge.TestProfile;
 import com.yaboong.alterbridge.application.api.comment.Comment;
 import com.yaboong.alterbridge.application.api.comment.CommentRepository;
 import com.yaboong.alterbridge.application.api.post.Post;
-import com.yaboong.alterbridge.configuration.querydsl.QuerydslConfiguration;
+import com.yaboong.alterbridge.configuration.jpa.JpaConfiguration;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +22,7 @@ import static org.hamcrest.Matchers.is;
  */
 @DataJpaTest
 @RunWith(SpringRunner.class)
-@Import(QuerydslConfiguration.class)
+@Import(JpaConfiguration.class)
 @ActiveProfiles(TestProfile.TEST)
 public class CommentEntityTest {
 

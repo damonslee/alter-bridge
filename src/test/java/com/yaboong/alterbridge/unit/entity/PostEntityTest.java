@@ -3,6 +3,7 @@ package com.yaboong.alterbridge.unit.entity;
 import com.yaboong.alterbridge.TestProfile;
 import com.yaboong.alterbridge.application.api.post.Post;
 import com.yaboong.alterbridge.application.api.post.PostRepository;
+import com.yaboong.alterbridge.configuration.jpa.JpaConfiguration;
 import com.yaboong.alterbridge.configuration.querydsl.QuerydslConfiguration;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -22,7 +23,7 @@ import static org.junit.Assert.assertThat;
  */
 @DataJpaTest
 @RunWith(SpringRunner.class)
-@Import(QuerydslConfiguration.class)
+@Import({QuerydslConfiguration.class, JpaConfiguration.class})
 @ActiveProfiles(TestProfile.TEST)
 public class PostEntityTest {
 
@@ -39,7 +40,6 @@ public class PostEntityTest {
                 .title("등록테스트입니다.")
                 .category("개발")
                 .content("내용입니다.")
-                .createdBy("yaboong")
                 .build();
 
         // WHEN
@@ -52,21 +52,4 @@ public class PostEntityTest {
         assertEquals(savedPost.getTitle(), "등록테스트입니다.");
     }
 
-    @Test
-    public void querydslTest() {
-        // GIVEN
-        Post post = Post.builder()
-                .title("등록테스트입니다.")
-                .category("개발")
-                .content("내용입니다.")
-                .createdBy("yaboong")
-                .build();
-
-        // WHEN
-        testEntityManager.persist(post);
-        Post savedPost = postRepository.findByTitle(post.getTitle()).get(0);
-
-        // THEN
-        assertThat(savedPost, is(post));
-    }
 }

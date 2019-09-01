@@ -38,7 +38,8 @@ public class Post extends Auditable<String> {
     Long postId;
 
     @Column(length = 255, nullable = false)
-    String category;
+    @Enumerated(value = EnumType.STRING)
+    PostCategory category;
 
     @Column(length = 255, nullable = false)
     String title;

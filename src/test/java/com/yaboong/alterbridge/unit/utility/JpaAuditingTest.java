@@ -2,6 +2,7 @@ package com.yaboong.alterbridge.unit.utility;
 
 import com.yaboong.alterbridge.TestProfile;
 import com.yaboong.alterbridge.application.api.post.Post;
+import com.yaboong.alterbridge.application.api.post.PostCategory;
 import com.yaboong.alterbridge.application.api.post.PostRepository;
 import com.yaboong.alterbridge.configuration.jpa.JpaConfiguration;
 import org.junit.Test;
@@ -40,7 +41,7 @@ public class JpaAuditingTest {
         // GIVEN
         Post post = Post.builder()
                 .title("Old Post")
-                .category("DEV")
+                .category(PostCategory.GENERAL)
                 .content("Old Content")
                 .build();
 
@@ -72,7 +73,7 @@ public class JpaAuditingTest {
         // GIVEN
         Post post = Post.builder()
                 .title("Old Post")
-                .category("DEV")
+                .category(PostCategory.GENERAL)
                 .content("Old Content")
                 .build();
 

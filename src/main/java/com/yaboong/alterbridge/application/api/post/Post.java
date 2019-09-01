@@ -13,8 +13,8 @@ import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by yaboong on 2019-08-29.
@@ -59,7 +59,7 @@ public class Post extends Auditable<String> {
 
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @Builder.Default // 이거 없으면 lombok Builder 로 객체생성할때 new HashSet<>() 적용안돼서 add() 시 NPE 발생
-    Set<Comment> comments = new HashSet<>();
+    List<Comment> comments = new ArrayList<>();
 
     public void add(Comment comment) {
         comments.add(comment);

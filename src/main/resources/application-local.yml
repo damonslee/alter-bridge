@@ -27,6 +27,17 @@ logging:
   level:
     com.yaboong: debug
 
+# AWS
+aws:
+  credentials:
+    access-key: ${AWS_ACCESS_KEY}
+    secret-key: ${AWS_SECRET_KEY}
+  s3:
+    region: ap-northeast-2
+    bucket-name: yaboong-test-data
+    end-point-url: https://s3.${aws.s3.region}.amazonaws.com
+
+
 
 
 

@@ -46,6 +46,8 @@ dependencies {
     runtimeOnly 'mysql:mysql-connector-java'
     compile 'org.projectlombok:lombok'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    compile "com.amazonaws:aws-java-sdk:1.11.133"
+
 }
 
 // querydsl 적용

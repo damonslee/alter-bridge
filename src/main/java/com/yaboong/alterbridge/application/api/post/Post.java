@@ -2,6 +2,7 @@ package com.yaboong.alterbridge.application.api.post;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import com.yaboong.alterbridge.application.api.boardfile.BoardFile;
 import com.yaboong.alterbridge.application.api.comment.Comment;
 import com.yaboong.alterbridge.application.common.auditing.Auditable;
 import lombok.*;
@@ -62,9 +63,18 @@ public class Post extends Auditable<String> {
     @Builder.Default // 이거 없으면 lombok Builder 로 객체생성할때 new HashSet<>() 적용안돼서 add() 시 NPE 발생
     List<Comment> comments = new ArrayList<>();
 
+    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @Builder.Default
+    List<BoardFile> files = new ArrayList<>();
+
     public void add(Comment comment) {
         comments.add(comment);
         comment.setPost(this); // 이 관계 설정 안해주면 comment 테이블에 post_id 가 null 로 들어감
+    }
+
+    public void addFile(BoardFile file) {
+        this.files.add(file);
+        file.setPost(this);
     }
 
     // 양방향 매핑시 순환참조가 일어날 수 있으므로, toString() 을 직접 구현함

@@ -1,6 +1,6 @@
-package com.yaboong.alterbridge.application.api.boardfile;
+package com.yaboong.alterbridge.application.api.boardfile.controller;
 
-import com.yaboong.alterbridge.application.common.component.S3Client;
+import com.yaboong.alterbridge.application.common.component.StorageService;
 import com.yaboong.alterbridge.application.common.response.ApiResponse;
 import com.yaboong.alterbridge.application.common.response.ResponseBase;
 import lombok.RequiredArgsConstructor;
@@ -18,11 +18,11 @@ import java.io.IOException;
 @RequiredArgsConstructor
 public class BoardFileController {
 
-    private final S3Client s3;
+    private final StorageService storageService;
 
     @PostMapping
     public ResponseEntity upload(@RequestPart(value = "file") MultipartFile file) throws IOException {
-        String fileUrl = s3.upload(file);
+        String fileUrl = storageService.upload(file);
         return ResponseEntity
                 .ok()
                 .body(ResponseBase.of(ApiResponse.OK, fileUrl));
@@ -30,7 +30,7 @@ public class BoardFileController {
 
     @DeleteMapping
     public ResponseEntity deleteFile(@RequestPart(value = "url") String fileUrl) {
-        s3.delete(fileUrl);
+        storageService.delete(fileUrl);
         return ResponseEntity
                 .ok()
                 .body(ResponseBase.of(ApiResponse.OK));

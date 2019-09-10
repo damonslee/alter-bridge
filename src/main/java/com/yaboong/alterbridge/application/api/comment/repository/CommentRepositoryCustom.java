@@ -1,4 +1,6 @@
-package com.yaboong.alterbridge.application.api.comment;
+package com.yaboong.alterbridge.application.api.comment.repository;
+
+import com.yaboong.alterbridge.application.api.comment.entity.Comment;
 
 import java.util.List;
 

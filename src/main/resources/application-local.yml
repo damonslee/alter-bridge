@@ -25,7 +25,9 @@ spring:
 # LOGGING
 logging:
   level:
+#    root: debug
     com.yaboong: debug
+    org.springframework.web: debug
 
 # AWS
 aws:

@@ -1,9 +1,9 @@
 package com.yaboong.alterbridge.unit.entity;
 
 import com.yaboong.alterbridge.TestProfile;
-import com.yaboong.alterbridge.application.api.post.Post;
-import com.yaboong.alterbridge.application.api.post.PostCategory;
-import com.yaboong.alterbridge.application.api.post.PostRepository;
+import com.yaboong.alterbridge.application.api.post.entity.Post;
+import com.yaboong.alterbridge.application.api.post.domain.PostCategory;
+import com.yaboong.alterbridge.application.api.post.repository.PostRepository;
 import com.yaboong.alterbridge.configuration.jpa.JpaConfiguration;
 import org.junit.Test;
 import org.junit.runner.RunWith;

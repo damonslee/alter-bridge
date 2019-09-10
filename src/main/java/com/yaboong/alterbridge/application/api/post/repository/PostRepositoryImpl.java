@@ -1,7 +1,8 @@
-package com.yaboong.alterbridge.application.api.post;
+package com.yaboong.alterbridge.application.api.post.repository;
 
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import com.yaboong.alterbridge.application.api.post.entity.Post;
 import lombok.RequiredArgsConstructor;
 
 import java.util.List;

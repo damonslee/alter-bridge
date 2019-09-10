@@ -1,6 +1,7 @@
-package com.yaboong.alterbridge.application.api.comment;
+package com.yaboong.alterbridge.application.api.comment.repository;
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import com.yaboong.alterbridge.application.api.comment.entity.Comment;
 import lombok.RequiredArgsConstructor;
 
 import java.util.List;

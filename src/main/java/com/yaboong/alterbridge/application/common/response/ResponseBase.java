@@ -12,13 +12,13 @@ import org.apache.commons.lang3.StringUtils;
 public class ResponseBase<T> {
     private int code;
     private String message;
-    private T properties;
+    private T content;
 
     public static ResponseBase of(ApiResponse apiResponse) {
         return ResponseBase.of(apiResponse.code(), apiResponse.message(), StringUtils.EMPTY);
     }
 
-    public static <E> ResponseBase<E> of(ApiResponse apiResponse, E a) {
-        return ResponseBase.of(apiResponse.code(), apiResponse.message(), a);
+    public static <E> ResponseBase<E> of(ApiResponse apiResponse, E content) {
+        return ResponseBase.of(apiResponse.code(), apiResponse.message(), content);
     }
 }

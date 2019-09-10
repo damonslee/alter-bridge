@@ -1,5 +1,6 @@
-package com.yaboong.alterbridge.application.api.boardfile;
+package com.yaboong.alterbridge.application.api.boardfile.repository;
 
+import com.yaboong.alterbridge.application.api.boardfile.entity.BoardFile;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 /**

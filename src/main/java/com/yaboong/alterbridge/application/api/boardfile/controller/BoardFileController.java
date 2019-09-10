@@ -1,4 +1,4 @@
-package com.yaboong.alterbridge.application.api.boardfile;
+package com.yaboong.alterbridge.application.api.boardfile.controller;
 
 import com.yaboong.alterbridge.application.common.component.StorageService;
 import com.yaboong.alterbridge.application.common.response.ApiResponse;

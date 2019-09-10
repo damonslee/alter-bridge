@@ -1,9 +1,9 @@
-package com.yaboong.alterbridge.application.api.boardfile;
+package com.yaboong.alterbridge.application.api.boardfile.entity;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
-import com.yaboong.alterbridge.application.api.comment.Comment;
-import com.yaboong.alterbridge.application.api.post.Post;
+import com.yaboong.alterbridge.application.api.comment.entity.Comment;
+import com.yaboong.alterbridge.application.api.post.entity.Post;
 import com.yaboong.alterbridge.application.common.auditing.Auditable;
 import lombok.*;
 import lombok.experimental.FieldDefaults;

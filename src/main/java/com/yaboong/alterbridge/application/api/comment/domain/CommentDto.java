@@ -1,10 +1,10 @@
-package com.yaboong.alterbridge.application.api.post.domain;
+package com.yaboong.alterbridge.application.api.comment.domain;
 
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Positive;
 import javax.validation.constraints.PositiveOrZero;
 import java.util.List;
 
@@ -16,22 +16,14 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class PostDto {
+public class CommentDto {
 
-    @NotEmpty
-    String category;
-
-    @NotEmpty
-    String title;
+    @NotEmpty @Positive
+    Long postId;
 
     @NotEmpty
     String content;
 
-    @NotNull
-    @PositiveOrZero
-    Long viewCount;
-
-    @NotNull
     @PositiveOrZero
     Long likeCount;
 

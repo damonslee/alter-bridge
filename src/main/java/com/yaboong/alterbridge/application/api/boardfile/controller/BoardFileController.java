@@ -1,6 +1,6 @@
 package com.yaboong.alterbridge.application.api.boardfile.controller;
 
-import com.yaboong.alterbridge.application.common.component.StorageService;
+import com.yaboong.alterbridge.application.api.storage.StorageService;
 import com.yaboong.alterbridge.application.common.response.ApiResponse;
 import com.yaboong.alterbridge.application.common.response.ResponseBase;
 import lombok.RequiredArgsConstructor;

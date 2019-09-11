@@ -1,4 +1,4 @@
-package com.yaboong.alterbridge.application.common.component;
+package com.yaboong.alterbridge.application.api.storage;
 
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.CannedAccessControlList;

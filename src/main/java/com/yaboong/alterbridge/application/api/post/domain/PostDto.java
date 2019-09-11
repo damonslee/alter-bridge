@@ -1,12 +1,9 @@
 package com.yaboong.alterbridge.application.api.post.domain;
 
-import com.yaboong.alterbridge.application.api.boardfile.entity.BoardFile;
-import com.yaboong.alterbridge.application.api.comment.entity.Comment;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.Positive;
 import javax.validation.constraints.PositiveOrZero;
 import java.util.List;
 
@@ -19,9 +16,6 @@ import java.util.List;
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class PostDto {
-
-    @Positive
-    Long postId;
 
     @NotEmpty
     String category;
@@ -40,7 +34,6 @@ public class PostDto {
 
     String deletedYn;
 
-    List<Comment> comments;
+    List<String> files;
 
-    List<BoardFile> files;
 }

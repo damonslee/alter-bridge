@@ -37,7 +37,10 @@ public class PostController {
 
 
     @PostMapping
-    public ResponseEntity createPost(@RequestBody @Valid PostDto postDto, Errors errors) {
+    public ResponseEntity createPost(
+            @RequestBody @Valid PostDto postDto,
+            Errors errors
+    ) {
         if (errors.hasErrors()) {
             return ResponseEntity
                     .badRequest()
@@ -57,6 +60,43 @@ public class PostController {
         return ResponseEntity
                 .created(linkTo(PostController.class).slash(newPost.getPostId()).toUri())
                 .body(ResponseBase.of(ApiResponse.OK, newPost));
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity updatePost(
+            @PathVariable Long id,
+            @RequestBody @Valid PostDto postDto,
+            Errors errors
+    ) {
+        if (errors.hasErrors()) {
+            return ResponseEntity
+                    .badRequest()
+                    .body(ResponseBase.of(ApiResponse.INVALID_REQUEST, errors))
+                    ;
+        }
+
+        dtoValidator.validate(postDto, errors);
+        if (errors.hasErrors()) {
+            return ResponseEntity
+                    .badRequest()
+                    .body(ResponseBase.of(ApiResponse.INVALID_REQUEST, errors))
+                    ;
+        }
+
+        return postService
+                .modify(id, postDto)
+                .map(post -> ResponseEntity.ok(ResponseBase.of(ApiResponse.OK, post)))
+                .orElseGet(() -> ResponseEntity.notFound().build())
+                ;
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity softDeletePost(@PathVariable Long id) {
+        return postService
+                .softRemove(id)
+                .map(post -> ResponseEntity.ok(ResponseBase.of(ApiResponse.OK, post)))
+                .orElseGet(() -> ResponseEntity.notFound().build())
+                ;
     }
 
 }

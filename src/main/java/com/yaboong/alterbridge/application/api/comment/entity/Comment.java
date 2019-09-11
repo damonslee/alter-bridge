@@ -50,13 +50,12 @@ public class Comment extends Auditable<String> {
     @JoinColumn(name = "postId")
     Post post;
 
-    @OneToMany(mappedBy = "comment", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @Builder.Default
     List<BoardFile> files = new ArrayList<>();
 
     public void addFile(BoardFile file) {
         this.files.add(file);
-        file.setComment(this);
     }
 
     // 양방향 매핑시 순환참조가 일어날 수 있으므로, toString() 을 직접 구현함

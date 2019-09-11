@@ -63,7 +63,7 @@ public class Post extends Auditable<String> {
     @Builder.Default // 이거 없으면 lombok Builder 로 객체생성할때 new HashSet<>() 적용안돼서 add() 시 NPE 발생
     List<Comment> comments = new ArrayList<>();
 
-    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @Builder.Default
     List<BoardFile> files = new ArrayList<>();
 
@@ -74,7 +74,6 @@ public class Post extends Auditable<String> {
 
     public void addFile(BoardFile file) {
         this.files.add(file);
-        file.setPost(this);
     }
 
     // 양방향 매핑시 순환참조가 일어날 수 있으므로, toString() 을 직접 구현함

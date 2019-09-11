@@ -4,6 +4,7 @@ import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.PositiveOrZero;
 import java.util.List;
 
@@ -26,9 +27,11 @@ public class PostDto {
     @NotEmpty
     String content;
 
+    @NotNull
     @PositiveOrZero
     Long viewCount;
 
+    @NotNull
     @PositiveOrZero
     Long likeCount;
 

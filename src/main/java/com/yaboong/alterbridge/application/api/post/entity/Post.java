@@ -16,7 +16,6 @@ import org.hibernate.annotations.DynamicInsert;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 /**
  * Created by yaboong on 2019-08-29.
@@ -76,13 +75,6 @@ public class Post extends Auditable<String> {
     public void addFile(BoardFile file) {
         this.files.add(file);
         file.setPost(this);
-    }
-
-    @PreUpdate
-    public void preUpdate() {
-        this.viewCount = Objects.isNull(this.viewCount) ? 0 : this.viewCount;
-        this.likeCount = Objects.isNull(this.likeCount) ? 0 : this.likeCount;
-        this.deletedYn = Objects.isNull(this.deletedYn) ? "N" : this.deletedYn;
     }
 
     // 양방향 매핑시 순환참조가 일어날 수 있으므로, toString() 을 직접 구현함

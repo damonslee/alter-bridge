@@ -11,11 +11,20 @@ import org.springframework.validation.Errors;
 public class DtoValidator {
 
     public void validate(PostDto postDto, Errors errors) {
-        if (postDto.getLikeCount() > postDto.getViewCount()) {
+        likeCountCannotExceedViewCount(postDto, errors);
+    }
+
+    private void likeCountCannotExceedViewCount(PostDto postDto, Errors errors) {
+        Long viewCount = postDto.getViewCount();
+        Long likeCount = postDto.getLikeCount();
+        boolean invalidCount = likeCount > viewCount;
+        if (invalidCount) {
             errors.rejectValue("likeCount", "WrongValue", "Like counts cannot be greater than view counts");
             errors.rejectValue("viewCount", "WrongValue", "View counts cannot be less than like counts");
             errors.reject("wrongCounts", "counts are invalid");
         }
     }
+
+    // TODO is postDto.category in PostCategory enum
 
 }

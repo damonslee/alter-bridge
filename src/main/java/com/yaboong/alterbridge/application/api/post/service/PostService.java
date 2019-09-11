@@ -10,9 +10,9 @@ import java.util.Optional;
  */
 public interface PostService {
 
-    Long create(PostDto postDto);
+    Post create(PostDto postDto);
 
-    Long modify(PostDto postDto);
+    Optional<Post> modify(Long postId, PostDto postDto);
 
     Optional<Post> get(Long postId);
 

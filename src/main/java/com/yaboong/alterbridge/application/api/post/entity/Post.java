@@ -12,11 +12,11 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.DynamicInsert;
-import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Created by yaboong on 2019-08-29.
@@ -31,7 +31,6 @@ import java.util.List;
 @EqualsAndHashCode(of = "postId", callSuper = false)
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @DynamicInsert
-@DynamicUpdate
 @JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class, property = "postId")
 public class Post extends Auditable<String> {
 
@@ -57,6 +56,7 @@ public class Post extends Auditable<String> {
     @ColumnDefault("0")
     Long likeCount;
 
+    @Column(nullable = false)
     @ColumnDefault("'N'")
     String deletedYn;
 
@@ -69,13 +69,20 @@ public class Post extends Auditable<String> {
     List<BoardFile> files = new ArrayList<>();
 
     public void add(Comment comment) {
-        comments.add(comment);
+        this.comments.add(comment);
         comment.setPost(this); // 이 관계 설정 안해주면 comment 테이블에 post_id 가 null 로 들어감
     }
 
     public void addFile(BoardFile file) {
         this.files.add(file);
         file.setPost(this);
+    }
+
+    @PreUpdate
+    public void preUpdate() {
+        this.viewCount = Objects.isNull(this.viewCount) ? 0 : this.viewCount;
+        this.likeCount = Objects.isNull(this.likeCount) ? 0 : this.likeCount;
+        this.deletedYn = Objects.isNull(this.deletedYn) ? "N" : this.deletedYn;
     }
 
     // 양방향 매핑시 순환참조가 일어날 수 있으므로, toString() 을 직접 구현함

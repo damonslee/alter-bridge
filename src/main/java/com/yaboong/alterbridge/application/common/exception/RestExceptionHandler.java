@@ -31,7 +31,7 @@ public class RestExceptionHandler  {
     public ResponseEntity handleApiException(ApiException apiException) {
         return responseError(
                 ApiResponse.UNKNOWN_ERROR,
-                HttpStatus.INTERNAL_SERVER_ERROR,
+                HttpStatus.BAD_REQUEST,
                 apiException
         );
     }
@@ -40,6 +40,6 @@ public class RestExceptionHandler  {
         log.error(exception.getMessage(), exception);
         return ResponseEntity
                 .status(status)
-                .body(ResponseBase.of(apiResponse));
+                .body(ResponseBase.of(apiResponse, exception.getClass().getSimpleName()));
     }
 }

@@ -1,4 +1,4 @@
-package com.yaboong.alterbridge.application.common.component;
+package com.yaboong.alterbridge.application.api.storage;
 
 import org.springframework.web.multipart.MultipartFile;
 

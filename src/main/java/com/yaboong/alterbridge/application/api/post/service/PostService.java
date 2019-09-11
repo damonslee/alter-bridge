@@ -14,6 +14,8 @@ public interface PostService {
 
     Optional<Post> modify(Long postId, PostDto postDto);
 
+    Optional<Post> softRemove(Long postId);
+
     Optional<Post> get(Long postId);
 
     void remove(Long postId);

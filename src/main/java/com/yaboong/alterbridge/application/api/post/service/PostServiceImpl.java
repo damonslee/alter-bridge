@@ -37,6 +37,16 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
+    public Optional<Post> softRemove(Long postId) {
+        return get(postId)
+                .map(post -> {
+                    post.setDeletedYn("Y");
+                    return post;
+                })
+                .map(postRepository::save);
+    }
+
+    @Override
     public Optional<Post> get(Long postId) {
         return postRepository.findByPostIdAndDeletedYn(postId);
     }

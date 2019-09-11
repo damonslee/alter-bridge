@@ -1,7 +1,7 @@
 package com.yaboong.alterbridge.application.api.post.controller;
 
 import com.yaboong.alterbridge.application.api.post.domain.PostDto;
-import com.yaboong.alterbridge.application.api.post.domain.PostValidator;
+import com.yaboong.alterbridge.application.common.validation.DtoValidator;
 import com.yaboong.alterbridge.application.common.response.ApiResponse;
 import com.yaboong.alterbridge.application.common.response.ResponseBase;
 import lombok.RequiredArgsConstructor;
@@ -22,7 +22,7 @@ import javax.validation.Valid;
 @RequiredArgsConstructor
 public class PostController {
 
-    private final PostValidator postValidator;
+    private final DtoValidator dtoValidator;
 
     @PostMapping
     public ResponseEntity createPost(@RequestBody @Valid PostDto postDto, Errors errors) {
@@ -33,7 +33,7 @@ public class PostController {
             // return ResponseEntityBuilder.badRequest(errors);
         }
 
-        postValidator.validate(postDto, errors);
+        dtoValidator.validate(postDto, errors);
         if (errors.hasErrors()) {
             return ResponseEntity
                     .badRequest()

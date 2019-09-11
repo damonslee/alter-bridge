@@ -1,5 +1,6 @@
-package com.yaboong.alterbridge.application.api.post.domain;
+package com.yaboong.alterbridge.application.common.validation;
 
+import com.yaboong.alterbridge.application.api.post.domain.PostDto;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 
@@ -7,7 +8,7 @@ import org.springframework.validation.Errors;
  * Created by yaboong on 2019-09-11
  */
 @Component
-public class PostValidator {
+public class DtoValidator {
 
     public void validate(PostDto postDto, Errors errors) {
         if (postDto.getLikeCount() > postDto.getViewCount()) {

@@ -38,7 +38,7 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public Optional<Post> get(Long postId) {
-        return postRepository.findById(postId);
+        return postRepository.findByPostIdAndDeletedYn(postId);
     }
 
     @Override

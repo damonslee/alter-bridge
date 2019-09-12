@@ -2,11 +2,12 @@ package com.yaboong.alterbridge.application.api.comment.entity;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
-import com.yaboong.alterbridge.application.api.boardfile.entity.BoardFile;
+import com.yaboong.alterbridge.application.api.board.entity.BoardFile;
 import com.yaboong.alterbridge.application.api.post.entity.Post;
 import com.yaboong.alterbridge.application.common.auditing.Auditable;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import org.hibernate.annotations.ColumnDefault;
@@ -27,7 +28,7 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@EqualsAndHashCode(of = "commentId", callSuper = false) // equals, hashcode 재정의 하는데 부모클래스 호출 안한다고 경고뜨는거 방지용이 callSuper = false
+@EqualsAndHashCode(of = "commentId", callSuper = false)
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @DynamicInsert @DynamicUpdate
 @JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class, property="commentId")
@@ -58,9 +59,24 @@ public class Comment extends Auditable<String> {
         this.files.add(file);
     }
 
-    // 양방향 매핑시 순환참조가 일어날 수 있으므로, toString() 을 직접 구현함
+    @PrePersist
+    public void prePersist() {
+        setDefaultValues();
+    }
+
+    @PreUpdate
+    public void preUpdate() {
+        setDefaultValues();
+    }
+
     @Override
     public String toString() {
         return ToStringBuilder.reflectionToString(this, ToStringStyle.SHORT_PREFIX_STYLE);
+    }
+
+    private void setDefaultValues() {
+        if (StringUtils.isEmpty(this.deletedYn)) {
+            this.deletedYn = "N";
+        }
     }
 }

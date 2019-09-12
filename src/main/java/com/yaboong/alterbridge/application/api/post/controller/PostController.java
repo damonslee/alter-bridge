@@ -1,8 +1,8 @@
 package com.yaboong.alterbridge.application.api.post.controller;
 
+import com.yaboong.alterbridge.application.api.board.service.BoardService;
 import com.yaboong.alterbridge.application.api.post.domain.PostDto;
 import com.yaboong.alterbridge.application.api.post.entity.Post;
-import com.yaboong.alterbridge.application.api.post.service.PostService;
 import com.yaboong.alterbridge.application.common.response.ApiResponse;
 import com.yaboong.alterbridge.application.common.response.ResponseBase;
 import com.yaboong.alterbridge.application.common.validation.DtoValidator;
@@ -25,16 +25,15 @@ public class PostController {
 
     private final DtoValidator dtoValidator;
 
-    private final PostService postService;
+    private final BoardService<Post, PostDto> boardService;
 
     @GetMapping("/{id}")
     public ResponseEntity getPost(@PathVariable Long id) {
-        return postService.get(id)
+        return boardService.get(id)
                 .map(post -> ResponseEntity.ok(ResponseBase.of(ApiResponse.OK, post)))
                 .orElseGet(() -> ResponseEntity.notFound().build())
                 ;
     }
-
 
     @PostMapping
     public ResponseEntity createPost(
@@ -55,8 +54,7 @@ public class PostController {
                     .body(ResponseBase.of(ApiResponse.INVALID_REQUEST, errors));
         }
 
-        Post newPost = postService.create(postDto);
-
+        Post newPost = boardService.create(postDto);
         return ResponseEntity
                 .created(linkTo(PostController.class).slash(newPost.getPostId()).toUri())
                 .body(ResponseBase.of(ApiResponse.OK, newPost));
@@ -83,7 +81,7 @@ public class PostController {
                     ;
         }
 
-        return postService
+        return boardService
                 .modify(id, postDto)
                 .map(post -> ResponseEntity.ok(ResponseBase.of(ApiResponse.OK, post)))
                 .orElseGet(() -> ResponseEntity.notFound().build())
@@ -92,7 +90,7 @@ public class PostController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity softDeletePost(@PathVariable Long id) {
-        return postService
+        return boardService
                 .softRemove(id)
                 .map(post -> ResponseEntity.ok(ResponseBase.of(ApiResponse.OK, post)))
                 .orElseGet(() -> ResponseEntity.notFound().build())

@@ -1,4 +1,4 @@
-package com.yaboong.alterbridge.application.api.boardfile.entity;
+package com.yaboong.alterbridge.application.api.board.entity;
 
 import com.yaboong.alterbridge.application.common.auditing.Auditable;
 import lombok.AccessLevel;

@@ -5,9 +5,7 @@ import lombok.experimental.FieldDefaults;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Positive;
 import javax.validation.constraints.PositiveOrZero;
-import java.util.List;
 
 /**
  * Created by yaboong on 2019-09-11
@@ -19,9 +17,6 @@ import java.util.List;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class CommentDto {
 
-    @NotEmpty @Positive
-    Long postId;
-
     @NotEmpty
     String content;
 
@@ -30,7 +25,5 @@ public class CommentDto {
     Long likeCount;
 
     String deletedYn;
-
-    List<String> files;
 
 }

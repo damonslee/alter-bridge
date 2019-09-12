@@ -6,7 +6,6 @@ import lombok.experimental.FieldDefaults;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.PositiveOrZero;
-import java.util.List;
 
 /**
  * Created by yaboong on 2019-09-11
@@ -36,7 +35,5 @@ public class PostDto {
     Long likeCount;
 
     String deletedYn;
-
-    List<String> files;
 
 }

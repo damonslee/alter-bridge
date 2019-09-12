@@ -31,7 +31,7 @@ import java.util.List;
 @EqualsAndHashCode(of = "postId", callSuper = false)  // equals, hashcode 재정의 하는데 부모클래스 호출 안한다고 경고뜨는거 방지용이 callSuper = false
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @DynamicInsert
-@JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class, property = "postId")
+@JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class)
 public class Post extends Auditable<String> {
 
     @Id

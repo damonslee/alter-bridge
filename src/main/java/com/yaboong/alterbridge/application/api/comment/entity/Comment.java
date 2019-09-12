@@ -1,7 +1,6 @@
 package com.yaboong.alterbridge.application.api.comment.entity;
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.yaboong.alterbridge.application.api.board.entity.BoardFile;
 import com.yaboong.alterbridge.application.api.post.entity.Post;
 import com.yaboong.alterbridge.application.common.auditing.Auditable;
@@ -31,7 +30,7 @@ import java.util.List;
 @EqualsAndHashCode(of = "commentId", callSuper = false)
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @DynamicInsert @DynamicUpdate
-@JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class, property="commentId")
+@JsonIgnoreProperties("post")
 public class Comment extends Auditable<String> {
 
     @Id

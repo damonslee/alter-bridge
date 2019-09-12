@@ -9,6 +9,7 @@ public enum ApiResponse {
     SOMETHING_WENT_WRONG(2001, "Something went wrong"),
     UNKNOWN_ERROR(2002, "Unknown error occurred"),
     INVALID_REQUEST(3001, "Invalid request"),
+    POST_NOT_EXISTS(3002, "Post not exists")
     ;
 
     private int code;

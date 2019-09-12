@@ -30,10 +30,11 @@ public class PostServiceImpl implements PostService {
     public Optional<Post> modify(Long postId, PostDto postDto) {
         return postRepository
                 .findById(postId)
-                .map(existingPost -> {
-                    modelMapper.map(postDto, existingPost);
-                    return postRepository.save(existingPost);
-                });
+                .map(post -> {
+                    modelMapper.map(postDto, post);
+                    return post;
+                })
+                .map(postRepository::save);
     }
 
     @Override

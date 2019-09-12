@@ -1,6 +1,6 @@
 package com.yaboong.alterbridge.application.api.comment.entity;
 
-import com.yaboong.alterbridge.application.api.boardfile.entity.BoardFile;
+import com.yaboong.alterbridge.application.api.board.entity.BoardFile;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;

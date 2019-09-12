@@ -37,3 +37,12 @@ Content-Type: application/json
 }
 
 ###
+POST http://localhost:18080/posts/1/comments
+Content-Type: application/json
+
+{
+  "postId": 1,
+  "content": "comment for post #1",
+  "likeCount": 0
+}
+###

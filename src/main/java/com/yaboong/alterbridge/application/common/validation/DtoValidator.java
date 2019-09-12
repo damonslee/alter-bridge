@@ -1,6 +1,8 @@
 package com.yaboong.alterbridge.application.common.validation;
 
+import com.yaboong.alterbridge.application.api.post.domain.PostCategory;
 import com.yaboong.alterbridge.application.api.post.domain.PostDto;
+import org.apache.commons.lang3.EnumUtils;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 
@@ -12,6 +14,7 @@ public class DtoValidator {
 
     public void validate(PostDto postDto, Errors errors) {
         likeCountCannotExceedViewCount(postDto, errors);
+        postCategoryValidation(postDto, errors);
     }
 
     private void likeCountCannotExceedViewCount(PostDto postDto, Errors errors) {
@@ -25,6 +28,12 @@ public class DtoValidator {
         }
     }
 
-    // TODO is postDto.category in PostCategory enum
+    private void postCategoryValidation(PostDto postDto, Errors errors) {
+        String category = postDto.getCategory();
+        boolean isValidCategory = EnumUtils.isValidEnum(PostCategory.class, category);
+        if (!isValidCategory) {
+            errors.rejectValue("category", "invalidCategory", "Requested category of post not exists");
+        }
+    }
 
 }

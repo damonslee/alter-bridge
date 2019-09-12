@@ -1,6 +1,5 @@
 package com.yaboong.alterbridge.application.api.post.service;
 
-import com.yaboong.alterbridge.application.api.board.service.BoardService;
 import com.yaboong.alterbridge.application.api.post.domain.PostDto;
 import com.yaboong.alterbridge.application.api.post.entity.Post;
 import com.yaboong.alterbridge.application.api.post.repository.PostRepository;
@@ -15,7 +14,7 @@ import java.util.Optional;
  */
 @Service
 @RequiredArgsConstructor
-public class PostBoardServiceImpl implements BoardService<Post, PostDto> {
+public class PostServiceImpl implements PostService {
 
     private final ModelMapper modelMapper;
 

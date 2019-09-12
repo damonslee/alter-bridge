@@ -1,15 +1,14 @@
 package com.yaboong.alterbridge.application.api.comment.controller;
 
 import com.yaboong.alterbridge.application.api.comment.domain.CommentDto;
+import com.yaboong.alterbridge.application.api.comment.entity.Comment;
+import com.yaboong.alterbridge.application.api.comment.service.CommentService;
 import com.yaboong.alterbridge.application.common.response.ApiResponse;
 import com.yaboong.alterbridge.application.common.response.ResponseBase;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.Errors;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
@@ -17,21 +16,27 @@ import javax.validation.Valid;
  * Created by yaboong on 2019-09-11
  */
 @RestController
-@RequestMapping("/comments")
+@RequestMapping("/posts/{postId}/comments")
 @RequiredArgsConstructor
 public class CommentController {
 
+    private final CommentService commentService;
+
     @PostMapping
-    public ResponseEntity createComment(@RequestBody @Valid CommentDto commentDto, Errors errors) {
+    public ResponseEntity createComment(
+            @PathVariable Long postId,
+            @RequestBody @Valid CommentDto commentDto,
+            Errors errors
+    ) {
         if (errors.hasErrors()) {
             return ResponseEntity
                     .badRequest()
-                    .body(ResponseBase.of(ApiResponse.INVALID_REQUEST));
+                    .body(ResponseBase.of(ApiResponse.INVALID_REQUEST, errors));
         }
 
+        Comment newComment = commentService.create(postId, commentDto);
         return ResponseEntity
                 .ok()
-                .body(ResponseBase.of(ApiResponse.OK));
+                .body(ResponseBase.of(ApiResponse.OK, newComment));
     }
-
 }

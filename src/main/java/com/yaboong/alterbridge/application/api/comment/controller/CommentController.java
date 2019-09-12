@@ -39,4 +39,33 @@ public class CommentController {
                 .ok()
                 .body(ResponseBase.of(ApiResponse.OK, newComment));
     }
+
+    @PutMapping("/{commentId}")
+    public ResponseEntity updateComment(
+            @PathVariable Long commentId,
+            @RequestBody @Valid CommentDto commentDto,
+            Errors errors
+    ) {
+        if (errors.hasErrors()) {
+            return ResponseEntity
+                    .badRequest()
+                    .body(ResponseBase.of(ApiResponse.INVALID_REQUEST, errors));
+        }
+
+        return commentService
+                .modify(commentId, commentDto)
+                .map(comment -> ResponseEntity.ok(ResponseBase.of(ApiResponse.OK, comment)))
+                .orElseGet(() -> ResponseEntity.notFound().build());
+    }
+
+    @DeleteMapping("/{commentId}")
+    public ResponseEntity softDeleteComment(
+            @PathVariable Long commentId
+    ) {
+        return commentService
+                .softRemove(commentId)
+                .map(comment -> ResponseEntity.ok(ResponseBase.of(ApiResponse.OK, comment)))
+                .orElseGet(() -> ResponseEntity.notFound().build());
+    }
+
 }

@@ -1,3 +1,4 @@
+### POST 등록
 POST http://localhost:18080/posts
 Content-Type: application/json
 
@@ -9,13 +10,11 @@ Content-Type: application/json
   "viewCount": 0
 }
 
-###
-
+### POST 조회
 GET http://localhost:18080/posts/1
 Accept: application/json
 
-###
-
+### POST 수정
 PUT http://localhost:18080/posts/1
 Content-Type: application/json
 
@@ -27,8 +26,7 @@ Content-Type: application/json
   "content": "UPDATED CONTENT 2"
 }
 
-###
-
+### POST 논리삭제
 DELETE http://localhost:18080/posts/1
 Content-Type: application/json
 
@@ -36,7 +34,7 @@ Content-Type: application/json
   "deletedYn": "Y"
 }
 
-###
+### COMMENT 등록
 POST http://localhost:18080/posts/1/comments
 Content-Type: application/json
 
@@ -45,4 +43,19 @@ Content-Type: application/json
   "content": "comment for post #1",
   "likeCount": 0
 }
+
+### COMMENT 수정
+PUT http://localhost:18080/posts/1/comments/1
+Content-Type: application/json
+
+{
+  "content": "comment for post #1 modified 1st",
+  "likeCount": 100
+}
+
+### COMMENT 논리삭제
+DELETE http://localhost:18080/posts/1/comments/1
+Content-Type: application/json
+
 ###
+

@@ -32,24 +32,32 @@ public class CommentServiceImpl implements CommentService {
                 .findById(postId)
                 .map(post -> {
                     newComment.setPost(post);
-                    return commentRepository.save(newComment);
+                    return newComment;
                 })
+                .map(commentRepository::save)
                 .orElseThrow(() -> new ApiException(ApiResponse.POST_NOT_EXISTS));
     }
 
     @Override
-    public Optional<Comment> modify(Long id, CommentDto commentDto) {
-        return Optional.empty();
+    public Optional<Comment> modify(Long commentId, CommentDto commentDto) {
+        return commentRepository
+                .findById(commentId)
+                .map(comment -> {
+                    modelMapper.map(commentDto, comment);
+                    return comment;
+                })
+                .map(commentRepository::save);
     }
 
     @Override
-    public Optional<Comment> softRemove(Long id) {
-        return Optional.empty();
-    }
-
-    @Override
-    public Optional<Comment> get(Long commentId) {
-        return commentRepository.findById(commentId);
+    public Optional<Comment> softRemove(Long commentId) {
+        return commentRepository
+                .findById(commentId)
+                .map(comment -> {
+                    comment.setDeletedYn("Y");
+                    return comment;
+                })
+                .map(commentRepository::save);
     }
 
     @Override

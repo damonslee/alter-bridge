@@ -84,11 +84,6 @@ public class Post extends Auditable<String> {
         comment.setParent(this); // 이 관계 설정 안해주면 comment 테이블에 post_id 가 null 로 들어감
     }
 
-    @JsonIgnore
-    public boolean isRootPost() {
-        return Objects.isNull(this.parent);
-    }
-
     // 양방향 매핑시 순환참조가 일어날 수 있으므로, toString() 을 직접 구현함
     @Override
     public String toString() {

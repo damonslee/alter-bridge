@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
-import com.yaboong.alterbridge.application.api.post.domain.PostCategory;
 import com.yaboong.alterbridge.application.common.auditing.Auditable;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -39,10 +38,11 @@ public class Post extends Auditable<String> {
         NORMAL,
         DELETED,
         ACCUSED,
+    }
 
-        // TODO
-        //  신고접수, 신고처리완료, 신고처리거부 등 여러 상태 필요함.
-        //  추후 테이블로 따로 뺄 예정
+    public enum Category {
+        GENERAL,
+        IT,
     }
 
     @Id
@@ -51,7 +51,7 @@ public class Post extends Auditable<String> {
 
     @Column(length = 255, nullable = false)
     @Enumerated(value = EnumType.STRING)
-    PostCategory category;
+    Category category;
 
     @Column(length = 255)
     String title;

@@ -1,6 +1,5 @@
 package com.yaboong.alterbridge.application.common.validation;
 
-import com.yaboong.alterbridge.application.api.post.domain.PostCategory;
 import com.yaboong.alterbridge.application.api.post.domain.PostDto;
 import com.yaboong.alterbridge.application.api.post.entity.Post;
 import org.apache.commons.lang3.EnumUtils;
@@ -32,7 +31,7 @@ public class DtoValidator {
 
     private void postCategoryValidation(PostDto postDto, Errors errors) {
         String category = postDto.getCategory();
-        boolean isValidCategory = EnumUtils.isValidEnum(PostCategory.class, category);
+        boolean isValidCategory = EnumUtils.isValidEnum(Post.Category.class, category);
         if (!isValidCategory) {
             errors.rejectValue("category", "invalidCategory", "Requested category of post not exists");
         }

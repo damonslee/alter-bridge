@@ -1,8 +1,8 @@
 package com.yaboong.alterbridge.application.api.comment.controller;
 
 import com.yaboong.alterbridge.application.api.comment.domain.CommentDto;
-import com.yaboong.alterbridge.application.api.comment.entity.Comment;
 import com.yaboong.alterbridge.application.api.comment.service.CommentService;
+import com.yaboong.alterbridge.application.api.post.entity.Post;
 import com.yaboong.alterbridge.application.common.response.ApiResponse;
 import com.yaboong.alterbridge.application.common.response.ResponseBase;
 import lombok.RequiredArgsConstructor;
@@ -16,7 +16,7 @@ import javax.validation.Valid;
  * Created by yaboong on 2019-09-11
  */
 @RestController
-@RequestMapping("/posts/{postId}/comments")
+@RequestMapping("/posts/{parentPostId}/comments")
 @RequiredArgsConstructor
 public class CommentController {
 
@@ -24,7 +24,7 @@ public class CommentController {
 
     @PostMapping
     public ResponseEntity createComment(
-            @PathVariable Long postId,
+            @PathVariable Long parentPostId,
             @RequestBody @Valid CommentDto commentDto,
             Errors errors
     ) {
@@ -34,7 +34,7 @@ public class CommentController {
                     .body(ResponseBase.of(ApiResponse.INVALID_REQUEST, errors));
         }
 
-        Comment newComment = commentService.create(postId, commentDto);
+        Post newComment = commentService.create(parentPostId, commentDto);
         return ResponseEntity
                 .ok()
                 .body(ResponseBase.of(ApiResponse.OK, newComment));
@@ -42,6 +42,7 @@ public class CommentController {
 
     @PutMapping("/{commentId}")
     public ResponseEntity updateComment(
+            @PathVariable Long parentPostId,
             @PathVariable Long commentId,
             @RequestBody @Valid CommentDto commentDto,
             Errors errors
@@ -53,17 +54,18 @@ public class CommentController {
         }
 
         return commentService
-                .modify(commentId, commentDto)
+                .modify(parentPostId, commentId, commentDto)
                 .map(comment -> ResponseEntity.ok(ResponseBase.of(ApiResponse.OK, comment)))
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     @DeleteMapping("/{commentId}")
     public ResponseEntity softDeleteComment(
+            @PathVariable Long parentPostId,
             @PathVariable Long commentId
     ) {
         return commentService
-                .softRemove(commentId)
+                .softRemove(parentPostId, commentId)
                 .map(comment -> ResponseEntity.ok(ResponseBase.of(ApiResponse.OK, comment)))
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }

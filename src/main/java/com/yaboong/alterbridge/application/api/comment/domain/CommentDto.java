@@ -24,6 +24,7 @@ public class CommentDto {
     @PositiveOrZero
     Long likeCount;
 
-    String deletedYn;
+    @NotEmpty
+    String status;
 
 }

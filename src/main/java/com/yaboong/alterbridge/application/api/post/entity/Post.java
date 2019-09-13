@@ -1,14 +1,13 @@
 package com.yaboong.alterbridge.application.api.post.entity;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
-import com.yaboong.alterbridge.application.api.board.entity.BoardFile;
-import com.yaboong.alterbridge.application.api.comment.entity.Comment;
 import com.yaboong.alterbridge.application.api.post.domain.PostCategory;
 import com.yaboong.alterbridge.application.common.auditing.Auditable;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
-import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import org.hibernate.annotations.ColumnDefault;
@@ -17,6 +16,7 @@ import org.hibernate.annotations.DynamicInsert;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Created by yaboong on 2019-08-29.
@@ -32,7 +32,18 @@ import java.util.List;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @DynamicInsert
 @JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class)
+@JsonIgnoreProperties("parent")
 public class Post extends Auditable<String> {
+
+    public enum Status {
+        NORMAL,
+        DELETED,
+        ACCUSED,
+
+        // TODO
+        //  신고접수, 신고처리완료, 신고처리거부 등 여러 상태 필요함.
+        //  추후 테이블로 따로 뺄 예정
+    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -42,7 +53,7 @@ public class Post extends Auditable<String> {
     @Enumerated(value = EnumType.STRING)
     PostCategory category;
 
-    @Column(length = 255, nullable = false)
+    @Column(length = 255)
     String title;
 
     @Column(length = 10000, nullable = false)
@@ -57,48 +68,31 @@ public class Post extends Auditable<String> {
     Long likeCount;
 
     @Column(nullable = false)
-    @ColumnDefault("'N'")
-    String deletedYn;
+    @ColumnDefault("'NORMAL'")
+    @Enumerated(value = EnumType.STRING)
+    Status status;
 
-    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @ManyToOne
+    Post parent;
+
+    @OneToMany(mappedBy = "parent", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @Builder.Default // 이거 없으면 lombok Builder 로 객체생성할때 new HashSet<>() 적용안돼서 add() 시 NPE 발생
-    List<Comment> comments = new ArrayList<>();
+    List<Post> comments = new ArrayList<>();
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @Builder.Default
-    List<BoardFile> files = new ArrayList<>();
-
-    public void add(Comment comment) {
+    public void addComment(Post comment) {
         this.comments.add(comment);
-        comment.setPost(this); // 이 관계 설정 안해주면 comment 테이블에 post_id 가 null 로 들어감
+        comment.setParent(this); // 이 관계 설정 안해주면 comment 테이블에 post_id 가 null 로 들어감
     }
 
-    public void addFile(BoardFile file) {
-        this.files.add(file);
-    }
-
-    // 안해주면 DB 값은 디폴트 N 으로 들어가는데, 1차 캐시된 엔티티에 N 이 반영되지 않는다.
-    @PrePersist
-    public void prePersist() {
-        setDefaultValues();
-    }
-
-    // 안해주면 DB 값은 디폴트 N 으로 들어가는데, 1차 캐시된 엔티티에 N 이 반영되지 않는다.
-    @PreUpdate
-    public void preUpdate() {
-        setDefaultValues();
+    @JsonIgnore
+    public boolean isRootPost() {
+        return Objects.isNull(this.parent);
     }
 
     // 양방향 매핑시 순환참조가 일어날 수 있으므로, toString() 을 직접 구현함
     @Override
     public String toString() {
         return ToStringBuilder.reflectionToString(this, ToStringStyle.SHORT_PREFIX_STYLE);
-    }
-
-    private void setDefaultValues() {
-        if (StringUtils.isEmpty(this.deletedYn)) {
-            this.deletedYn = "N";
-        }
     }
 
 }

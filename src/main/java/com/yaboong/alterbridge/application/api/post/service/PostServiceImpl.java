@@ -41,7 +41,7 @@ public class PostServiceImpl implements PostService {
     public Optional<Post> softRemove(Long postId) {
         return get(postId)
                 .map(post -> {
-                    post.setDeletedYn("Y");
+                    post.setStatus(Post.Status.DELETED);
                     return post;
                 })
                 .map(postRepository::save);
@@ -49,12 +49,7 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public Optional<Post> get(Long postId) {
-        return postRepository.findByPostIdAndDeletedYn(postId);
-    }
-
-    @Override
-    public void remove(Long postId) {
-        postRepository.deleteById(postId);
+        return postRepository.findByPostIdAndStatus(postId, Post.Status.NORMAL);
     }
 
 }

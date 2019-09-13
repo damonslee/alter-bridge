@@ -7,7 +7,7 @@ import lombok.RequiredArgsConstructor;
 
 import java.util.List;
 
-import static com.yaboong.alterbridge.application.api.post.QPost.post;
+import static com.yaboong.alterbridge.application.api.post.entity.QPost.post;
 
 /**
  * Created by yaboong on 2019-08-29.

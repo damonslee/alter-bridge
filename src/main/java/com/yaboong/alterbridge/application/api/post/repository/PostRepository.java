@@ -5,15 +5,14 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;
 
+
 /**
  * Created by yaboong on 2019-08-29.
  */
 public interface PostRepository extends JpaRepository<Post, Long>, PostRepositoryCustom {
 
-    Optional<Post> findByPostIdAndDeletedYn(Long postId, String deletedYn);
+    Optional<Post> findByPostIdAndStatus(Long postId, Post.Status status);
 
-    default Optional<Post> findByPostIdAndDeletedYn(Long postId) {
-        return findByPostIdAndDeletedYn(postId, "N");
-    }
+    Optional<Post> findByParentPostIdAndPostId(Long ParentPostId, Long postId);
 
 }

@@ -6,17 +6,20 @@ import com.yaboong.alterbridge.application.api.post.entity.Post;
 import com.yaboong.alterbridge.application.common.response.ApiResponse;
 import com.yaboong.alterbridge.application.common.response.ResponseBase;
 import lombok.RequiredArgsConstructor;
+import org.springframework.hateoas.MediaTypes;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
+import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
+
 /**
  * Created by yaboong on 2019-09-11
  */
 @RestController
-@RequestMapping("/posts/{parentPostId}/comments")
+@RequestMapping(value = "/posts/{parentPostId}/comments", produces = MediaTypes.HAL_JSON_UTF8_VALUE)
 @RequiredArgsConstructor
 public class CommentController {
 
@@ -36,7 +39,7 @@ public class CommentController {
 
         Post newComment = commentService.create(parentPostId, commentDto);
         return ResponseEntity
-                .ok()
+                .created(linkTo(CommentController.class).slash(newComment.getPostId()).toUri())
                 .body(ResponseBase.of(ApiResponse.OK, newComment));
     }
 

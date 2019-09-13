@@ -36,8 +36,9 @@ public class CommentController {
         }
 
         Post newComment = commentService.create(parentPostId, commentDto);
+
         return ResponseEntity
-                .created(linkTo(CommentController.class).slash(newComment.getPostId()).toUri())
+                .created(linkTo(CommentController.class, parentPostId).slash(newComment.getPostId()).toUri())
                 .body(newComment);
     }
 

@@ -3,8 +3,6 @@ package com.yaboong.alterbridge.application.api.comment.controller;
 import com.yaboong.alterbridge.application.api.comment.domain.CommentDto;
 import com.yaboong.alterbridge.application.api.comment.service.CommentService;
 import com.yaboong.alterbridge.application.api.post.entity.Post;
-import com.yaboong.alterbridge.application.common.response.ApiResponse;
-import com.yaboong.alterbridge.application.common.response.ResponseBase;
 import lombok.RequiredArgsConstructor;
 import org.springframework.hateoas.MediaTypes;
 import org.springframework.http.ResponseEntity;
@@ -34,13 +32,13 @@ public class CommentController {
         if (errors.hasErrors()) {
             return ResponseEntity
                     .badRequest()
-                    .body(ResponseBase.of(ApiResponse.INVALID_REQUEST, errors));
+                    .body(errors);
         }
 
         Post newComment = commentService.create(parentPostId, commentDto);
         return ResponseEntity
                 .created(linkTo(CommentController.class).slash(newComment.getPostId()).toUri())
-                .body(ResponseBase.of(ApiResponse.OK, newComment));
+                .body(newComment);
     }
 
     @PutMapping("/{commentId}")
@@ -53,12 +51,12 @@ public class CommentController {
         if (errors.hasErrors()) {
             return ResponseEntity
                     .badRequest()
-                    .body(ResponseBase.of(ApiResponse.INVALID_REQUEST, errors));
+                    .body(errors);
         }
 
         return commentService
                 .modify(parentPostId, commentId, commentDto)
-                .map(comment -> ResponseEntity.ok(ResponseBase.of(ApiResponse.OK, comment)))
+                .map(ResponseEntity::ok)
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
@@ -69,7 +67,7 @@ public class CommentController {
     ) {
         return commentService
                 .softRemove(parentPostId, commentId)
-                .map(comment -> ResponseEntity.ok(ResponseBase.of(ApiResponse.OK, comment)))
+                .map(ResponseEntity::ok)
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
 

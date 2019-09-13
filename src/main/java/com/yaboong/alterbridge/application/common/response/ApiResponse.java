@@ -3,6 +3,7 @@ package com.yaboong.alterbridge.application.common.response;
 /**
  * Created by yaboong on 2019-08-31
  */
+@Deprecated(since = "HATEAOS, Rest Docs applied")
 public enum ApiResponse {
     OK(0, "OK"),
 

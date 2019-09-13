@@ -3,8 +3,6 @@ package com.yaboong.alterbridge.application.api.post.controller;
 import com.yaboong.alterbridge.application.api.post.domain.PostDto;
 import com.yaboong.alterbridge.application.api.post.entity.Post;
 import com.yaboong.alterbridge.application.api.post.service.PostService;
-import com.yaboong.alterbridge.application.common.response.ApiResponse;
-import com.yaboong.alterbridge.application.common.response.ResponseBase;
 import com.yaboong.alterbridge.application.common.validation.DtoValidator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -30,7 +28,7 @@ public class PostController {
     @GetMapping("/{id}")
     public ResponseEntity getPost(@PathVariable Long id) {
         return postService.get(id)
-                .map(post -> ResponseEntity.ok(ResponseBase.of(ApiResponse.OK, post)))
+                .map(ResponseEntity::ok)
                 .orElseGet(() -> ResponseEntity.notFound().build())
                 ;
     }
@@ -41,23 +39,18 @@ public class PostController {
             Errors errors
     ) {
         if (errors.hasErrors()) {
-            return ResponseEntity
-                    .badRequest()
-                    .body(ResponseBase.of(ApiResponse.INVALID_REQUEST, errors));
-            // return ResponseEntityBuilder.badRequest(errors);
+            return ResponseEntity.badRequest().body(errors);
         }
 
         dtoValidator.validate(postDto, errors);
         if (errors.hasErrors()) {
-            return ResponseEntity
-                    .badRequest()
-                    .body(ResponseBase.of(ApiResponse.INVALID_REQUEST, errors));
+            return ResponseEntity.badRequest().body(errors);
         }
 
         Post newPost = postService.create(postDto);
         return ResponseEntity
                 .created(linkTo(PostController.class).slash(newPost.getPostId()).toUri())
-                .body(ResponseBase.of(ApiResponse.OK, newPost));
+                .body(newPost);
     }
 
     @PutMapping("/{id}")
@@ -67,23 +60,17 @@ public class PostController {
             Errors errors
     ) {
         if (errors.hasErrors()) {
-            return ResponseEntity
-                    .badRequest()
-                    .body(ResponseBase.of(ApiResponse.INVALID_REQUEST, errors))
-                    ;
+            return ResponseEntity.badRequest().body(errors);
         }
 
         dtoValidator.validate(postDto, errors);
         if (errors.hasErrors()) {
-            return ResponseEntity
-                    .badRequest()
-                    .body(ResponseBase.of(ApiResponse.INVALID_REQUEST, errors))
-                    ;
+            return ResponseEntity.badRequest().body(errors);
         }
 
         return postService
                 .modify(id, postDto)
-                .map(post -> ResponseEntity.ok(ResponseBase.of(ApiResponse.OK, post)))
+                .map(ResponseEntity::ok)
                 .orElseGet(() -> ResponseEntity.notFound().build())
                 ;
     }
@@ -92,7 +79,7 @@ public class PostController {
     public ResponseEntity softDeletePost(@PathVariable Long id) {
         return postService
                 .softRemove(id)
-                .map(post -> ResponseEntity.ok(ResponseBase.of(ApiResponse.OK, post)))
+                .map(ResponseEntity::ok)
                 .orElseGet(() -> ResponseEntity.notFound().build())
                 ;
     }

@@ -63,7 +63,7 @@ import org.springframework.hateoas.Resource;
  * HTTP 상태코드로 응답주고, 에러인 경우에도 profile 링크에 error 케이스에 대한 문서 링크 걸도록 변경할 예정
  * 그래서 요 클래스는 deprecated 로 변경
  */
-@Deprecated
+@Deprecated(since = "HATEAOS, Rest Docs applied")
 public class ResponseResource<T> extends Resource<ResponseBase<T>> {
     public ResponseResource(ResponseBase<T> content, Link... links) {
         super(content, links);

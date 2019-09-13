@@ -34,7 +34,7 @@ public class CommentServiceImpl implements CommentService {
                     return newComment;
                 })
                 .map(postRepository::save)
-                .orElseThrow(() -> new ApiException(ApiResponse.POST_NOT_EXISTS));
+                .orElseThrow(IllegalArgumentException::new);
     }
 
     @Override

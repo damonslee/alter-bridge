@@ -7,6 +7,7 @@ import org.apache.commons.lang3.StringUtils;
 /**
  * Created by yaboong on 2019-08-31
  */
+@Deprecated(since = "HATEAOS, Rest Docs applied")
 @Data
 @AllArgsConstructor(staticName = "of")
 public class ResponseBase<T> {

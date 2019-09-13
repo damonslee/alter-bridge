@@ -3,20 +3,21 @@ package com.yaboong.alterbridge.application.api.comment.controller;
 import com.yaboong.alterbridge.application.api.comment.domain.CommentDto;
 import com.yaboong.alterbridge.application.api.comment.service.CommentService;
 import com.yaboong.alterbridge.application.api.post.entity.Post;
-import com.yaboong.alterbridge.application.common.response.ApiResponse;
-import com.yaboong.alterbridge.application.common.response.ResponseBase;
 import lombok.RequiredArgsConstructor;
+import org.springframework.hateoas.MediaTypes;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
+import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
+
 /**
  * Created by yaboong on 2019-09-11
  */
 @RestController
-@RequestMapping("/posts/{parentPostId}/comments")
+@RequestMapping(value = "/posts/{parentPostId}/comments", produces = MediaTypes.HAL_JSON_UTF8_VALUE)
 @RequiredArgsConstructor
 public class CommentController {
 
@@ -31,13 +32,14 @@ public class CommentController {
         if (errors.hasErrors()) {
             return ResponseEntity
                     .badRequest()
-                    .body(ResponseBase.of(ApiResponse.INVALID_REQUEST, errors));
+                    .body(errors);
         }
 
         Post newComment = commentService.create(parentPostId, commentDto);
+
         return ResponseEntity
-                .ok()
-                .body(ResponseBase.of(ApiResponse.OK, newComment));
+                .created(linkTo(CommentController.class, parentPostId).slash(newComment.getPostId()).toUri())
+                .body(newComment);
     }
 
     @PutMapping("/{commentId}")
@@ -50,12 +52,12 @@ public class CommentController {
         if (errors.hasErrors()) {
             return ResponseEntity
                     .badRequest()
-                    .body(ResponseBase.of(ApiResponse.INVALID_REQUEST, errors));
+                    .body(errors);
         }
 
         return commentService
                 .modify(parentPostId, commentId, commentDto)
-                .map(comment -> ResponseEntity.ok(ResponseBase.of(ApiResponse.OK, comment)))
+                .map(ResponseEntity::ok)
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
@@ -66,7 +68,7 @@ public class CommentController {
     ) {
         return commentService
                 .softRemove(parentPostId, commentId)
-                .map(comment -> ResponseEntity.ok(ResponseBase.of(ApiResponse.OK, comment)))
+                .map(ResponseEntity::ok)
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
 

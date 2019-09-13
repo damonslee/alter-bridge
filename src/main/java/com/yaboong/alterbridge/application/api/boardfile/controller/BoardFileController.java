@@ -1,8 +1,6 @@
 package com.yaboong.alterbridge.application.api.boardfile.controller;
 
 import com.yaboong.alterbridge.application.api.storage.StorageService;
-import com.yaboong.alterbridge.application.common.response.ApiResponse;
-import com.yaboong.alterbridge.application.common.response.ResponseBase;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -25,7 +23,7 @@ public class BoardFileController {
         String fileUrl = storageService.upload(file);
         return ResponseEntity
                 .ok()
-                .body(ResponseBase.of(ApiResponse.OK, fileUrl));
+                .body(fileUrl);
     }
 
     @DeleteMapping
@@ -33,7 +31,7 @@ public class BoardFileController {
         storageService.delete(fileUrl);
         return ResponseEntity
                 .ok()
-                .body(ResponseBase.of(ApiResponse.OK));
+                .build();
     }
 
 }

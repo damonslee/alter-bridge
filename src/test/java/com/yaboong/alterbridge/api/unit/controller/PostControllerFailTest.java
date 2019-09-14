@@ -1,11 +1,11 @@
-package com.yaboong.alterbridge.unit.controller;
+package com.yaboong.alterbridge.api.unit.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.yaboong.alterbridge.application.api.post.controller.PostController;
 import com.yaboong.alterbridge.application.api.post.service.PostService;
 import com.yaboong.alterbridge.application.common.validation.DtoValidator;
-import com.yaboong.alterbridge.common.annotation.TestDescription;
-import com.yaboong.alterbridge.common.annotation.TestProfile;
+import com.yaboong.alterbridge.common.TestDescription;
+import com.yaboong.alterbridge.common.TestProfile;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;

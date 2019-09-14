@@ -1,4 +1,4 @@
-package com.yaboong.alterbridge.common.annotation;
+package com.yaboong.alterbridge.common;
 
 /**
  * Created by yaboong on 2019-08-27

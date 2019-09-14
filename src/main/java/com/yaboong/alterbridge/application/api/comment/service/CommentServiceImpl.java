@@ -3,13 +3,10 @@ package com.yaboong.alterbridge.application.api.comment.service;
 import com.yaboong.alterbridge.application.api.comment.domain.CommentDto;
 import com.yaboong.alterbridge.application.api.post.entity.Post;
 import com.yaboong.alterbridge.application.api.post.repository.PostRepository;
-import com.yaboong.alterbridge.application.common.exception.ApiException;
-import com.yaboong.alterbridge.application.common.response.ApiResponse;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
-import java.util.Objects;
 import java.util.Optional;
 
 /**

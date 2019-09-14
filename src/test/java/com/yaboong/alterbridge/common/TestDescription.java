@@ -1,4 +1,4 @@
-package com.yaboong.alterbridge.common.annotation;
+package com.yaboong.alterbridge.common;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

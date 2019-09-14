@@ -23,14 +23,14 @@ public class RestExceptionHandler  {
         );
     }
 
-    @ExceptionHandler(ApiException.class)
-    @ResponseBody
-    public ResponseEntity handleApiException(ApiException apiException) {
-        return responseError(
-                HttpStatus.BAD_REQUEST,
-                apiException
-        );
-    }
+//    @ExceptionHandler(ApiException.class)
+//    @ResponseBody
+//    public ResponseEntity handleApiException(ApiException apiException) {
+//        return responseError(
+//                HttpStatus.BAD_REQUEST,
+//                apiException
+//        );
+//    }
 
     private ResponseEntity responseError(HttpStatus status, Exception exception) {
         log.error(exception.getMessage(), exception);

@@ -1,6 +1,6 @@
 //package com.yaboong.alterbridge.unit.entity;
 //
-//import com.yaboong.alterbridge.TestProfile;
+//import com.yaboong.alterbridge.common.annotation.TestProfile;
 //import com.yaboong.alterbridge.application.api.post.entity.Post;
 //import com.yaboong.alterbridge.application.api.post.domain.PostCategory;
 //import com.yaboong.alterbridge.application.api.post.repository.PostRepository;

@@ -30,8 +30,8 @@ logging:
 # AWS
 aws:
   credentials:
-    access-key: ${AWS_ACCESS_KEY}
-    secret-key: ${AWS_SECRET_KEY}
+    access-key: SET_TO_ENV
+    secret-key: SET_TO_ENV
   s3:
     region: ap-northeast-2
     bucket-name: yaboong-test-data

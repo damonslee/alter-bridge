@@ -11,6 +11,7 @@ buildscript {
 }
 
 plugins {
+    id 'org.asciidoctor.convert' version '1.5.3'
     id 'org.springframework.boot' version '2.1.7.RELEASE'
     id 'io.spring.dependency-management' version '1.0.8.RELEASE'
     id 'java'
@@ -18,7 +19,7 @@ plugins {
 
 group = 'com.yaboong'
 version = '0.0.1-SNAPSHOT'
-sourceCompatibility = '12'
+sourceCompatibility = '11'
 
 configurations {
     developmentOnly
@@ -45,7 +46,8 @@ dependencies {
     runtimeOnly 'com.h2database:h2'
     runtimeOnly 'mysql:mysql-connector-java'
     compile 'org.projectlombok:lombok'
-    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testCompile 'org.springframework.boot:spring-boot-starter-test'
+
     compile "com.amazonaws:aws-java-sdk-s3:1.11.133"
 
     // https://mvnrepository.com/artifact/org.modelmapper/modelmapper
@@ -53,7 +55,10 @@ dependencies {
 
     compile 'org.springframework.boot:spring-boot-starter-hateoas'
 
+    asciidoctor 'org.springframework.restdocs:spring-restdocs-asciidoctor'
+    testCompile 'org.springframework.restdocs:spring-restdocs-mockmvc'
 }
+
 
 // querydsl 적용
 apply plugin: "com.ewerk.gradle.plugins.querydsl" // Plugin 적용
@@ -71,4 +76,40 @@ sourceSets {
             srcDirs = ['src/main/java', querydslSrcDir]
         }
     }
+}
+
+// asciidoctor
+ext {
+    snippetsDir = file('build/generated-snippets')
+}
+
+test {
+    outputs.dir snippetsDir
+}
+
+asciidoctor {
+    inputs.dir snippetsDir
+    dependsOn test
+}
+
+task copyDocument(type: Copy) {
+    dependsOn asciidoctor
+
+    from file("build/asciidoc/html5/")
+    into file("src/main/resources/static/docs")
+}
+
+build {
+    dependsOn copyDocument
+}
+
+bootJar {
+    dependsOn asciidoctor
+    from ("${asciidoctor.outputDir}/html5") {
+        into 'static/docs'
+    }
+}
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '4.10.2'
 }

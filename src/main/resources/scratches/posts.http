@@ -1,6 +1,7 @@
 ### POST 등록
 POST http://localhost:18080/posts
 Content-Type: application/json
+Accept: application/hal+json
 
 {
   "category": "GENERAL",
@@ -13,11 +14,12 @@ Content-Type: application/json
 
 ### POST 조회
 GET http://localhost:18080/posts/1
-Accept: application/json
+Accept: application/hal+json
 
 ### POST 수정
 PUT http://localhost:18080/posts/1
 Content-Type: application/json
+Accept: application/hal+json
 
 {
   "category": "IT",
@@ -31,6 +33,7 @@ Content-Type: application/json
 ### POST 논리삭제
 DELETE http://localhost:18080/posts/1
 Content-Type: application/json
+Accept: application/hal+json
 
 {
   "status": "DELETED"
@@ -39,6 +42,7 @@ Content-Type: application/json
 ### COMMENT 등록
 POST http://localhost:18080/posts/1/comments
 Content-Type: application/json
+Accept: application/hal+json
 
 {
   "content": "comment for post #1",
@@ -49,6 +53,7 @@ Content-Type: application/json
 ### COMMENT 수정
 PUT http://localhost:18080/posts/1/comments/2
 Content-Type: application/json
+Accept: application/hal+json
 
 {
   "content": "comment for post #1 modified 1st",
@@ -58,7 +63,7 @@ Content-Type: application/json
 
 ### COMMENT 논리삭제
 DELETE http://localhost:18080/posts/1/comments/2
-Content-Type: application/json
+Accept: application/hal+json
 
 ###
 

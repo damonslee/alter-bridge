@@ -1,9 +1,10 @@
 //package com.yaboong.alterbridge.unit.entity;
 //
-//import com.yaboong.alterbridge.TestProfile;
+//import com.yaboong.alterbridge.common.annotation.TestProfile;
+//import com.yaboong.alterbridge.application.api.comment.entity.Comment;
+//import com.yaboong.alterbridge.application.api.comment.repository.CommentRepository;
 //import com.yaboong.alterbridge.application.api.post.entity.Post;
 //import com.yaboong.alterbridge.application.api.post.domain.PostCategory;
-//import com.yaboong.alterbridge.application.api.post.repository.PostRepository;
 //import com.yaboong.alterbridge.configuration.jpa.JpaConfiguration;
 //import org.junit.Test;
 //import org.junit.runner.RunWith;
@@ -14,42 +15,46 @@
 //import org.springframework.test.context.ActiveProfiles;
 //import org.springframework.test.context.junit4.SpringRunner;
 //
-//import static org.hamcrest.Matchers.is;
 //import static org.junit.Assert.assertEquals;
-//import static org.junit.Assert.assertThat;
+//import static org.junit.Assert.assertNotNull;
 //
 ///**
-// * Created by yaboong on 2019-08-29.
+// * Created by yaboong on 2019-08-31
 // */
 //@DataJpaTest
 //@RunWith(SpringRunner.class)
 //@Import(JpaConfiguration.class)
 //@ActiveProfiles(TestProfile.TEST)
-//public class PostEntityTest {
+//public class PostCommentMappingTest {
 //
 //    @Autowired
 //    private TestEntityManager testEntityManager;
 //
 //    @Autowired
-//    private PostRepository postRepository;
+//    private CommentRepository commentRepository;
 //
 //    @Test
-//    public void 게시글_등록() {
+//    public void 매핑테스트_Post_Comment() {
 //        // GIVEN
-//        Post post = Post.builder()
-//                .title("등록테스트입니다.")
-//                .category(PostCategory.IT)
-//                .content("내용입니다.")
+//        Comment comment = Comment.builder()
+//                .content("TEST COMMENT CONTENT")
 //                .build();
+//
+//        Post post = Post.builder()
+//                .title("TEST POST TITLE")
+//                .category(PostCategory.IT)
+//                .content("TEST POST CONTENT")
+//                .build();
+//        post.add(comment);
 //
 //        // WHEN
 //        testEntityManager.persist(post);
 //
-//        Post savedPost = postRepository.getOne(post.getPostId());
-//
 //        // THEN
-//        assertThat(savedPost, is(post));
-//        assertEquals(savedPost.getTitle(), "등록테스트입니다.");
+//        Comment commentFound = commentRepository.findByContent("TEST COMMENT CONTENT").get(0);
+//        assertNotNull(commentFound);
+//        assertEquals(post.getPostId(), comment.getPost().getPostId());
+//        assertEquals(comment.getContent(), commentFound.getContent());
+//        assertEquals(post.getTitle(), commentFound.getPost().getTitle());
 //    }
-//
 //}

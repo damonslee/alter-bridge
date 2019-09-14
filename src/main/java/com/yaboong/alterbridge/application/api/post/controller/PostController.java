@@ -7,9 +7,11 @@ import com.yaboong.alterbridge.application.api.post.service.PostService;
 import com.yaboong.alterbridge.application.common.validation.DtoValidator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.hateoas.Link;
+import org.springframework.hateoas.MediaTypes;
 import org.springframework.hateoas.mvc.ControllerLinkBuilder;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,8 +22,8 @@ import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
 /**
  * Created by yaboong on 2019-09-11
  */
-@RestController
-@RequestMapping("/posts")
+@Controller
+@RequestMapping(value = "/posts", produces = MediaTypes.HAL_JSON_UTF8_VALUE)
 @RequiredArgsConstructor
 public class PostController {
 

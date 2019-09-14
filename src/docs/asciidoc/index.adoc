@@ -1,0 +1,16 @@
+= Post API Document
+:doctype: book
+:icons: font
+:source-highlighter: highlightjs
+:toc: left
+:toclevels: 4
+
+[[resources-posts]]
+== 게시물
+
+[[resources-posts-get]]
+=== 게시물 조회
+
+`Get` 요청으로 게시물 하나를 조회할 수 있다.
+
+operation::posts-get[snippets='curl-request,http-request,http-response,httpie-request,links,request-body,request-headers,response-body,response-fields,response-headers']

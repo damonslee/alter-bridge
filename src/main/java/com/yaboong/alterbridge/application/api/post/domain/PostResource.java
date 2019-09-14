@@ -28,11 +28,11 @@ public class PostResource extends Resource<Post> {
 
     private void addDefaultLinks(Post post) {
         add(
-            linkTo(PostController.class).withRel("get-post-list").withType(HttpMethod.GET.name()),
-            linkTo(PostController.class).withRel("create-post").withType(HttpMethod.GET.name()),
-            linkTo(PostController.class).slash(post.getPostId()).withRel("get-post").withType(HttpMethod.GET.name()),
-            linkTo(PostController.class).slash(post.getPostId()).withRel("update-post").withType(HttpMethod.PUT.name()),
-            linkTo(PostController.class).slash(post.getPostId()).withRel("delete-post").withType(HttpMethod.DELETE.name())
+//            linkTo(PostController.class).withRel("get-post-list").withType(HttpMethod.GET.name()),
+//            linkTo(PostController.class).withRel("create-post").withType(HttpMethod.GET.name()),
+//            linkTo(PostController.class).slash(post.getPostId()).withRel("get-post").withType(HttpMethod.GET.name()),
+//            linkTo(PostController.class).slash(post.getPostId()).withRel("update-post").withType(HttpMethod.PUT.name()),
+//            linkTo(PostController.class).slash(post.getPostId()).withRel("delete-post").withType(HttpMethod.DELETE.name())
         );
     }
 }

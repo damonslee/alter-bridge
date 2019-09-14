@@ -36,7 +36,9 @@ public class PostController {
         return postService.get(id)
                 .map(post -> ResponseEntity.ok(PostResource.of(post)
                                 .addLink(linkTo(PostController.class).slash(post.getPostId()).withSelfRel().withType(HttpMethod.GET.name()))
-                                .addLink(new Link("/docs/index.html#resources-get-post").withRel("profile"))
+                                .addLink(linkTo(PostController.class).slash(post.getPostId()).withRel("update-post").withType(HttpMethod.PUT.name()))
+                                .addLink(linkTo(PostController.class).slash(post.getPostId()).withRel("delete-post").withType(HttpMethod.DELETE.name()))
+                                .addLink(new Link("/docs/index.html#resources-posts-get").withRel("profile"))
                 ))
                 .orElseGet(() -> ResponseEntity.notFound().build())
                 ;

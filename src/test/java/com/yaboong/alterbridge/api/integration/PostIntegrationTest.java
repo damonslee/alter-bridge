@@ -1,6 +1,7 @@
 package com.yaboong.alterbridge.api.integration;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.yaboong.alterbridge.common.TestDataGenerator;
 import com.yaboong.alterbridge.configuration.RestDocsConfiguration;
 import com.yaboong.alterbridge.application.api.post.entity.Post;
 import com.yaboong.alterbridge.application.api.post.repository.PostRepository;
@@ -39,7 +40,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @AutoConfigureMockMvc // MockMvc 쓰기위해
 @AutoConfigureRestDocs
-@Import(RestDocsConfiguration.class)
+@Import({RestDocsConfiguration.class, TestDataGenerator.class})
 @ActiveProfiles(TestProfile.TEST)
 public class PostIntegrationTest {
 
@@ -55,11 +56,14 @@ public class PostIntegrationTest {
     @Autowired
     PostRepository postRepository;
 
+    @Autowired
+    TestDataGenerator testDataGenerator;
+
     @Test
     @TestDescription("정상적으로 게시물을 조회한 경우")
     public void 게시물_1개조회_200_통합테스트() throws Exception {
         // GIVEN
-        Post post = this.generatePost(1);
+        Post post = testDataGenerator.newPost(1);
 
         // WHEN
         MockHttpServletRequestBuilder request = get("/posts/{id}", post.getPostId())
@@ -113,18 +117,5 @@ public class PostIntegrationTest {
                     )
                 )
         ;
-    }
-
-    private Post generatePost(int idx) {
-        Post post = Post.builder()
-                .title("dummy post title #" + idx)
-                .content("dummy post content #" + idx)
-                .category(Post.Category.GENERAL)
-                .status(Post.Status.NORMAL)
-                .likeCount(0L)
-                .viewCount(0L)
-                .build();
-
-        return this.postRepository.save(post);
     }
 }

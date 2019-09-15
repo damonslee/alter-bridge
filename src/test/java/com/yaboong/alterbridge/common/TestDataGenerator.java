@@ -1,30 +1,39 @@
 package com.yaboong.alterbridge.common;
 
+import com.yaboong.alterbridge.application.api.post.domain.PostDto;
 import com.yaboong.alterbridge.application.api.post.entity.Post;
-import com.yaboong.alterbridge.application.api.post.repository.PostRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.TestComponent;
+import org.springframework.data.jpa.repository.JpaRepository;
 
 /**
  * Created by yaboong on 2019-09-16
  */
-@TestComponent
 public class TestDataGenerator {
+    private static final String TITLE = "dummy post title";
+    private static final String CONTENT= "dummy post content";
+    private static final String CATEGORY = "GENERAL";
+    private static final String NORMAL = "NORMAL";
 
-    @Autowired
-    private PostRepository postRepository;
-
-    public Post newPost(int idx) {
+    public static Post newPost(JpaRepository<Post, Long> postRepository, int idx) {
         Post post = Post.builder()
-                .title("dummy post title #" + idx)
-                .content("dummy post content #" + idx)
+                .title(TITLE + idx)
+                .content(CONTENT + idx)
                 .category(Post.Category.GENERAL)
                 .status(Post.Status.NORMAL)
                 .likeCount(0L)
                 .viewCount(0L)
                 .build();
+        return postRepository.save(post);
+    }
 
-        return this.postRepository.save(post);
+    public static PostDto newPostDto() {
+        return PostDto.builder()
+                .category(CATEGORY)
+                .title(TITLE)
+                .content(CONTENT)
+                .likeCount(0L)
+                .viewCount(0L)
+                .status(NORMAL)
+                .build();
     }
 
 }

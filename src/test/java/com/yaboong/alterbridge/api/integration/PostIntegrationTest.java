@@ -40,7 +40,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @AutoConfigureMockMvc // MockMvc 쓰기위해
 @AutoConfigureRestDocs
-@Import({RestDocsConfiguration.class, TestDataGenerator.class})
+@Import({RestDocsConfiguration.class})
 @ActiveProfiles(TestProfile.TEST)
 public class PostIntegrationTest {
 
@@ -56,14 +56,11 @@ public class PostIntegrationTest {
     @Autowired
     PostRepository postRepository;
 
-    @Autowired
-    TestDataGenerator testDataGenerator;
-
     @Test
     @TestDescription("정상적으로 게시물을 조회한 경우")
     public void 게시물_1개조회_200_통합테스트() throws Exception {
         // GIVEN
-        Post post = testDataGenerator.newPost(1);
+        Post post = TestDataGenerator.newPost(postRepository, 1);
 
         // WHEN
         MockHttpServletRequestBuilder request = get("/posts/{id}", post.getPostId())

@@ -80,8 +80,15 @@ public class Post extends Auditable<String> implements Function<PostDto, Post> {
     }
 
     @Override
-    public Post apply(Object dto) {
-        return SingletonModelMapper.getInstance().map(dto, Post.class);
+    public Post apply(PostDto postDto) {
+        return Post.builder()
+                .category(Category.valueOf(postDto.getCategory()))
+                .title(postDto.getTitle())
+                .content(postDto.getContent())
+                .viewCount(postDto.getViewCount())
+                .likeCount(postDto.getLikeCount())
+                .status(Status.valueOf(postDto.getStatus()))
+                .build();
     }
 
     // 양방향 매핑시 순환참조가 일어날 수 있으므로, toString() 을 직접 구현함

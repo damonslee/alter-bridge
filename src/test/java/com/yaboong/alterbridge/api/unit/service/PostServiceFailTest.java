@@ -9,7 +9,6 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
-import org.modelmapper.ModelMapper;
 import org.springframework.test.context.ActiveProfiles;
 
 import java.util.Optional;
@@ -31,9 +30,6 @@ public class PostServiceFailTest {
     @Mock
     PostRepository postRepository;
 
-    @Mock
-    ModelMapper modelMapper;
-
     @Test
     public void 게시물_수정_없는게시물조회_실패() {
         // GIVEN
@@ -45,7 +41,6 @@ public class PostServiceFailTest {
 
         // THEN
         assertTrue(postOptional.isEmpty());
-        verify(modelMapper, never()).map(any(), any());
         verify(postRepository, never()).save(any());
     }
 }

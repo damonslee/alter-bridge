@@ -1,7 +1,7 @@
 package com.yaboong.alterbridge.application.api.comment.service;
 
+import com.yaboong.alterbridge.application.api.comment.Comment;
 import com.yaboong.alterbridge.application.api.comment.domain.CommentDto;
-import com.yaboong.alterbridge.application.api.post.entity.Post;
 
 import java.util.Optional;
 
@@ -10,10 +10,12 @@ import java.util.Optional;
  */
 public interface CommentService {
 
-    Post create(Long parentPostId, CommentDto dto);
+    Comment create(Long postId, CommentDto dto);
 
-    Optional<Post> modify(Long parentPostId, Long commentId, CommentDto dto);
+    Optional<Comment> modify(Long commentId, CommentDto dto);
 
-    Optional<Post> softRemove(Long parentPostId, Long commentId);
+    Optional<Comment> softRemove(Long commentId);
+
+    void remove(Long id);
 
 }

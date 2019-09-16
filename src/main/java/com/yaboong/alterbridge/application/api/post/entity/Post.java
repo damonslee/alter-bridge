@@ -1,10 +1,11 @@
 package com.yaboong.alterbridge.application.api.post.entity;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import com.yaboong.alterbridge.application.api.comment.Comment;
+import com.yaboong.alterbridge.application.api.post.domain.PostDto;
 import com.yaboong.alterbridge.application.common.auditing.Auditable;
-import com.yaboong.alterbridge.configuration.modelmapper.SingletonModelMapper;
+import com.yaboong.alterbridge.application.common.type.Status;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 import org.apache.commons.lang3.builder.ToStringBuilder;
@@ -64,16 +65,13 @@ public class Post extends Auditable<String> implements Function<PostDto, Post> {
     @Enumerated(value = EnumType.STRING)
     Status status;
 
-    @ManyToOne
-    Post parent;
-
-    @OneToMany(mappedBy = "parent", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @Builder.Default // 이거 없으면 lombok Builder 로 객체생성할때 new HashSet<>() 적용안돼서 add() 시 NPE 발생
-    List<Post> comments = new ArrayList<>();
+    List<Comment> comments = new ArrayList<>();
 
-    public void addComment(Post comment) {
+    public void addComment(Comment comment) {
         this.comments.add(comment);
-        comment.setParent(this); // 이 관계 설정 안해주면 comment 테이블에 post_id 가 null 로 들어감
+        comment.addPost(this); // 이 관계 설정 안해주면 comment 테이블에 post_id 가 null 로 들어감
     }
 
     public Post delete() {

@@ -30,14 +30,7 @@ import java.util.function.Function;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @DynamicInsert
 @JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class)
-@JsonIgnoreProperties("parent")
-public class Post extends Auditable<String> implements Function<Object, Post> {
-
-    public enum Status {
-        NORMAL,
-        DELETED,
-        ACCUSED,
-    }
+public class Post extends Auditable<String> implements Function<PostDto, Post> {
 
     public enum Category {
         GENERAL,

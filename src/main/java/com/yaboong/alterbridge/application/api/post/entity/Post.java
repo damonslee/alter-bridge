@@ -24,7 +24,6 @@ import java.util.function.Function;
 @Table(name = "post")
 @Builder
 @Getter
-@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(of = "postId", callSuper = false)  // equals, hashcode 재정의 하는데 부모클래스 호출 안한다고 경고뜨는거 방지용이 callSuper = false
@@ -85,7 +84,7 @@ public class Post extends Auditable<String> implements Function<Object, Post> {
     }
 
     public Post delete() {
-        this.setStatus(Status.DELETED);
+        this.status = Status.DELETED;
         return this;
     }
 

@@ -3,6 +3,7 @@ package com.yaboong.alterbridge.application.api.post.service;
 import com.yaboong.alterbridge.application.api.post.domain.PostDto;
 import com.yaboong.alterbridge.application.api.post.entity.Post;
 import com.yaboong.alterbridge.application.api.post.repository.PostRepository;
+import com.yaboong.alterbridge.application.common.type.Status;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -39,7 +40,7 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public Optional<Post> get(Long postId) {
-        return postRepository.findByPostIdAndStatus(postId, Post.Status.NORMAL);
+        return postRepository.findByPostIdAndStatus(postId, Status.NORMAL);
     }
 
 }

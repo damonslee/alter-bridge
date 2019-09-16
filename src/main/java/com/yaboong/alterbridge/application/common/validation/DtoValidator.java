@@ -2,6 +2,7 @@ package com.yaboong.alterbridge.application.common.validation;
 
 import com.yaboong.alterbridge.application.api.post.domain.PostDto;
 import com.yaboong.alterbridge.application.api.post.entity.Post;
+import com.yaboong.alterbridge.application.common.type.Status;
 import org.apache.commons.lang3.EnumUtils;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
@@ -39,7 +40,7 @@ public class DtoValidator {
 
     private void postStatusValidation(PostDto postDto, Errors errors) {
         String status = postDto.getStatus();
-        boolean isValidStatus = EnumUtils.isValidEnum(Post.Status.class, status);
+        boolean isValidStatus = EnumUtils.isValidEnum(Status.class, status);
         if (!isValidStatus) {
             errors.rejectValue("status", "invalidStatus", "Requested status of post not exists");
         }

@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.yaboong.alterbridge.application.api.post.controller.PostController;
 import com.yaboong.alterbridge.application.api.post.entity.Post;
 import com.yaboong.alterbridge.application.api.post.service.PostService;
+import com.yaboong.alterbridge.application.common.type.Status;
 import com.yaboong.alterbridge.application.common.validation.DtoValidator;
 import com.yaboong.alterbridge.common.TestDescription;
 import com.yaboong.alterbridge.common.TestProfile;
@@ -60,7 +61,7 @@ public class PostControllerSuccessTest {
                 .content("test post content #1")
                 .likeCount(0L)
                 .viewCount(0L)
-                .status(Post.Status.NORMAL)
+                .status(Status.NORMAL)
                 .build();
         when(postService.get(1L)).thenReturn(Optional.of(post));
 

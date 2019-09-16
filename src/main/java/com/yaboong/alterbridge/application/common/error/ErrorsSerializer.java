@@ -16,7 +16,7 @@ import java.util.Objects;
  * Created by yaboong on 2019-09-11
  *
  * Validation 결과로 받은 Errors 오브젝트는 기본적으로 Serialization (JSON 변환) 이 불가능하므로,
- * 직접 Serialization 방법을 정의해주고, @JsonComponent 애노테이션을 사용하여 ModelMapper 에 직접 등록해준다.
+ * 직접 Serialization 방법을 정의해주고, @JsonComponent 애노테이션을 사용하여 ObjectMapper 에 직접 등록해준다.
  */
 @Slf4j
 @JsonComponent

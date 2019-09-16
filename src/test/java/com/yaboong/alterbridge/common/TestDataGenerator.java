@@ -2,6 +2,7 @@ package com.yaboong.alterbridge.common;
 
 import com.yaboong.alterbridge.application.api.post.domain.PostDto;
 import com.yaboong.alterbridge.application.api.post.entity.Post;
+import com.yaboong.alterbridge.application.common.type.Status;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 /**
@@ -18,7 +19,7 @@ public class TestDataGenerator {
                 .title(TITLE + idx)
                 .content(CONTENT + idx)
                 .category(Post.Category.GENERAL)
-                .status(Post.Status.NORMAL)
+                .status(Status.NORMAL)
                 .likeCount(0L)
                 .viewCount(0L)
                 .build();

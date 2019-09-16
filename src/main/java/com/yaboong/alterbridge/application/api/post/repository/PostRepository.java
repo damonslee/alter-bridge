@@ -1,6 +1,7 @@
 package com.yaboong.alterbridge.application.api.post.repository;
 
 import com.yaboong.alterbridge.application.api.post.entity.Post;
+import com.yaboong.alterbridge.application.common.type.Status;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;
@@ -11,8 +12,6 @@ import java.util.Optional;
  */
 public interface PostRepository extends JpaRepository<Post, Long>, PostRepositoryCustom {
 
-    Optional<Post> findByPostIdAndStatus(Long postId, Post.Status status);
-
-    Optional<Post> findByParentPostIdAndPostId(Long ParentPostId, Long postId);
+    Optional<Post> findByPostIdAndStatus(Long postId, Status status);
 
 }

@@ -4,7 +4,6 @@ import com.yaboong.alterbridge.application.api.comment.domain.CommentDto;
 import com.yaboong.alterbridge.application.api.post.entity.Post;
 import com.yaboong.alterbridge.application.api.post.repository.PostRepository;
 import lombok.RequiredArgsConstructor;
-import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -18,14 +17,12 @@ public class CommentServiceImpl implements CommentService {
 
     private final PostRepository postRepository;
 
-    private final ModelMapper modelMapper;
-
     @Override
     public Post create(Long postId, CommentDto commentDto) {
-        Post newComment = modelMapper.map(commentDto, Post.class);
         return postRepository
                 .findById(postId)
                 .map(parentPost -> {
+                    Post newComment = commentDto.toEntity();
                     newComment.setCategory(parentPost.getCategory());
                     newComment.setParent(parentPost);
                     return newComment;
@@ -38,10 +35,7 @@ public class CommentServiceImpl implements CommentService {
     public Optional<Post> modify(Long parentPostId, Long commentId, CommentDto commentDto) {
         return postRepository
                 .findByParentPostIdAndPostId(parentPostId, commentId)
-                .map(comment -> {
-                    modelMapper.map(commentDto, comment);
-                    return comment;
-                })
+                .map(comment -> comment.apply(commentDto))
                 .map(postRepository::save);
     }
 
@@ -49,10 +43,7 @@ public class CommentServiceImpl implements CommentService {
     public Optional<Post> softRemove(Long parentPostId, Long commentId) {
         return postRepository
                 .findByParentPostIdAndPostId(parentPostId, commentId)
-                .map(comment -> {
-                    comment.setStatus(Post.Status.DELETED);
-                    return comment;
-                })
+                .map(Post::delete)
                 .map(postRepository::save);
     }
 }

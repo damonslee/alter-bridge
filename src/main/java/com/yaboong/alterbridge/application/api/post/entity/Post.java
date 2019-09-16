@@ -1,10 +1,10 @@
 package com.yaboong.alterbridge.application.api.post.entity;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.yaboong.alterbridge.application.common.auditing.Auditable;
+import com.yaboong.alterbridge.configuration.modelmapper.SingletonModelMapper;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 import org.apache.commons.lang3.builder.ToStringBuilder;
@@ -15,7 +15,7 @@ import org.hibernate.annotations.DynamicInsert;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
+import java.util.function.Function;
 
 /**
  * Created by yaboong on 2019-08-29.
@@ -32,7 +32,7 @@ import java.util.Objects;
 @DynamicInsert
 @JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class)
 @JsonIgnoreProperties("parent")
-public class Post extends Auditable<String> {
+public class Post extends Auditable<String> implements Function<Object, Post> {
 
     public enum Status {
         NORMAL,
@@ -82,6 +82,16 @@ public class Post extends Auditable<String> {
     public void addComment(Post comment) {
         this.comments.add(comment);
         comment.setParent(this); // 이 관계 설정 안해주면 comment 테이블에 post_id 가 null 로 들어감
+    }
+
+    public Post delete() {
+        this.setStatus(Status.DELETED);
+        return this;
+    }
+
+    @Override
+    public Post apply(Object dto) {
+        return SingletonModelMapper.getInstance().map(dto, Post.class);
     }
 
     // 양방향 매핑시 순환참조가 일어날 수 있으므로, toString() 을 직접 구현함

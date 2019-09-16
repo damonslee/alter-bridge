@@ -7,16 +7,14 @@ import com.yaboong.alterbridge.common.TestDataGenerator;
 import com.yaboong.alterbridge.common.TestProfile;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.InOrder;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
-import org.modelmapper.ModelMapper;
 import org.springframework.test.context.ActiveProfiles;
 
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.inOrder;
 import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 
 /**
  * Created by yaboong on 2019-09-16
@@ -31,9 +29,6 @@ public class PostServiceSuccessTest {
     @Mock
     PostRepository postRepository;
 
-    @Mock
-    ModelMapper modelMapper;
-
     @Test
     public void 게시물_생성_성공() {
         // GIVEN
@@ -43,8 +38,7 @@ public class PostServiceSuccessTest {
         postServiceImpl.create(postDto);
 
         // THEN
-        InOrder inOrder = inOrder(modelMapper, postRepository);
-        inOrder.verify(modelMapper, times(1)).map(any(), any());
-        inOrder.verify(postRepository, times(1)).save(any());
+        verify(postRepository, times(1)).save(any());
     }
+
 }

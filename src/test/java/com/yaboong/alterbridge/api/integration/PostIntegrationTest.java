@@ -1,15 +1,14 @@
 package com.yaboong.alterbridge.api.integration;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.yaboong.alterbridge.common.TestDataGenerator;
-import com.yaboong.alterbridge.configuration.RestDocsConfiguration;
 import com.yaboong.alterbridge.application.api.post.entity.Post;
 import com.yaboong.alterbridge.application.api.post.repository.PostRepository;
+import com.yaboong.alterbridge.common.TestDataGenerator;
 import com.yaboong.alterbridge.common.TestDescription;
 import com.yaboong.alterbridge.common.TestProfile;
+import com.yaboong.alterbridge.configuration.RestDocsConfiguration;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -28,7 +27,8 @@ import static org.springframework.restdocs.headers.HeaderDocumentation.*;
 import static org.springframework.restdocs.hypermedia.HypermediaDocumentation.linkWithRel;
 import static org.springframework.restdocs.hypermedia.HypermediaDocumentation.links;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
-import static org.springframework.restdocs.payload.PayloadDocumentation.*;
+import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
+import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -49,9 +49,6 @@ public class PostIntegrationTest {
 
     @Autowired
     ObjectMapper objectMapper;
-
-    @Autowired
-    ModelMapper modelMapper;
 
     @Autowired
     PostRepository postRepository;

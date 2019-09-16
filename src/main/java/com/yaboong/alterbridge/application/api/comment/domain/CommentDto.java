@@ -1,8 +1,8 @@
 package com.yaboong.alterbridge.application.api.comment.domain;
 
-import com.yaboong.alterbridge.application.api.post.entity.Post;
+import com.yaboong.alterbridge.application.api.comment.Comment;
 import com.yaboong.alterbridge.application.common.converter.EntitySupplier;
-import com.yaboong.alterbridge.configuration.modelmapper.SingletonModelMapper;
+import com.yaboong.alterbridge.application.common.type.Status;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
@@ -18,7 +18,7 @@ import javax.validation.constraints.PositiveOrZero;
 @NoArgsConstructor
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class CommentDto implements EntitySupplier<Post> {
+public class CommentDto implements EntitySupplier<Comment> {
 
     @NotEmpty
     String content;
@@ -31,7 +31,11 @@ public class CommentDto implements EntitySupplier<Post> {
     String status;
 
     @Override
-    public Post toEntity() {
-        return SingletonModelMapper.getInstance().map(this, Post.class);
+    public Comment toEntity() {
+        return Comment.builder()
+                .content(this.content)
+                .likeCount(this.likeCount)
+                .status(Status.valueOf(this.status))
+                .build();
     }
 }

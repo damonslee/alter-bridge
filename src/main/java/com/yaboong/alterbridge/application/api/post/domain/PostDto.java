@@ -2,7 +2,7 @@ package com.yaboong.alterbridge.application.api.post.domain;
 
 import com.yaboong.alterbridge.application.api.post.entity.Post;
 import com.yaboong.alterbridge.application.common.converter.EntitySupplier;
-import com.yaboong.alterbridge.configuration.modelmapper.SingletonModelMapper;
+import com.yaboong.alterbridge.application.common.type.Status;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
@@ -42,6 +42,13 @@ public class PostDto implements EntitySupplier<Post> {
 
     @Override
     public Post toEntity() {
-        return SingletonModelMapper.getInstance().map(this, Post.class);
+        return Post.builder()
+                .category(Post.Category.valueOf(this.category))
+                .title(this.title)
+                .content(this.content)
+                .viewCount(this.viewCount)
+                .likeCount(this.likeCount)
+                .status(Status.valueOf(this.status))
+                .build();
     }
 }

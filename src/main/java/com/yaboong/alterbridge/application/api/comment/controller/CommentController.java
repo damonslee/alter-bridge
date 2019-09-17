@@ -1,6 +1,6 @@
 package com.yaboong.alterbridge.application.api.comment.controller;
 
-import com.yaboong.alterbridge.application.api.comment.Comment;
+import com.yaboong.alterbridge.application.api.comment.entity.Comment;
 import com.yaboong.alterbridge.application.api.comment.domain.CommentDto;
 import com.yaboong.alterbridge.application.api.comment.service.CommentService;
 import lombok.RequiredArgsConstructor;

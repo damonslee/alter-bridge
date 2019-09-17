@@ -1,4 +1,4 @@
-package com.yaboong.alterbridge.application.api.comment;
+package com.yaboong.alterbridge.application.api.comment.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.yaboong.alterbridge.application.api.comment.domain.CommentDto;
@@ -39,6 +39,7 @@ public class Comment extends Auditable<String> implements Function<CommentDto, C
     Long likeCount;
 
     @ColumnDefault("'NORMAL'")
+    @Enumerated(value = EnumType.STRING)
     Status status;
 
     @Column(nullable = false)

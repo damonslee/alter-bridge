@@ -1,6 +1,6 @@
 package com.yaboong.alterbridge.application.api.comment.domain;
 
-import com.yaboong.alterbridge.application.api.comment.Comment;
+import com.yaboong.alterbridge.application.api.comment.entity.Comment;
 import com.yaboong.alterbridge.application.common.converter.EntitySupplier;
 import com.yaboong.alterbridge.application.common.type.Status;
 import lombok.*;

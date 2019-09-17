@@ -40,7 +40,7 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public Optional<Post> get(Long postId) {
-        return postRepository.findByPostIdAndStatus(postId, Status.NORMAL);
+        return postRepository.findPostAndCommentByPostId(postId, Status.NORMAL);
     }
 
 }

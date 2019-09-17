@@ -10,6 +10,7 @@ import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+import javax.persistence.Column;
 import javax.persistence.EntityListeners;
 import javax.persistence.MappedSuperclass;
 import java.time.LocalDateTime;
@@ -27,6 +28,7 @@ public abstract class Auditable<T> {
 
     @CreatedDate
     @CreationTimestamp
+    @Column(columnDefinition="TIMESTAMP default CURRENT_TIMESTAMP")
     protected LocalDateTime createdAt;
 
     @LastModifiedBy
@@ -34,5 +36,6 @@ public abstract class Auditable<T> {
 
     @LastModifiedDate
     @UpdateTimestamp
+    @Column(columnDefinition="TIMESTAMP default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP")
     protected LocalDateTime modifiedAt;
 }

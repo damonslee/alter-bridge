@@ -4,6 +4,7 @@ import com.yaboong.alterbridge.application.api.post.domain.PostDto;
 import com.yaboong.alterbridge.application.api.post.entity.Post;
 import com.yaboong.alterbridge.application.api.post.repository.PostRepository;
 import com.yaboong.alterbridge.application.api.post.service.PostServiceImpl;
+import com.yaboong.alterbridge.application.common.type.Status;
 import com.yaboong.alterbridge.common.TestProfile;
 import org.junit.Before;
 import org.junit.Test;
@@ -35,10 +36,13 @@ public class PostServiceSuccessTest {
 
     PostDto postDto;
 
+    Long postId;
+
     @Before
     public void init() {
         post = mock(Post.class);
         postDto = mock(PostDto.class);
+        postId = 1L;
     }
 
 
@@ -54,7 +58,6 @@ public class PostServiceSuccessTest {
     @Test
     public void Service_게시물_수정_성공() {
         // GIVEN
-        long postId = 1L;
         when(postRepository.findById(postId)).thenReturn(Optional.of(post));
         when(post.apply(postDto)).thenReturn(post);
 
@@ -70,7 +73,6 @@ public class PostServiceSuccessTest {
     @Test
     public void Service_게시물_삭제_성공() {
         // GIVEN
-        long postId = 1L;
         when(postServiceImpl.get(postId)).thenReturn(Optional.of(post));
         when(post.delete()).thenReturn(post);
 
@@ -80,5 +82,19 @@ public class PostServiceSuccessTest {
         // THEN
         verify(post, times(1)).delete();
         verify(postRepository, times(1)).save(post);
+    }
+
+    @Test
+    public void Service_게시물_1개조회_성공() {
+        // GIVEN
+        Status status = Status.NORMAL;
+        when(postRepository.findPostAndCommentByPostId(postId, status)).thenReturn(Optional.of(post));
+
+        // WHEN
+        postServiceImpl.get(postId);
+
+        // THEN
+        verify(postRepository, times(1)).findPostAndCommentByPostId(postId, status);
+
     }
 }

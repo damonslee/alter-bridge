@@ -5,6 +5,8 @@ import com.yaboong.alterbridge.application.api.post.entity.Post;
 import com.yaboong.alterbridge.application.api.post.repository.PostRepository;
 import com.yaboong.alterbridge.application.common.type.Status;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -17,6 +19,11 @@ import java.util.Optional;
 public class PostServiceImpl implements PostService {
 
     private final PostRepository postRepository;
+
+    @Override
+    public Page<Post> getList(Pageable pageable) {
+        return postRepository.findAllPostPaging(pageable, Status.NORMAL);
+    }
 
     @Override
     public Post create(PostDto postDto) {

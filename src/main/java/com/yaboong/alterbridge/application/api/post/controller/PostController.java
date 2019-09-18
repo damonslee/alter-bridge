@@ -6,8 +6,13 @@ import com.yaboong.alterbridge.application.api.post.entity.Post;
 import com.yaboong.alterbridge.application.api.post.service.PostService;
 import com.yaboong.alterbridge.application.common.validation.DtoValidator;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PagedResourcesAssembler;
 import org.springframework.hateoas.Link;
 import org.springframework.hateoas.MediaTypes;
+import org.springframework.hateoas.PagedResources;
+import org.springframework.hateoas.Resource;
 import org.springframework.hateoas.mvc.ControllerLinkBuilder;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
@@ -30,6 +35,13 @@ public class PostController {
     private final DtoValidator dtoValidator;
 
     private final PostService postService;
+
+    @GetMapping
+    public ResponseEntity getPostList(Pageable pageable, PagedResourcesAssembler<Post> assembler) {
+        Page<Post> postPage = postService.getList(pageable);
+        PagedResources<Resource<Post>> pagedResources = assembler.toResource(postPage, PostResource::of);
+        return ResponseEntity.ok(pagedResources);
+    }
 
     @GetMapping("/{id}")
     public ResponseEntity getPost(@PathVariable Long id) {

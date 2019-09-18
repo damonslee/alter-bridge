@@ -1,6 +1,7 @@
 package com.yaboong.alterbridge.application.api.post.entity;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.yaboong.alterbridge.application.api.comment.entity.Comment;
 import com.yaboong.alterbridge.application.api.post.domain.PostDto;
@@ -30,6 +31,7 @@ import java.util.function.Function;
 @EqualsAndHashCode(of = "postId", callSuper = false)  // equals, hashcode 재정의 하는데 부모클래스 호출 안한다고 경고뜨는거 방지용이 callSuper = false
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @DynamicInsert
+@JsonIgnoreProperties("comments")
 @JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class)
 public class Post extends Auditable<String> implements Function<PostDto, Post> {
 
@@ -89,12 +91,6 @@ public class Post extends Auditable<String> implements Function<PostDto, Post> {
                 .likeCount(postDto.getLikeCount())
                 .status(Status.valueOf(postDto.getStatus()))
                 .build();
-    }
-
-    // 양방향 매핑시 순환참조가 일어날 수 있으므로, toString() 을 직접 구현함
-    @Override
-    public String toString() {
-        return ToStringBuilder.reflectionToString(this, ToStringStyle.SHORT_PREFIX_STYLE);
     }
 
 }

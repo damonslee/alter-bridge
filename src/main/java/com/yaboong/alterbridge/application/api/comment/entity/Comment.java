@@ -63,11 +63,6 @@ public class Comment extends Auditable<String> implements Function<CommentDto, C
         return buildComment(commentDto);
     }
 
-    @Override
-    public String toString() {
-        return ToStringBuilder.reflectionToString(this, ToStringStyle.SHORT_PREFIX_STYLE);
-    }
-
     private Comment buildComment(CommentDto commentDto) {
         return Comment.builder()
                 .status(Status.valueOf(commentDto.getStatus()))

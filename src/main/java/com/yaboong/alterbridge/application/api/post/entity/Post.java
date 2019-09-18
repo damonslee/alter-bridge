@@ -93,10 +93,4 @@ public class Post extends Auditable<String> implements Function<PostDto, Post> {
                 .build();
     }
 
-    // 양방향 매핑시 순환참조가 일어날 수 있으므로, toString() 을 직접 구현함
-    @Override
-    public String toString() {
-        return ToStringBuilder.reflectionToString(this, ToStringStyle.SHORT_PREFIX_STYLE);
-    }
-
 }

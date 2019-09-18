@@ -2,8 +2,9 @@ package com.yaboong.alterbridge.application.api.post.repository;
 
 import com.yaboong.alterbridge.application.api.post.entity.Post;
 import com.yaboong.alterbridge.application.common.type.Status;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
-import java.util.List;
 import java.util.Optional;
 
 /**
@@ -12,6 +13,6 @@ import java.util.Optional;
 public interface PostRepositoryCustom {
     Optional<Post> findPostAndCommentByPostId(Long postId, Status status);
 
-    List<Post> findAllPost(Status status);
+    Page<Post> findAllPostPaging(Pageable pageable, Status status);
 
 }

@@ -1,7 +1,7 @@
 package com.yaboong.alterbridge.application.api.comment.domain;
 
 import com.yaboong.alterbridge.application.api.comment.entity.Comment;
-import com.yaboong.alterbridge.application.common.converter.EntitySupplier;
+import com.yaboong.alterbridge.application.common.converter.EntityProducer;
 import com.yaboong.alterbridge.application.common.type.Status;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -18,7 +18,7 @@ import javax.validation.constraints.PositiveOrZero;
 @NoArgsConstructor
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class CommentDto implements EntitySupplier<Comment> {
+public class CommentDto implements EntityProducer<Comment> {
 
     @NotEmpty
     String content;

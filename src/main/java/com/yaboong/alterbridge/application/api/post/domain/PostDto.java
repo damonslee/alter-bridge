@@ -1,7 +1,7 @@
 package com.yaboong.alterbridge.application.api.post.domain;
 
 import com.yaboong.alterbridge.application.api.post.entity.Post;
-import com.yaboong.alterbridge.application.common.converter.EntitySupplier;
+import com.yaboong.alterbridge.application.common.converter.EntityProducer;
 import com.yaboong.alterbridge.application.common.type.Status;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -18,7 +18,7 @@ import javax.validation.constraints.PositiveOrZero;
 @NoArgsConstructor
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class PostDto implements EntitySupplier<Post> {
+public class PostDto implements EntityProducer<Post> {
 
     @NotEmpty
     String category;

@@ -56,11 +56,11 @@ public class PostIntegrationTest {
     @Test
     @TestDescription("정상적으로 게시물을 조회한 경우")
     public void 게시물_1개조회_200_통합테스트() throws Exception {
-        // GIVEN
-        Post post = TestDataGenerator.newPost(postRepository, 1);
+        // GIVEN - by import.sql
+        long postId = 1L;
 
         // WHEN
-        MockHttpServletRequestBuilder request = get("/posts/{id}", post.getPostId())
+        MockHttpServletRequestBuilder request = get("/posts/{id}", postId)
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
                 .accept(MediaTypes.HAL_JSON_UTF8_VALUE);
 

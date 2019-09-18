@@ -6,16 +6,20 @@ import com.yaboong.alterbridge.application.api.post.repository.PostRepository;
 import com.yaboong.alterbridge.application.api.post.service.PostServiceImpl;
 import com.yaboong.alterbridge.application.common.type.Status;
 import com.yaboong.alterbridge.common.TestProfile;
+import junit.framework.TestCase;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
+import org.springframework.data.domain.*;
 import org.springframework.test.context.ActiveProfiles;
 
+import java.util.ArrayList;
 import java.util.Optional;
 
+import static org.junit.Assert.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
@@ -43,6 +47,26 @@ public class PostServiceSuccessTest {
         post = mock(Post.class);
         postDto = mock(PostDto.class);
         postId = 1L;
+    }
+
+    @Test
+    public void Service_게시물_리스트_조회_성공() {
+        // GIVEN
+        Pageable pageable = PageRequest.of(0, 5);
+        Status status = Status.NORMAL;
+        when(postRepository.findAllPostPaging(pageable, status))
+                .thenReturn(new PageImpl<>(new ArrayList<>(), pageable, 10L));
+
+        // WHEN
+        Page<Post> postList = postServiceImpl.getList(pageable);
+
+        // THEN
+        assertEquals(postList.getSize(), 5);
+        assertEquals(postList.getTotalPages(), 2);
+        assertEquals(postList.getNumber(), 0);
+        assertEquals(postList.getNumberOfElements(), 0);
+        TestCase.assertEquals(postList.getPageable(), pageable);
+        assertEquals(postList.getSort(), Sort.unsorted());
     }
 
 
@@ -95,6 +119,5 @@ public class PostServiceSuccessTest {
 
         // THEN
         verify(postRepository, times(1)).findPostAndCommentByPostId(postId, status);
-
     }
 }

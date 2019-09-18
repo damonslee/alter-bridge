@@ -31,7 +31,7 @@ public class PostServiceFailTest {
     PostRepository postRepository;
 
     @Test
-    public void 게시물_수정_없는게시물조회_실패() {
+    public void Service_게시물_수정_없는게시물조회_실패() {
         // GIVEN
         Long postId = 1L;
         when(postRepository.findById(postId)).thenReturn(Optional.empty());

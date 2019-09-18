@@ -31,9 +31,8 @@ public class PostRepositoryTest {
     PostRepository postRepository;
 
     @Test
-    public void 게시물_조회_없는게시물조회시_Optional반환() {
-        // GIVEN
-        Post post = TestDataGenerator.newPost(postRepository, 1);
+    public void Repository_게시물_조회_없는게시물조회시_Optional반환() {
+        // GIVEN by import.sql
 
         // WHEN
         Optional<Post> postOptional = postRepository.findPostAndCommentByPostId(100L, Status.NORMAL);

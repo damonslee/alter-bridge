@@ -67,4 +67,18 @@ public class PostServiceSuccessTest {
         verify(postRepository, times(1)).save(post);
     }
 
+    @Test
+    public void Service_게시물_삭제_성공() {
+        // GIVEN
+        long postId = 1L;
+        when(postServiceImpl.get(postId)).thenReturn(Optional.of(post));
+        when(post.delete()).thenReturn(post);
+
+        // WHEN
+        postServiceImpl.softRemove(postId);
+
+        // THEN
+        verify(post, times(1)).delete();
+        verify(postRepository, times(1)).save(post);
+    }
 }

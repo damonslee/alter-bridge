@@ -14,15 +14,12 @@ public class TestDataGenerator {
     private static final String CATEGORY = "GENERAL";
     private static final String NORMAL = "NORMAL";
 
-    public static Post newPost(JpaRepository<Post, Long> postRepository, int idx) {
-        Post post = Post.builder()
-                .title(TITLE + idx)
-                .content(CONTENT + idx)
-                .category(Post.Category.GENERAL)
-                .status(Status.NORMAL)
-                .likeCount(0L)
-                .viewCount(0L)
-                .build();
+    public static Post newPost(int idx) {
+        return buildPost(idx);
+    }
+
+    public static Post saveNewPost(JpaRepository<Post, Long> postRepository, int idx) {
+        Post post = buildPost(idx);
         return postRepository.save(post);
     }
 
@@ -34,6 +31,17 @@ public class TestDataGenerator {
                 .likeCount(0L)
                 .viewCount(0L)
                 .status(NORMAL)
+                .build();
+    }
+
+    private static Post buildPost(int idx) {
+        return Post.builder()
+                .title(TITLE + idx)
+                .content(CONTENT + idx)
+                .category(Post.Category.GENERAL)
+                .status(Status.NORMAL)
+                .likeCount(0L)
+                .viewCount(0L)
                 .build();
     }
 

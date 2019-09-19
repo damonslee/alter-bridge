@@ -45,7 +45,7 @@ public class PostServiceFailTest {
     }
 
     @Test
-    public void PostServiceImpl_modify_없는게시물조회_실패() {
+    public void PostServiceImpl_modify_없는게시물조회() {
         // GIVEN
         when(postRepository.findById(postId)).thenReturn(Optional.empty());
 
@@ -59,7 +59,7 @@ public class PostServiceFailTest {
     }
 
     @Test
-    public void PostServiceImpl_softRemove_없는게시물삭제_실패() {
+    public void PostServiceImpl_softRemove_없는게시물삭제() {
         // GIVEN
         when(postServiceImpl.get(postId)).thenReturn(Optional.empty());
 

@@ -50,7 +50,7 @@ public class PostServiceSuccessTest {
     }
 
     @Test
-    public void Service_게시물_리스트_조회_성공() {
+    public void PostServiceImpl_getList_성공() {
         // GIVEN
         Pageable pageable = PageRequest.of(0, 5);
         Status status = Status.NORMAL;
@@ -71,7 +71,7 @@ public class PostServiceSuccessTest {
 
 
     @Test
-    public void Service_게시물_생성_성공() {
+    public void PostServiceImpl_create_성공() {
         // WHEN
         postServiceImpl.create(postDto);
 
@@ -80,7 +80,7 @@ public class PostServiceSuccessTest {
     }
 
     @Test
-    public void Service_게시물_수정_성공() {
+    public void PostServiceImpl_modify_성공() {
         // GIVEN
         when(postRepository.findById(postId)).thenReturn(Optional.of(post));
         when(post.apply(postDto)).thenReturn(post);
@@ -95,7 +95,7 @@ public class PostServiceSuccessTest {
     }
 
     @Test
-    public void Service_게시물_삭제_성공() {
+    public void PostServiceImpl_softRemove_성공() {
         // GIVEN
         when(postServiceImpl.get(postId)).thenReturn(Optional.of(post));
         when(post.delete()).thenReturn(post);
@@ -109,7 +109,7 @@ public class PostServiceSuccessTest {
     }
 
     @Test
-    public void Service_게시물_1개조회_성공() {
+    public void PostServiceImpl_get_성공() {
         // GIVEN
         Status status = Status.NORMAL;
         when(postRepository.findPostAndCommentByPostId(postId, status)).thenReturn(Optional.of(post));

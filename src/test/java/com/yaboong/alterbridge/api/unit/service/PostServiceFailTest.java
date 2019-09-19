@@ -1,9 +1,11 @@
 package com.yaboong.alterbridge.api.unit.service;
 
+import com.yaboong.alterbridge.application.api.post.domain.PostDto;
 import com.yaboong.alterbridge.application.api.post.entity.Post;
 import com.yaboong.alterbridge.application.api.post.repository.PostRepository;
 import com.yaboong.alterbridge.application.api.post.service.PostServiceImpl;
 import com.yaboong.alterbridge.common.TestProfile;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -14,7 +16,6 @@ import org.springframework.test.context.ActiveProfiles;
 import java.util.Optional;
 
 import static org.junit.Assert.assertTrue;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 /**
@@ -30,17 +31,45 @@ public class PostServiceFailTest {
     @Mock
     PostRepository postRepository;
 
+    Post post;
+
+    PostDto postDto;
+
+    Long postId;
+
+    @Before
+    public void init() {
+        post = mock(Post.class);
+        postDto = mock(PostDto.class);
+        postId = 1L;
+    }
+
     @Test
-    public void Service_게시물_수정_없는게시물조회_실패() {
+    public void PostServiceImpl_modify_없는게시물조회_실패() {
         // GIVEN
-        Long postId = 1L;
         when(postRepository.findById(postId)).thenReturn(Optional.empty());
 
         // WHEN
-        Optional<Post> postOptional = postServiceImpl.modify(postId, any());
+        Optional<Post> postOptional = postServiceImpl.modify(postId, postDto);
 
         // THEN
         assertTrue(postOptional.isEmpty());
-        verify(postRepository, never()).save(any());
+        verify(post, never()).apply(postDto);
+        verify(postRepository, never()).save(post);
     }
+
+    @Test
+    public void PostServiceImpl_softRemove_없는게시물삭제_실패() {
+        // GIVEN
+        when(postServiceImpl.get(postId)).thenReturn(Optional.empty());
+
+        // WHEN
+        Optional<Post> postOptional = postServiceImpl.softRemove(postId);
+
+        // THEN
+        assertTrue(postOptional.isEmpty());
+        verify(post, never()).delete();
+        verify(postRepository, never()).save(post);
+    }
+
 }

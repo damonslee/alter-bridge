@@ -21,6 +21,10 @@ spring:
   devtools:
     livereload:
       enabled: true
+  data:
+    web:
+      pageable:
+        max-page-size: 10
 
 # LOGGING
 logging:

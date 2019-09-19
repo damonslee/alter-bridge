@@ -1,9 +1,7 @@
 package com.yaboong.alterbridge.api.integration;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.yaboong.alterbridge.application.api.post.entity.Post;
 import com.yaboong.alterbridge.application.api.post.repository.PostRepository;
-import com.yaboong.alterbridge.common.TestDataGenerator;
 import com.yaboong.alterbridge.common.TestDescription;
 import com.yaboong.alterbridge.common.TestProfile;
 import com.yaboong.alterbridge.configuration.RestDocsConfiguration;
@@ -42,7 +40,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureRestDocs
 @Import({RestDocsConfiguration.class})
 @ActiveProfiles(TestProfile.TEST)
-public class PostIntegrationTest {
+public class PostIntegrationSuccessTest {
 
     @Autowired
     MockMvc mockMvc;

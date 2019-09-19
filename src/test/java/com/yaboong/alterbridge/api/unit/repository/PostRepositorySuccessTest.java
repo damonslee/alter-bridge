@@ -11,12 +11,18 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.Import;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.function.Consumer;
 
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.*;
 
 /**
@@ -46,6 +52,26 @@ public class PostRepositorySuccessTest {
         assertTrue(postOptional.isPresent());
         assertNotNull(postOptional.get());
         postOptional.ifPresent(validatePostField);
+    }
+
+    @Test
+    @TestDescription("게시물 목록 조회 페이징")
+    public void PostRepository_findAllPostPaging() {
+        // GIVEN
+        Pageable pageable = PageRequest.of(0, 5);
+        Status status = Status.NORMAL;
+
+        // WHEN
+        Page<Post> postPaging = postRepository.findAllPostPaging(pageable, status);
+        List<Post> postList = postPaging.getContent();
+
+        // THEN
+        assertNotNull(postPaging);
+        assertEquals(postPaging.getSize(), 5);
+
+        assertThat(postList, is(not(empty())));
+        assertEquals(postList.size(), 5);
+        postList.forEach(validatePostField);
     }
 
     private Consumer<Post> validatePostField = post -> {

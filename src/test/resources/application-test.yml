@@ -18,9 +18,10 @@ spring:
     properties:
       hibernate:
         format_sql: true
-  devtools:
-    livereload:
-      enabled: false
+  data:
+    web:
+      pageable:
+        max-page-size: 10
 
 # LOGGING
 logging:

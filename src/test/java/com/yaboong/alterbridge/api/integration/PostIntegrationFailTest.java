@@ -44,7 +44,7 @@ public class PostIntegrationFailTest {
     PostRepository postRepository;
 
     @Test
-    public void Controller_Pageable_Size_제한() throws Exception {
+    public void PostController_Pageable_Size_제한() throws Exception {
         // GIVEN
         MockHttpServletRequestBuilder request = get("/posts")
                 .accept(MediaTypes.HAL_JSON_UTF8_VALUE)

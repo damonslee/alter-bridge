@@ -3,7 +3,7 @@ package com.yaboong.alterbridge.api.unit.repository;
 import com.yaboong.alterbridge.application.api.post.entity.Post;
 import com.yaboong.alterbridge.application.api.post.repository.PostRepository;
 import com.yaboong.alterbridge.application.common.type.Status;
-import com.yaboong.alterbridge.common.TestDataGenerator;
+import com.yaboong.alterbridge.common.TestDescription;
 import com.yaboong.alterbridge.common.TestProfile;
 import com.yaboong.alterbridge.configuration.jpa.JpaConfiguration;
 import org.junit.Test;
@@ -25,13 +25,14 @@ import static org.junit.Assert.assertTrue;
 @RunWith(SpringRunner.class)
 @Import(JpaConfiguration.class)
 @ActiveProfiles(TestProfile.TEST)
-public class PostRepositoryTest {
+public class PostRepositoryFailTest {
 
     @Autowired
     PostRepository postRepository;
 
     @Test
-    public void Repository_게시물_조회_없는게시물조회시_Optional반환() {
+    @TestDescription("없는 게시물 조회시 Optional 반환하는지 확인")
+    public void PostRepositoryImpl_findPostAndCommentByPostId() {
         // GIVEN by import.sql
 
         // WHEN

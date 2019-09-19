@@ -53,7 +53,7 @@ public class PostIntegrationSuccessTest {
 
     @Test
     @TestDescription("정상적으로 게시물을 조회한 경우")
-    public void Controller_게시물_1개조회_200_통합테스트() throws Exception {
+    public void PostController_게시물_1개조회_200() throws Exception {
         // GIVEN - by import.sql
         long postId = 1L;
 

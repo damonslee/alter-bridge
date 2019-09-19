@@ -57,4 +57,19 @@ public class PostServiceFailTest {
         verify(post, never()).apply(postDto);
         verify(postRepository, never()).save(post);
     }
+
+    @Test
+    public void PostServiceImpl_softRemove_없는게시물삭제_실패() {
+        // GIVEN
+        when(postServiceImpl.get(postId)).thenReturn(Optional.empty());
+
+        // WHEN
+        Optional<Post> postOptional = postServiceImpl.softRemove(postId);
+
+        // THEN
+        assertTrue(postOptional.isEmpty());
+        verify(post, never()).delete();
+        verify(postRepository, never()).save(post);
+    }
+
 }

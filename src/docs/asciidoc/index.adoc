@@ -30,3 +30,10 @@ operation::query-posts[snippets='curl-request,http-request,http-response,httpie-
 `POST` 요청으로 새로운 게시물을 등록할 수 있다.
 
 operation::create-post[snippets='curl-request,http-request,http-response,httpie-request,links,request-headers,request-body,response-headers,response-body,response-fields']
+
+
+[[resources-update-post]]
+=== 게시물 수정
+`PUT` 요청으로 기존 게시물을 수정할 수 있다.
+
+operation::update-post[snippets='curl-request,http-request,http-response,httpie-request,links,request-headers,request-body,response-headers,response-body,response-fields']

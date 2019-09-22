@@ -12,7 +12,7 @@ import org.springframework.data.web.PagedResourcesAssembler;
 import org.springframework.hateoas.Link;
 import org.springframework.hateoas.MediaTypes;
 import org.springframework.hateoas.PagedResources;
-import org.springframework.hateoas.Resource;
+import org.springframework.hateoas.ResourceAssembler;
 import org.springframework.hateoas.mvc.ControllerLinkBuilder;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
@@ -37,9 +37,17 @@ public class PostController {
     private final PostService postService;
 
     @GetMapping
-    public ResponseEntity getPostList(Pageable pageable, PagedResourcesAssembler<Post> assembler) {
+    public ResponseEntity getPostList(Pageable pageable, PagedResourcesAssembler<Post> pagedResourcesAssembler) {
         Page<Post> postPage = postService.getList(pageable);
-        PagedResources<Resource<Post>> pagedResources = assembler.toResource(postPage, PostResource::of);
+
+        ResourceAssembler<Post, PostResource> postResourceAssembler = post -> PostResource.of(post)
+                    .addLink(new Link("/docs/index.html#resources-posts-get").withRel("profile"))
+                    .addLink(linkTo(PostController.class).slash(post.getPostId()).withSelfRel().withType(HttpMethod.GET.name()))
+                    .addLink(linkTo(PostController.class).slash(post.getPostId()).withRel("update-post").withType(HttpMethod.PUT.name()))
+                    .addLink(linkTo(PostController.class).slash(post.getPostId()).withRel("delete-post").withType(HttpMethod.DELETE.name()));
+
+        PagedResources<PostResource> pagedResources = pagedResourcesAssembler.toResource(postPage, postResourceAssembler);
+        pagedResources.add(new Link("/docs/index.html#resources-posts-list").withRel("profile"));
         return ResponseEntity.ok(pagedResources);
     }
 

@@ -37,3 +37,11 @@ operation::create-post[snippets='curl-request,http-request,http-response,httpie-
 `PUT` 요청으로 기존 게시물을 수정할 수 있다.
 
 operation::update-post[snippets='curl-request,http-request,http-response,httpie-request,links,request-headers,request-body,response-headers,response-body,response-fields']
+
+
+[[resources-delete-post]]
+=== 게시물 삭제
+`DELETE` 요청으로 기존 게시물을 삭제할 수 있다.
+물리적으로 삭제하는 것이 아니라 status 컬럼을 DELETED 로 변경하는 논리삭제 작업이다.
+
+operation::delete-post[snippets='curl-request,http-request,http-response,httpie-request,links,request-headers,request-body,response-headers,response-body,response-fields']

@@ -28,25 +28,38 @@ public class ErrorsSerializer extends JsonSerializer<Errors> {
     @Override
     public void serialize(Errors errors, JsonGenerator gen, SerializerProvider serializers) throws IOException {
         gen.writeStartArray();
-        for (FieldError fieldError : errors.getFieldErrors()) {
-            gen.writeStartObject();
-            gen.writeStringField("field", fieldError.getField());
-            gen.writeStringField("code", fieldError.getCode());
-            gen.writeStringField("defaultMessage", fieldError.getDefaultMessage());
-            Object rejectedValue = fieldError.getRejectedValue();
-            if (Objects.nonNull(rejectedValue)) {
-                gen.writeStringField("rejectedValue", rejectedValue.toString());
-            }
-            gen.writeEndObject();
-        }
 
-        for (ObjectError error : errors.getGlobalErrors()) {
-            gen.writeStartObject();
-            gen.writeStringField("objectName", error.getObjectName());
-            gen.writeStringField("code", error.getCode());
-            gen.writeStringField("defaultMessage", error.getDefaultMessage());
-            gen.writeEndObject();
-        }
+        errors.getFieldErrors().forEach(fieldError -> {
+            try {
+                gen.writeStartObject();
+                gen.writeStringField("field", fieldError.getField());
+                gen.writeStringField("code", fieldError.getCode());
+                gen.writeStringField("defaultMessage", fieldError.getDefaultMessage());
+                Object rejectedValue = fieldError.getRejectedValue();
+                if (Objects.nonNull(rejectedValue)) {
+                    gen.writeStringField("rejectedValue", rejectedValue.toString());
+                }
+                gen.writeEndObject();
+            }
+            catch (IOException ioe) {
+                log.error(ioe.getMessage(), ioe);
+            }
+
+        });
+
+        errors.getGlobalErrors().forEach(error -> {
+            try {
+                gen.writeStartObject();
+                gen.writeStringField("objectName", error.getObjectName());
+                gen.writeStringField("code", error.getCode());
+                gen.writeStringField("defaultMessage", error.getDefaultMessage());
+                gen.writeEndObject();
+            }
+            catch (IOException ioe) {
+                log.error(ioe.getMessage(), ioe);
+            }
+        });
+
         gen.writeEndArray();
     }
 }

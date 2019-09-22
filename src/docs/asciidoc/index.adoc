@@ -13,7 +13,7 @@
 
 `GET` 요청으로 게시물 하나를 조회할 수 있다.
 
-operation::posts-get[snippets='curl-request,http-request,http-response,httpie-request,links,request-body,request-headers,response-body,response-fields,response-headers']
+operation::posts-get[snippets='curl-request,http-request,http-response,httpie-request,links,request-headers,request-body,response-headers,response-body,response-fields']
 
 
 [[resources-posts-list]]
@@ -22,4 +22,11 @@ operation::posts-get[snippets='curl-request,http-request,http-response,httpie-re
 `GET` 요청과 page, size 파라미터로 게시물 목록을 조회할 수 있다.
 한번에 최대로 조회 가능한 size 는 10 이다.
 
-operation::query-posts[snippets='curl-request,http-request,http-response,httpie-request,links,request-body,request-headers,response-body,response-fields,response-headers']
+operation::query-posts[snippets='curl-request,http-request,http-response,httpie-request,links,request-headers,request-body,response-headers,response-body,response-fields']
+
+
+[[resources-create-post]]
+=== 게시물 등록
+`POST` 요청으로 새로운 게시물을 등록할 수 있다.
+
+operation::create-post[snippets='curl-request,http-request,http-response,httpie-request,links,request-headers,request-body,response-headers,response-body,response-fields']

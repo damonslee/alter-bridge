@@ -85,6 +85,7 @@ public class PostController {
                 .body(PostResource.of(newPost)
                     .addLink(linkTo(PostController.class).withSelfRel().withType(HttpMethod.POST.name()))
                     .addLink(new Link("/docs/index.html#resources-create-post").withRel("profile"))
+                    .addLink(linkTo(PostController.class).withRel("post-list").withType(HttpMethod.GET.name()))
                 );
     }
 

@@ -1,7 +1,9 @@
 package com.yaboong.alterbridge.api.integration;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.yaboong.alterbridge.application.api.post.entity.Post;
 import com.yaboong.alterbridge.application.api.post.repository.PostRepository;
+import com.yaboong.alterbridge.common.TestDataGenerator;
 import com.yaboong.alterbridge.common.TestDescription;
 import com.yaboong.alterbridge.common.TestProfile;
 import com.yaboong.alterbridge.configuration.RestDocsConfiguration;
@@ -28,6 +30,7 @@ import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.docu
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -140,7 +143,6 @@ public class PostIntegrationSuccessTest {
                         )
                     )
                 );
-
     }
 
     @Test
@@ -163,6 +165,8 @@ public class PostIntegrationSuccessTest {
                 .andExpect(jsonPath("_links.self").exists())
                 .andExpect(jsonPath("_links.self.type").value(HttpMethod.GET.name()))
                 .andExpect(jsonPath("_links.profile").exists())
+
+                // REST DOCS
                 .andDo(document("posts-get",
                         links(
                             linkWithRel("self").description("link to self"),
@@ -198,7 +202,77 @@ public class PostIntegrationSuccessTest {
                             fieldWithPath("_links.profile.href").description("link to profile")
                         )
                     )
-                )
-        ;
+                );
+    }
+
+    @Test
+    public void PostController_게시물_등록_201() throws Exception {
+        // GIVEN
+        Post newPost = TestDataGenerator.newPost(1);
+        String newPostJson = objectMapper.writeValueAsString(newPost);
+
+        // WHEN
+        MockHttpServletRequestBuilder request = post("/posts")
+                .contentType(MediaType.APPLICATION_JSON_UTF8)
+                .accept(MediaTypes.HAL_JSON)
+                .content(newPostJson);
+
+        // THEN
+        mockMvc.perform(request)
+                .andDo(print())
+                .andExpect(status().isCreated())
+                .andExpect(header().exists(HttpHeaders.LOCATION))
+                .andExpect(header().string(HttpHeaders.CONTENT_TYPE, MediaTypes.HAL_JSON_UTF8_VALUE))
+                .andExpect(jsonPath("postId").exists())
+                .andExpect(jsonPath("category").isNotEmpty())
+                .andExpect(jsonPath("status").isNotEmpty())
+                .andExpect(jsonPath("title").isNotEmpty())
+                .andExpect(jsonPath("content").isNotEmpty())
+                .andExpect(jsonPath("viewCount").value(0))
+                .andExpect(jsonPath("likeCount").value(0))
+                .andExpect(jsonPath("createdBy").isNotEmpty())
+                .andExpect(jsonPath("createdAt").isNotEmpty())
+                .andExpect(jsonPath("modifiedBy").isNotEmpty())
+                .andExpect(jsonPath("modifiedAt").isNotEmpty())
+                .andExpect(jsonPath("_links.self").exists())
+                .andExpect(jsonPath("_links.profile").exists())
+                .andExpect(jsonPath("_links.post-list").exists())
+
+                // REST DOCS
+                .andDo(document("create-post",
+                        links(
+                                linkWithRel("self").description("link to self"),
+                                linkWithRel("profile").description("link to profile"),
+                                linkWithRel("post-list").description("link to post list")
+                        ),
+                        requestHeaders(
+                                headerWithName(HttpHeaders.ACCEPT).description("accept header"),
+                                headerWithName(HttpHeaders.CONTENT_TYPE).description("content type header")
+                        ),
+                        responseHeaders(
+                                headerWithName(HttpHeaders.LOCATION).description("Location header"),
+                                headerWithName(HttpHeaders.CONTENT_TYPE).description("Content type header")
+                        ),
+                        responseFields(
+                                fieldWithPath("@id").description("json identifier"),
+                                fieldWithPath("createdBy").description("등록자"),
+                                fieldWithPath("createdAt").description("등록일시 [yyyy-MM-ddTHH-mm-ss.zzz]"),
+                                fieldWithPath("modifiedBy").description("수정자"),
+                                fieldWithPath("modifiedAt").description("수정일시 [yyyy-MM-ddTHH-mm-ss.zzz]"),
+                                fieldWithPath("postId").description("게시물 식별자"),
+                                fieldWithPath("category").description("게시물 카테고리"),
+                                fieldWithPath("title").description("게시물 제목"),
+                                fieldWithPath("content").description("게시물 내용"),
+                                fieldWithPath("viewCount").description("게시물 조회수"),
+                                fieldWithPath("likeCount").description("게시물 좋아요 수"),
+                                fieldWithPath("status").description("게시물 상태"),
+                                fieldWithPath("_links.self.href").description("link to self"),
+                                fieldWithPath("_links.self.type").description("http method for link to self"),
+                                fieldWithPath("_links.profile.href").description("link to profile"),
+                                fieldWithPath("_links.post-list.href").description("link to query all posts"),
+                                fieldWithPath("_links.post-list.type").description("http method for link to post list")
+                        )
+                    )
+                );
     }
 }

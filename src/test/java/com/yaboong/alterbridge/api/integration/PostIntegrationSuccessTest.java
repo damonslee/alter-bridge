@@ -1,6 +1,7 @@
 package com.yaboong.alterbridge.api.integration;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.yaboong.alterbridge.application.api.post.domain.PostDto;
 import com.yaboong.alterbridge.application.api.post.entity.Post;
 import com.yaboong.alterbridge.application.api.post.repository.PostRepository;
 import com.yaboong.alterbridge.common.TestDataGenerator;
@@ -29,8 +30,7 @@ import static org.springframework.restdocs.hypermedia.HypermediaDocumentation.li
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -274,5 +274,78 @@ public class PostIntegrationSuccessTest {
                         )
                     )
                 );
+    }
+
+    @Test
+    public void PostController_게시물_수정_200() throws Exception {
+        // GIVEN
+        Post savedPost = TestDataGenerator.saveNewPost(postRepository, 1);
+        PostDto postDto = TestDataGenerator.newPostDto();
+        String content = postDto.getContent();
+        String title = postDto.getTitle();
+        String category = postDto.getCategory();
+        String status = postDto.getStatus();
+        Long likeCount = postDto.getLikeCount();
+        Long viewCount = postDto.getViewCount();
+
+        String postDtoJson = objectMapper.writeValueAsString(postDto);
+
+        // WHEN
+        MockHttpServletRequestBuilder request = put("/posts/{postId}", savedPost.getPostId())
+                .contentType(MediaType.APPLICATION_JSON_UTF8)
+                .accept(MediaTypes.HAL_JSON)
+                .content(postDtoJson);
+
+        // THEN
+        mockMvc.perform(request)
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("postId").value(savedPost.getPostId()))
+                .andExpect(jsonPath("category").value(category))
+                .andExpect(jsonPath("status").value(status))
+                .andExpect(jsonPath("title").value(title))
+                .andExpect(jsonPath("content").value(content))
+                .andExpect(jsonPath("likeCount").value(likeCount))
+                .andExpect(jsonPath("viewCount").value(viewCount))
+                .andExpect(jsonPath("_links.profile.href").exists())
+                .andExpect(jsonPath("_links.self.href").exists())
+                .andExpect(jsonPath("_links.self.type").value(HttpMethod.PUT.name()))
+                .andExpect(jsonPath("_links.post-list.href").exists())
+                .andExpect(jsonPath("_links.post-list.type").value(HttpMethod.GET.name()))
+                .andDo(document("update-post",
+                        links(
+                                linkWithRel("self").description("link to self"),
+                                linkWithRel("profile").description("link to profile"),
+                                linkWithRel("post-list").description("link to post list")
+                        ),
+                        requestHeaders(
+                                headerWithName(HttpHeaders.ACCEPT).description("accept header"),
+                                headerWithName(HttpHeaders.CONTENT_TYPE).description("content type header")
+                        ),
+                        responseHeaders(
+                                headerWithName(HttpHeaders.CONTENT_TYPE).description("Content type header")
+                        ),
+                        responseFields(
+                                fieldWithPath("@id").description("json identifier"),
+                                fieldWithPath("createdBy").description("등록자"),
+                                fieldWithPath("createdAt").description("등록일시 [yyyy-MM-ddTHH-mm-ss.zzz]"),
+                                fieldWithPath("modifiedBy").description("수정자"),
+                                fieldWithPath("modifiedAt").description("수정일시 [yyyy-MM-ddTHH-mm-ss.zzz]"),
+                                fieldWithPath("postId").description("게시물 식별자"),
+                                fieldWithPath("category").description("게시물 카테고리"),
+                                fieldWithPath("title").description("수정후 게시물 제목"),
+                                fieldWithPath("content").description("수정후 게시물 내용"),
+                                fieldWithPath("viewCount").description("수정후 게시물 조회수"),
+                                fieldWithPath("likeCount").description("수정후 게시물 좋아요 수"),
+                                fieldWithPath("status").description("수정후 게시물 상태"),
+                                fieldWithPath("_links.self.href").description("link to self"),
+                                fieldWithPath("_links.self.type").description("http method for link to self"),
+                                fieldWithPath("_links.profile.href").description("link to profile"),
+                                fieldWithPath("_links.post-list.href").description("link to query all posts"),
+                                fieldWithPath("_links.post-list.type").description("http method for link to post list")
+                        )
+                    )
+                )
+        ;
     }
 }

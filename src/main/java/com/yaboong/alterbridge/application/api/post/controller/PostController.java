@@ -4,6 +4,7 @@ import com.yaboong.alterbridge.application.api.post.domain.PostDto;
 import com.yaboong.alterbridge.application.api.post.domain.PostResource;
 import com.yaboong.alterbridge.application.api.post.entity.Post;
 import com.yaboong.alterbridge.application.api.post.service.PostService;
+import com.yaboong.alterbridge.application.common.error.ErrorResource;
 import com.yaboong.alterbridge.application.common.validation.DtoValidator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -70,12 +71,12 @@ public class PostController {
             Errors errors
     ) {
         if (errors.hasErrors()) {
-            return ResponseEntity.badRequest().body(errors);
+            return ResponseEntity.badRequest().body(ErrorResource.of(errors));
         }
 
         dtoValidator.validate(postDto, errors);
         if (errors.hasErrors()) {
-            return ResponseEntity.badRequest().body(errors);
+            return ResponseEntity.badRequest().body(ErrorResource.of(errors));
         }
 
         Post newPost = postService.create(postDto);
@@ -96,12 +97,12 @@ public class PostController {
             Errors errors
     ) {
         if (errors.hasErrors()) {
-            return ResponseEntity.badRequest().body(errors);
+            return ResponseEntity.badRequest().body(ErrorResource.of(errors));
         }
 
         dtoValidator.validate(postDto, errors);
         if (errors.hasErrors()) {
-            return ResponseEntity.badRequest().body(errors);
+            return ResponseEntity.badRequest().body(ErrorResource.of(errors));
         }
 
         return postService

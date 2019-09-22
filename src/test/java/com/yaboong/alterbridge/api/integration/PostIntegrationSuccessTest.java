@@ -279,7 +279,7 @@ public class PostIntegrationSuccessTest {
     @Test
     public void PostController_게시물_수정_200() throws Exception {
         // GIVEN
-        Post savedPost = TestDataGenerator.saveNewPost(postRepository, 1);
+        Long postId = 1L;
         PostDto postDto = TestDataGenerator.newPostDto();
         String content = postDto.getContent();
         String title = postDto.getTitle();
@@ -291,7 +291,7 @@ public class PostIntegrationSuccessTest {
         String postDtoJson = objectMapper.writeValueAsString(postDto);
 
         // WHEN
-        MockHttpServletRequestBuilder request = put("/posts/{postId}", savedPost.getPostId())
+        MockHttpServletRequestBuilder request = put("/posts/{postId}", postId)
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
                 .accept(MediaTypes.HAL_JSON)
                 .content(postDtoJson);
@@ -300,7 +300,8 @@ public class PostIntegrationSuccessTest {
         mockMvc.perform(request)
                 .andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("postId").value(savedPost.getPostId()))
+                .andExpect(header().string(HttpHeaders.CONTENT_TYPE, MediaTypes.HAL_JSON_UTF8_VALUE))
+                .andExpect(jsonPath("postId").value(postId))
                 .andExpect(jsonPath("category").value(category))
                 .andExpect(jsonPath("status").value(status))
                 .andExpect(jsonPath("title").value(title))
@@ -341,6 +342,65 @@ public class PostIntegrationSuccessTest {
                                 fieldWithPath("_links.self.href").description("link to self"),
                                 fieldWithPath("_links.self.type").description("http method for link to self"),
                                 fieldWithPath("_links.profile.href").description("link to profile"),
+                                fieldWithPath("_links.post-list.href").description("link to query all posts"),
+                                fieldWithPath("_links.post-list.type").description("http method for link to post list")
+                        )
+                    )
+                )
+        ;
+    }
+
+    @Test
+    public void PostController_게시물_삭제_200() throws Exception {
+        // GIVEN
+        Long postId = 1L;
+
+        // WHEN
+        MockHttpServletRequestBuilder request = delete("/posts/{postId}", postId)
+                .contentType(MediaType.APPLICATION_JSON_UTF8)
+                .accept(MediaTypes.HAL_JSON_UTF8_VALUE);
+
+        // THEN
+        this.mockMvc.perform(request)
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(header().string(HttpHeaders.CONTENT_TYPE, MediaTypes.HAL_JSON_UTF8_VALUE))
+                .andExpect(jsonPath("postId").value(postId))
+                .andExpect(jsonPath("status").value("DELETED"))
+                .andExpect(jsonPath("_links.profile.href").isNotEmpty())
+                .andExpect(jsonPath("_links.self.href").isNotEmpty())
+                .andExpect(jsonPath("_links.self.type").value(HttpMethod.DELETE.name()))
+                .andExpect(jsonPath("_links.post-list.href").isNotEmpty())
+                .andExpect(jsonPath("_links.post-list.type").value(HttpMethod.GET.name()))
+                .andDo(document("delete-post",
+                        links(
+                                linkWithRel("self").description("link to self"),
+                                linkWithRel("profile").description("link to profile"),
+                                linkWithRel("post-list").description("link to post list")
+                        ),
+                        requestHeaders(
+                                headerWithName(HttpHeaders.ACCEPT).description("accept header"),
+                                headerWithName(HttpHeaders.CONTENT_TYPE).description("content type header")
+                        ),
+                        responseHeaders(
+                                headerWithName(HttpHeaders.CONTENT_TYPE).description("Content type header")
+                        ),
+                        responseFields(
+                                fieldWithPath("@id").description("json identifier"),
+                                fieldWithPath("createdBy").description("등록자"),
+                                fieldWithPath("createdAt").description("등록일시 [yyyy-MM-ddTHH-mm-ss.zzz]"),
+                                fieldWithPath("modifiedBy").description("수정자"),
+                                fieldWithPath("modifiedAt").description("수정일시 [yyyy-MM-ddTHH-mm-ss.zzz]"),
+                                fieldWithPath("postId").description("삭제된 게시물 식별자"),
+                                fieldWithPath("category").description("삭제된 게시물 카테고리"),
+                                fieldWithPath("title").description("삭제된 게시물 제목"),
+                                fieldWithPath("content").description("삭제된 게시물 내용"),
+                                fieldWithPath("viewCount").description("삭제된 게시물 조회수"),
+                                fieldWithPath("likeCount").description("삭제된 게시물 좋아요 수"),
+                                fieldWithPath("status").description("삭제된 게시물 상태"),
+                                fieldWithPath("_links.profile.href").description("link to profile"),
+                                fieldWithPath("_links.self.href").description("link to self"),
+                                fieldWithPath("_links.self.type").description("http method for link to self"),
                                 fieldWithPath("_links.post-list.href").description("link to query all posts"),
                                 fieldWithPath("_links.post-list.type").description("http method for link to post list")
                         )

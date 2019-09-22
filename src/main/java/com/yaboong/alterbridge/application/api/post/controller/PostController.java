@@ -4,6 +4,7 @@ import com.yaboong.alterbridge.application.api.post.domain.PostDto;
 import com.yaboong.alterbridge.application.api.post.domain.PostResource;
 import com.yaboong.alterbridge.application.api.post.entity.Post;
 import com.yaboong.alterbridge.application.api.post.service.PostService;
+import com.yaboong.alterbridge.application.common.error.ErrorResource;
 import com.yaboong.alterbridge.application.common.validation.DtoValidator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -12,7 +13,7 @@ import org.springframework.data.web.PagedResourcesAssembler;
 import org.springframework.hateoas.Link;
 import org.springframework.hateoas.MediaTypes;
 import org.springframework.hateoas.PagedResources;
-import org.springframework.hateoas.Resource;
+import org.springframework.hateoas.ResourceAssembler;
 import org.springframework.hateoas.mvc.ControllerLinkBuilder;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
@@ -37,9 +38,17 @@ public class PostController {
     private final PostService postService;
 
     @GetMapping
-    public ResponseEntity getPostList(Pageable pageable, PagedResourcesAssembler<Post> assembler) {
+    public ResponseEntity getPostList(Pageable pageable, PagedResourcesAssembler<Post> pagedResourcesAssembler) {
         Page<Post> postPage = postService.getList(pageable);
-        PagedResources<Resource<Post>> pagedResources = assembler.toResource(postPage, PostResource::of);
+
+        ResourceAssembler<Post, PostResource> postResourceAssembler = post -> PostResource.of(post)
+                    .addLink(new Link("/docs/index.html#resources-posts-get").withRel("profile"))
+                    .addLink(linkTo(PostController.class).slash(post.getPostId()).withSelfRel().withType(HttpMethod.GET.name()))
+                    .addLink(linkTo(PostController.class).slash(post.getPostId()).withRel("update-post").withType(HttpMethod.PUT.name()))
+                    .addLink(linkTo(PostController.class).slash(post.getPostId()).withRel("delete-post").withType(HttpMethod.DELETE.name()));
+
+        PagedResources<PostResource> pagedResources = pagedResourcesAssembler.toResource(postPage, postResourceAssembler);
+        pagedResources.add(new Link("/docs/index.html#resources-posts-list").withRel("profile"));
         return ResponseEntity.ok(pagedResources);
     }
 
@@ -62,12 +71,12 @@ public class PostController {
             Errors errors
     ) {
         if (errors.hasErrors()) {
-            return ResponseEntity.badRequest().body(errors);
+            return ResponseEntity.badRequest().body(ErrorResource.of(errors));
         }
 
         dtoValidator.validate(postDto, errors);
         if (errors.hasErrors()) {
-            return ResponseEntity.badRequest().body(errors);
+            return ResponseEntity.badRequest().body(ErrorResource.of(errors));
         }
 
         Post newPost = postService.create(postDto);
@@ -77,6 +86,7 @@ public class PostController {
                 .body(PostResource.of(newPost)
                     .addLink(linkTo(PostController.class).withSelfRel().withType(HttpMethod.POST.name()))
                     .addLink(new Link("/docs/index.html#resources-create-post").withRel("profile"))
+                    .addLink(linkTo(PostController.class).withRel("post-list").withType(HttpMethod.GET.name()))
                 );
     }
 
@@ -87,12 +97,12 @@ public class PostController {
             Errors errors
     ) {
         if (errors.hasErrors()) {
-            return ResponseEntity.badRequest().body(errors);
+            return ResponseEntity.badRequest().body(ErrorResource.of(errors));
         }
 
         dtoValidator.validate(postDto, errors);
         if (errors.hasErrors()) {
-            return ResponseEntity.badRequest().body(errors);
+            return ResponseEntity.badRequest().body(ErrorResource.of(errors));
         }
 
         return postService
@@ -100,6 +110,7 @@ public class PostController {
                 .map(post -> ResponseEntity.ok(PostResource.of(post)
                                 .addLink(linkTo(PostController.class).slash(post.getPostId()).withSelfRel().withType(HttpMethod.PUT.name()))
                                 .addLink(new Link("/docs/index.html#resources-update-post").withRel("profile"))
+                                .addLink(linkTo(PostController.class).withRel("post-list").withType(HttpMethod.GET.name()))
                 ))
                 .orElseGet(() -> ResponseEntity.notFound().build())
                 ;
@@ -111,6 +122,7 @@ public class PostController {
                 .softRemove(id)
                 .map(post -> ResponseEntity.ok(PostResource.of(post)
                                 .addLink(linkTo(PostController.class).slash(post.getPostId()).withSelfRel().withType(HttpMethod.DELETE.name()))
+                                .addLink(linkTo(PostController.class).withRel("post-list").withType(HttpMethod.GET.name()))
                                 .addLink(new Link("/docs/index.html#resources-delete-post").withRel("profile"))
                 ))
                 .orElseGet(() -> ResponseEntity.notFound().build())

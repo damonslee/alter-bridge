@@ -83,14 +83,13 @@ public class Post extends Auditable<String> implements Function<PostDto, Post> {
 
     @Override
     public Post apply(PostDto postDto) {
-        return Post.builder()
-                .category(Category.valueOf(postDto.getCategory()))
-                .title(postDto.getTitle())
-                .content(postDto.getContent())
-                .viewCount(postDto.getViewCount())
-                .likeCount(postDto.getLikeCount())
-                .status(Status.valueOf(postDto.getStatus()))
-                .build();
+        this.category = Category.valueOf(postDto.getCategory());
+        this.status = Status.valueOf(postDto.getStatus());
+        this.title = postDto.getTitle();
+        this.content = postDto.getContent();
+        this.likeCount = postDto.getLikeCount();
+        this.viewCount = postDto.getViewCount();
+        return this;
     }
 
 }

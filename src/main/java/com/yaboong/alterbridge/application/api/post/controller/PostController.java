@@ -122,6 +122,7 @@ public class PostController {
                 .softRemove(id)
                 .map(post -> ResponseEntity.ok(PostResource.of(post)
                                 .addLink(linkTo(PostController.class).slash(post.getPostId()).withSelfRel().withType(HttpMethod.DELETE.name()))
+                                .addLink(linkTo(PostController.class).withRel("post-list").withType(HttpMethod.GET.name()))
                                 .addLink(new Link("/docs/index.html#resources-delete-post").withRel("profile"))
                 ))
                 .orElseGet(() -> ResponseEntity.notFound().build())

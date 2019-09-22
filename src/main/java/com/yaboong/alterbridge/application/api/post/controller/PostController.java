@@ -110,6 +110,7 @@ public class PostController {
                 .map(post -> ResponseEntity.ok(PostResource.of(post)
                                 .addLink(linkTo(PostController.class).slash(post.getPostId()).withSelfRel().withType(HttpMethod.PUT.name()))
                                 .addLink(new Link("/docs/index.html#resources-update-post").withRel("profile"))
+                                .addLink(linkTo(PostController.class).withRel("post-list").withType(HttpMethod.GET.name()))
                 ))
                 .orElseGet(() -> ResponseEntity.notFound().build())
                 ;

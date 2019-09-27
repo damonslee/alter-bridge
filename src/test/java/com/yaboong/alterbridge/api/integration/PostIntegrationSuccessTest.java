@@ -58,7 +58,7 @@ public class PostIntegrationSuccessTest {
             "정상적으로 게시물 목록 조회한 경우" +
             "다음 상태로 전이시킬 수 있는 페이징 관련 링크가 포함되어야 함"
     )
-    public void PostController_게시물_목록조회페이징_200() throws Exception {
+    public void 게시물_목록조회페이징_200() throws Exception {
         // GIVEN
         int page = 1;
         int size = 1;
@@ -146,7 +146,7 @@ public class PostIntegrationSuccessTest {
 
     @Test
     @TestDescription("정상적으로 게시물을 조회한 경우")
-    public void PostController_게시물_1개조회_200() throws Exception {
+    public void 게시물_1개조회_200() throws Exception {
         // GIVEN - by import.sql
         long postId = 1L;
 
@@ -205,7 +205,7 @@ public class PostIntegrationSuccessTest {
     }
 
     @Test
-    public void PostController_게시물_등록_201() throws Exception {
+    public void 게시물_등록_201() throws Exception {
         // GIVEN
         PostDto newPostDto = DataPostDto.newPostDto();
         String newPostDtoJson = objectMapper.writeValueAsString(newPostDto);
@@ -276,7 +276,7 @@ public class PostIntegrationSuccessTest {
     }
 
     @Test
-    public void PostController_게시물_수정_200() throws Exception {
+    public void 게시물_수정_200() throws Exception {
         // GIVEN
         Long postId = 1L;
         PostDto newPostDto = DataPostDto.newPostDto();

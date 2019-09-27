@@ -47,7 +47,7 @@ public class PostControllerFailTest {
 
     @Test
     @TestDescription("없는 게시물을 조회하는 경우 404 NOT FOUND 응답")
-    public void Controller_게시물_1개조회_404() throws Exception {
+    public void 게시물_1개조회_404() throws Exception {
         // GIVEN
         when(postService.get(1L)).thenReturn(Optional.empty());
 

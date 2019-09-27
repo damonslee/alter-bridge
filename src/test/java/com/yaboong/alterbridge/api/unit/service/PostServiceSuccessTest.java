@@ -50,7 +50,7 @@ public class PostServiceSuccessTest {
     }
 
     @Test
-    public void PostServiceImpl_getList() {
+    public void getList() {
         // GIVEN
         Pageable pageable = PageRequest.of(0, 5);
         Status status = Status.NORMAL;
@@ -71,7 +71,7 @@ public class PostServiceSuccessTest {
 
 
     @Test
-    public void PostServiceImpl_create() {
+    public void create() {
         // WHEN
         postServiceImpl.create(postDto);
 
@@ -80,7 +80,7 @@ public class PostServiceSuccessTest {
     }
 
     @Test
-    public void PostServiceImpl_modify() {
+    public void modify() {
         // GIVEN
         when(postRepository.findById(postId)).thenReturn(Optional.of(post));
         when(post.apply(postDto)).thenReturn(post);
@@ -95,7 +95,7 @@ public class PostServiceSuccessTest {
     }
 
     @Test
-    public void PostServiceImpl_softRemove() {
+    public void softRemove() {
         // GIVEN
         when(postServiceImpl.get(postId)).thenReturn(Optional.of(post));
         when(post.delete()).thenReturn(post);
@@ -109,7 +109,7 @@ public class PostServiceSuccessTest {
     }
 
     @Test
-    public void PostServiceImpl_get() {
+    public void get() {
         // GIVEN
         Status status = Status.NORMAL;
         when(postRepository.findPostAndCommentByPostId(postId, status)).thenReturn(Optional.of(post));

@@ -68,7 +68,7 @@ public class PostIntegrationFailTest {
     ObjectMapper objectMapper;
 
     @Test
-    public void PostController_Pageable_Size_제한() throws Exception {
+    public void Pageable_Size_제한() throws Exception {
         // GIVEN
         MockHttpServletRequestBuilder request = get("/posts")
                 .accept(MediaTypes.HAL_JSON_UTF8_VALUE)
@@ -87,7 +87,7 @@ public class PostIntegrationFailTest {
     @Test
     @TestDescription("잘못된 파라미터를 받는 경우 400 응답")
     @Parameters(method = "inputParamsInvalidPostDto")
-    public void PostController_유효하지_않은_파라미터_400(PostDto postDto) throws Exception {
+    public void 유효하지_않은_파라미터로_게시물생성_400(PostDto postDto) throws Exception {
         // GIVEN - by param
         String postDtoJson = objectMapper.writeValueAsString(postDto);
 

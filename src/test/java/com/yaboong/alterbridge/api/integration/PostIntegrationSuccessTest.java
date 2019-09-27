@@ -2,7 +2,6 @@ package com.yaboong.alterbridge.api.integration;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.yaboong.alterbridge.application.api.post.domain.PostDto;
-import com.yaboong.alterbridge.application.api.post.entity.Post;
 import com.yaboong.alterbridge.application.api.post.repository.PostRepository;
 import com.yaboong.alterbridge.common.TestDataGenerator;
 import com.yaboong.alterbridge.common.TestDescription;
@@ -208,14 +207,14 @@ public class PostIntegrationSuccessTest {
     @Test
     public void PostController_게시물_등록_201() throws Exception {
         // GIVEN
-        Post newPost = TestDataGenerator.newPost(1);
-        String newPostJson = objectMapper.writeValueAsString(newPost);
+        PostDto newPostDto = TestDataGenerator.newPostDto();
+        String newPostDtoJson = objectMapper.writeValueAsString(newPostDto);
 
         // WHEN
         MockHttpServletRequestBuilder request = post("/posts")
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
                 .accept(MediaTypes.HAL_JSON)
-                .content(newPostJson);
+                .content(newPostDtoJson);
 
         // THEN
         mockMvc.perform(request)

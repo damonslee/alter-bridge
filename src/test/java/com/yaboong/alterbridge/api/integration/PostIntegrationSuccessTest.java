@@ -3,7 +3,7 @@ package com.yaboong.alterbridge.api.integration;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.yaboong.alterbridge.application.api.post.domain.PostDto;
 import com.yaboong.alterbridge.application.api.post.repository.PostRepository;
-import com.yaboong.alterbridge.common.TestDataGenerator;
+import com.yaboong.alterbridge.common.DataPostDto;
 import com.yaboong.alterbridge.common.TestDescription;
 import com.yaboong.alterbridge.common.TestProfile;
 import com.yaboong.alterbridge.configuration.RestDocsConfiguration;
@@ -207,7 +207,7 @@ public class PostIntegrationSuccessTest {
     @Test
     public void PostController_게시물_등록_201() throws Exception {
         // GIVEN
-        PostDto newPostDto = TestDataGenerator.newPostDto();
+        PostDto newPostDto = DataPostDto.newPostDto();
         String newPostDtoJson = objectMapper.writeValueAsString(newPostDto);
 
         // WHEN
@@ -279,21 +279,14 @@ public class PostIntegrationSuccessTest {
     public void PostController_게시물_수정_200() throws Exception {
         // GIVEN
         Long postId = 1L;
-        PostDto postDto = TestDataGenerator.newPostDto();
-        String content = postDto.getContent();
-        String title = postDto.getTitle();
-        String category = postDto.getCategory();
-        String status = postDto.getStatus();
-        Long likeCount = postDto.getLikeCount();
-        Long viewCount = postDto.getViewCount();
-
-        String postDtoJson = objectMapper.writeValueAsString(postDto);
+        PostDto newPostDto = DataPostDto.newPostDto();
+        String newPostDtoJson = objectMapper.writeValueAsString(newPostDto);
 
         // WHEN
         MockHttpServletRequestBuilder request = put("/posts/{postId}", postId)
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
                 .accept(MediaTypes.HAL_JSON)
-                .content(postDtoJson);
+                .content(newPostDtoJson);
 
         // THEN
         mockMvc.perform(request)
@@ -301,12 +294,12 @@ public class PostIntegrationSuccessTest {
                 .andExpect(status().isOk())
                 .andExpect(header().string(HttpHeaders.CONTENT_TYPE, MediaTypes.HAL_JSON_UTF8_VALUE))
                 .andExpect(jsonPath("postId").value(postId))
-                .andExpect(jsonPath("category").value(category))
-                .andExpect(jsonPath("status").value(status))
-                .andExpect(jsonPath("title").value(title))
-                .andExpect(jsonPath("content").value(content))
-                .andExpect(jsonPath("likeCount").value(likeCount))
-                .andExpect(jsonPath("viewCount").value(viewCount))
+                .andExpect(jsonPath("category").value(newPostDto.getCategory()))
+                .andExpect(jsonPath("status").value(newPostDto.getStatus()))
+                .andExpect(jsonPath("title").value(newPostDto.getTitle()))
+                .andExpect(jsonPath("content").value(newPostDto.getContent()))
+                .andExpect(jsonPath("likeCount").value(newPostDto.getLikeCount()))
+                .andExpect(jsonPath("viewCount").value(newPostDto.getViewCount()))
                 .andExpect(jsonPath("_links.profile.href").exists())
                 .andExpect(jsonPath("_links.self.href").exists())
                 .andExpect(jsonPath("_links.self.type").value(HttpMethod.PUT.name()))

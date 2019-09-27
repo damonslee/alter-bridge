@@ -18,7 +18,33 @@ public class DataPostDto implements Input {
                 .content(CONTENT)
                 .likeCount(0L)
                 .viewCount(0L)
-                .status(NORMAL)
+                .status(STATUS)
                 .build();
+    }
+
+    public static Object[] invalidPostDtoObjects() {
+        return new Object[] {
+
+            // invalid status
+            PostDto.builder().status(null).title(TITLE).content(CONTENT).viewCount(0L).likeCount(0L).category(CATEGORY).build(),
+            PostDto.builder().status(NONE).title(TITLE).content(CONTENT).viewCount(0L).likeCount(0L).category(CATEGORY).build(),
+
+            // invalid title
+            PostDto.builder().status(STATUS).title(null).content(CONTENT).viewCount(0L).likeCount(0L).category(CATEGORY).build(),
+            PostDto.builder().status(STATUS).title(EMPTY_STRING).content(CONTENT).viewCount(0L).likeCount(0L).category(CATEGORY).build(),
+
+            // invalid content
+            PostDto.builder().status(STATUS).title(TITLE).content(null).viewCount(0L).likeCount(0L).category(CATEGORY).build(),
+            PostDto.builder().status(STATUS).title(TITLE).content(EMPTY_STRING).viewCount(0L).likeCount(0L).category(CATEGORY).build(),
+
+            // invalid category
+            PostDto.builder().status(STATUS).title(TITLE).content(CONTENT).viewCount(0L).likeCount(0L).category(null).build(),
+            PostDto.builder().status(STATUS).title(TITLE).content(CONTENT).viewCount(0L).likeCount(0L).category(EMPTY_STRING).build(),
+            PostDto.builder().status(STATUS).title(TITLE).content(CONTENT).viewCount(0L).likeCount(0L).category(NONE).build(),
+
+            // invalid count (likeCount > viewCount)
+            PostDto.builder().status(STATUS).title(TITLE).content(CONTENT).viewCount(0L).likeCount(1L).category(CATEGORY).build()
+
+        };
     }
 }

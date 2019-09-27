@@ -3,6 +3,7 @@ package com.yaboong.alterbridge.api.integration;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.yaboong.alterbridge.application.api.post.domain.PostDto;
 import com.yaboong.alterbridge.application.api.post.repository.PostRepository;
+import com.yaboong.alterbridge.common.DataPostDto;
 import com.yaboong.alterbridge.common.TestDescription;
 import com.yaboong.alterbridge.common.TestProfile;
 import com.yaboong.alterbridge.configuration.RestDocsConfiguration;
@@ -102,9 +103,8 @@ public class PostIntegrationFailTest {
                 .andExpect(status().isBadRequest());
     }
 
+
     public Object inputParamsInvalidPostDto() {
-        return new Object[] {
-                PostDto.builder().status(null).title("").content("").viewCount(0L).likeCount(0L).category("GENERAL").build()
-        };
+        return DataPostDto.invalidPostDtoObjects();
     }
 }

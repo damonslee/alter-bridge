@@ -32,7 +32,7 @@ public class PostRepositoryFailTest {
 
     @Test
     @TestDescription("없는 게시물 조회시 Optional 반환하는지 확인")
-    public void PostRepositoryImpl_findPostAndCommentByPostId() {
+    public void findPostAndCommentByPostId() {
         // GIVEN by import.sql
 
         // WHEN

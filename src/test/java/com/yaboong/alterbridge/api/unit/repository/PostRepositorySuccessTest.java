@@ -41,7 +41,7 @@ public class PostRepositorySuccessTest {
 
     @Test
     @TestDescription("postId 로 게시물 한개 조회하기 테스트")
-    public void PostRepository_findPostAndCommentByPostId() {
+    public void findPostAndCommentByPostId() {
         // GIVEN
         Long postId = 1L;
 
@@ -56,7 +56,7 @@ public class PostRepositorySuccessTest {
 
     @Test
     @TestDescription("게시물 목록 조회 페이징")
-    public void PostRepository_findAllPostPaging() {
+    public void findAllPostPaging() {
         // GIVEN
         Pageable pageable = PageRequest.of(0, 5);
         Status status = Status.NORMAL;

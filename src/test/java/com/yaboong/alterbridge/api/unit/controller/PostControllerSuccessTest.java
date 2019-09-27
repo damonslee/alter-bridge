@@ -52,7 +52,7 @@ public class PostControllerSuccessTest {
 
     @Test
     @TestDescription("정상적으로 게시물을 조회한 경우")
-    public void Controller_게시물_1개조회_200() throws Exception {
+    public void 게시물_1개조회_200() throws Exception {
         // GIVEN
         Post post = Post.builder()
                 .postId(1L)

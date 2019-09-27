@@ -31,5 +31,5 @@ For building and running the application you need:
 ```
 
 ## Guide Documents
-- After run -> [http://localhost:18080/docs/index.html](http://localhost:18080/docs/index.html)
+- After run -> [http://localhost:8080/docs/index.html](http://localhost:8080/docs/index.html)
 

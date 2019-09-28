@@ -26,7 +26,6 @@ public class DtoValidator {
         if (invalidCount) {
             errors.rejectValue("likeCount", "WrongValue", "Like counts cannot be greater than view counts");
             errors.rejectValue("viewCount", "WrongValue", "View counts cannot be less than like counts");
-            errors.reject("wrongCounts", "counts are invalid");
         }
     }
 

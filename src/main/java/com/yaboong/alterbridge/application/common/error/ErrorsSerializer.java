@@ -22,9 +22,6 @@ import java.util.Objects;
 @JsonComponent
 public class ErrorsSerializer extends JsonSerializer<Errors> {
 
-    /**
-     * Stream 사용시 lambda 함수 내에서 예외처리 해주어야 하므로 사용하지 않음
-     */
     @Override
     public void serialize(Errors errors, JsonGenerator gen, SerializerProvider serializers) throws IOException {
         gen.writeStartArray();
@@ -45,19 +42,6 @@ public class ErrorsSerializer extends JsonSerializer<Errors> {
                 log.error(ioe.getMessage(), ioe);
             }
 
-        });
-
-        errors.getGlobalErrors().forEach(error -> {
-            try {
-                gen.writeStartObject();
-                gen.writeStringField("objectName", error.getObjectName());
-                gen.writeStringField("code", error.getCode());
-                gen.writeStringField("defaultMessage", error.getDefaultMessage());
-                gen.writeEndObject();
-            }
-            catch (IOException ioe) {
-                log.error(ioe.getMessage(), ioe);
-            }
         });
 
         gen.writeEndArray();

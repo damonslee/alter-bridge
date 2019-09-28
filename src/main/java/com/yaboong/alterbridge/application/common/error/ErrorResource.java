@@ -10,7 +10,6 @@ import org.springframework.validation.Errors;
 public class ErrorResource extends Resource<Errors> {
     private ErrorResource(Errors errors, Link... links) {
         super(errors, links);
-        add(new Link("/docs/index.html#resources-errors").withRel("profile"));
     }
 
     public static ErrorResource of(Errors errors) {

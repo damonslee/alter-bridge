@@ -18,7 +18,7 @@ import java.util.Optional;
 @Component
 public class PostDtoValidator {
 
-    public Optional<ResponseEntity> checkAndProceed(PostDto postDto, Errors errors) {
+    public Optional<ResponseEntity> hasErrors(PostDto postDto, Errors errors) {
         if (errors.hasErrors()) {
             return Optional.of(
                     ResponseEntity.badRequest().body(

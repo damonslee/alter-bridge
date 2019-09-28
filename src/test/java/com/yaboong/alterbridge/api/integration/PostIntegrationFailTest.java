@@ -34,8 +34,7 @@ import static org.springframework.restdocs.hypermedia.HypermediaDocumentation.li
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -76,6 +75,23 @@ public class PostIntegrationFailTest {
     ObjectMapper objectMapper;
 
     @Test
+    @TestDescription("없는 게시물을 조회하는 경우 404 NOT FOUND 응답")
+    public void 게시물_1개조회_404() throws Exception {
+        // GIVEN
+        Long postId = Long.MAX_VALUE;
+
+        // WHEN
+        MockHttpServletRequestBuilder request = get("/posts/{id}", postId)
+                .contentType(MediaType.APPLICATION_JSON_UTF8)
+                .accept(MediaTypes.HAL_JSON_UTF8_VALUE);
+
+        // THEN
+        this.mockMvc.perform(request)
+                .andDo(print())
+                .andExpect(status().isNotFound());
+    }
+
+    @Test
     @TestDescription(
             "페이징 size 파라미터로 큰 값을 주어도" +
             "프로퍼티에 spring.data.web.pageable.max-page-size 값에 지정한 만큼만 나와야함"
@@ -98,11 +114,12 @@ public class PostIntegrationFailTest {
 
     @Test
     @TestDescription(
+            "게시물 생성시" +
             "request body json 필드가 null 값을 가지는 경우" +
             "응답에 rejectedValue 필드가 포함되지 않음"
     )
     @Parameters(method = "inputContainsNullField")
-    public void Null_필드를_가지는경우_400(PostDto postDto) throws Exception {
+    public void 게시물생성_null_필드를_가지는경우_400(PostDto postDto) throws Exception {
         // GIVEN - by param
         String postDtoJson = objectMapper.writeValueAsString(postDto);
 
@@ -120,7 +137,7 @@ public class PostIntegrationFailTest {
                 .andExpect(jsonPath("content[0].code").exists())
                 .andExpect(jsonPath("content[0].defaultMessage").exists())
                 .andExpect(jsonPath("_links.profile.href").exists())
-                .andDo(document("error-create-post-null-param",
+                .andDo(document("error-create-update-post-null-param",
                         links(
                                 linkWithRel("profile").description("link to profile")
                         ),
@@ -140,11 +157,12 @@ public class PostIntegrationFailTest {
 
     @Test
     @TestDescription(
+            "게시물 생성시" +
             "request body json 필드가 유효하지 않은 값을 가지는 경우" +
             "응답에 rejectedValue 필드가 포함됨"
     )
     @Parameters(method = "inputContainsInvalidFieldValue")
-    public void 유효하지_않은_파라미터로_게시물생성_400(PostDto postDto) throws Exception {
+    public void 게시물생성_유효하지_않은_파라미터_400(PostDto postDto) throws Exception {
         // GIVEN - by param
         String postDtoJson = objectMapper.writeValueAsString(postDto);
 
@@ -163,7 +181,7 @@ public class PostIntegrationFailTest {
                 .andExpect(jsonPath("content[0].defaultMessage").exists())
                 .andExpect(jsonPath("content[0].rejectedValue").exists())
                 .andExpect(jsonPath("_links.profile.href").exists())
-                .andDo(document("error-create-post-invalid-param",
+                .andDo(document("error-create-update-post-invalid-param",
                         links(
                                 linkWithRel("profile").description("link to profile")
                         ),
@@ -183,21 +201,80 @@ public class PostIntegrationFailTest {
     }
 
     @Test
-    @TestDescription("없는 게시물을 조회하는 경우 404 NOT FOUND 응답")
-    public void 게시물_1개조회_404() throws Exception {
+    @TestDescription("존재하지 않는 게시물 수정시 실패")
+    public void 존재하지_않는_게시물_수정() throws Exception {
         // GIVEN
         Long postId = Long.MAX_VALUE;
+        String postDtoJson = objectMapper.writeValueAsString(DataPostDto.newPostDto());
 
         // WHEN
-        MockHttpServletRequestBuilder request = get("/posts/{id}", postId)
+        MockHttpServletRequestBuilder request = put("/posts/{id}", postId)
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
-                .accept(MediaTypes.HAL_JSON_UTF8_VALUE);
+                .content(postDtoJson);
 
         // THEN
         this.mockMvc.perform(request)
                 .andDo(print())
                 .andExpect(status().isNotFound());
     }
+
+    @Test
+    @TestDescription(
+            "게시물 수정시" +
+            "request body json 필드가 null 값을 가지는 경우" +
+            "응답에 rejectedValue 필드가 포함되지 않음"
+    )
+    @Parameters(method = "inputContainsNullField")
+    public void 게시물수정_null_필드를_가지는경우_400(PostDto postDto) throws Exception {
+        // GIVEN
+        Long postId = 1L;
+        String postDtoJson = objectMapper.writeValueAsString(postDto);
+
+        // WHEN
+        MockHttpServletRequestBuilder request = put("/posts/{id}", postId)
+                .contentType(MediaType.APPLICATION_JSON_UTF8)
+                .accept(MediaTypes.HAL_JSON)
+                .content(postDtoJson);
+
+        // THEN
+        this.mockMvc.perform(request)
+                .andDo(print())
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("content[0].field").exists())
+                .andExpect(jsonPath("content[0].code").exists())
+                .andExpect(jsonPath("content[0].defaultMessage").exists())
+                .andExpect(jsonPath("_links.profile.href").exists());
+    }
+
+    @Test
+    @TestDescription(
+            "게시물 수정시" +
+            "request body json 필드가 유효하지 않은 값을 가지는 경우" +
+            "응답에 rejectedValue 필드가 포함됨"
+    )
+    @Parameters(method = "inputContainsInvalidFieldValue")
+    public void 게시물수정_유효하지_않은_파라미터_400(PostDto postDto) throws Exception {
+        // GIVEN
+        Long postId = 1L;
+        String postDtoJson = objectMapper.writeValueAsString(postDto);
+
+        // WHEN
+        MockHttpServletRequestBuilder request = put("/posts/{id}", postId)
+                .contentType(MediaType.APPLICATION_JSON_UTF8)
+                .accept(MediaTypes.HAL_JSON)
+                .content(postDtoJson);
+
+        // THEN
+        this.mockMvc.perform(request)
+                .andDo(print())
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("content[0].field").exists())
+                .andExpect(jsonPath("content[0].code").exists())
+                .andExpect(jsonPath("content[0].defaultMessage").exists())
+                .andExpect(jsonPath("content[0].rejectedValue").exists())
+                .andExpect(jsonPath("_links.profile.href").exists());
+    }
+
 
     public Object inputContainsInvalidFieldValue() {
         return DataPostDto.containsInvalidFieldValue();

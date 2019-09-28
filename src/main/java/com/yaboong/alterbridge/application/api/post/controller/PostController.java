@@ -72,14 +72,14 @@ public class PostController {
     ) {
         if (errors.hasErrors()) {
             return ResponseEntity.badRequest().body(
-                    ErrorResource.of(errors).addLink(new Link("/docs/index.html#errors-create-post-null-param").withRel("profile"))
+                    ErrorResource.of(errors).addLink(new Link("/docs/index.html#error-post-null-param").withRel("profile"))
             );
         }
 
         dtoValidator.validate(postDto, errors);
         if (errors.hasErrors()) {
             return ResponseEntity.badRequest().body(
-                    ErrorResource.of(errors).addLink(new Link("/docs/index.html#errors-create-post-invalid-param").withRel("profile"))
+                    ErrorResource.of(errors).addLink(new Link("/docs/index.html#error-post-invalid-param").withRel("profile"))
             );
         }
 
@@ -101,12 +101,16 @@ public class PostController {
             Errors errors
     ) {
         if (errors.hasErrors()) {
-            return ResponseEntity.badRequest().body(ErrorResource.of(errors));
+            return ResponseEntity.badRequest().body(
+                    ErrorResource.of(errors).addLink(new Link("/docs/index.html#error-post-null-param").withRel("profile"))
+            );
         }
 
         dtoValidator.validate(postDto, errors);
         if (errors.hasErrors()) {
-            return ResponseEntity.badRequest().body(ErrorResource.of(errors));
+            return ResponseEntity.badRequest().body(
+                    ErrorResource.of(errors).addLink(new Link("/docs/index.html#error-post-invalid-param").withRel("profile"))
+            );
         }
 
         return postService

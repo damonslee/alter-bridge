@@ -50,17 +50,17 @@ operation::delete-post[snippets='curl-request,http-request,http-response,httpie-
 [[resources-errors]]
 == 오류
 
-[[errors-create-post]]
-=== 게시물 생성 오류
+[[errors-post]]
+=== 게시물 생성/수정 오류
 
-[[errors-create-post-null-param]]
+[[error-post-null-param]]
 ==== 필드가 null 인 경우
 Request body 의 json 필드가 required 인데, null 값을 포함하는 경우 아래와 같은 오류를 반환한다.
 
 operation::error-create-post-null-param[snippets='http-response,response-headers,response-body,response-fields']
 
 
-[[errors-create-post-invalid-param]]
+[[error-post-invalid-param]]
 ==== 제약사항을 어긴 경우
 Request body 의 json 필드가 유효하지 않은 값을 포함하는 경우 아래와 같은 오류를 반환한다.
 `좋아요 개수는 조회수보다 많을 수 없다` 와 같은 제약을 만족하지 못한 경우이다.

@@ -500,22 +500,22 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </li>
 <li><a href="#resources-errors">오류</a>
 <ul class="sectlevel2">
-<li><a href="#errors-create-post">게시물 생성 오류</a>
+<li><a href="#errors-post">게시물 생성/수정 오류</a>
 <ul class="sectlevel3">
-<li><a href="#errors-create-post-null-param">필드가 null 인 경우</a>
+<li><a href="#error-post-null-param">필드가 null 인 경우</a>
 <ul class="sectlevel4">
-<li><a href="#errors-create-post-null-param_http_response">HTTP response</a></li>
-<li><a href="#errors-create-post-null-param_response_headers">Response headers</a></li>
-<li><a href="#errors-create-post-null-param_response_body">Response body</a></li>
-<li><a href="#errors-create-post-null-param_response_fields">Response fields</a></li>
+<li><a href="#error-post-null-param_http_response">HTTP response</a></li>
+<li><a href="#error-post-null-param_response_headers">Response headers</a></li>
+<li><a href="#error-post-null-param_response_body">Response body</a></li>
+<li><a href="#error-post-null-param_response_fields">Response fields</a></li>
 </ul>
 </li>
-<li><a href="#errors-create-post-invalid-param">제약사항을 어긴 경우</a>
+<li><a href="#error-post-invalid-param">제약사항을 어긴 경우</a>
 <ul class="sectlevel4">
-<li><a href="#errors-create-post-invalid-param_http_response">HTTP response</a></li>
-<li><a href="#errors-create-post-invalid-param_response_headers">Response headers</a></li>
-<li><a href="#errors-create-post-invalid-param_response_body">Response body</a></li>
-<li><a href="#errors-create-post-invalid-param_response_fields">Response fields</a></li>
+<li><a href="#error-post-invalid-param_http_response">HTTP response</a></li>
+<li><a href="#error-post-invalid-param_response_headers">Response headers</a></li>
+<li><a href="#error-post-invalid-param_response_body">Response body</a></li>
+<li><a href="#error-post-invalid-param_response_fields">Response fields</a></li>
 </ul>
 </li>
 </ul>
@@ -566,9 +566,9 @@ Content-Type: application/hal+json;charset=UTF-8
 {
   "@id" : 1,
   "createdBy" : "admin",
-  "createdAt" : "2019-09-28T16:38:20.395403",
+  "createdAt" : "2019-09-28T17:22:03.320074",
   "modifiedBy" : "admin",
-  "modifiedAt" : "2019-09-28T16:38:24.841646",
+  "modifiedAt" : "2019-09-28T17:22:07.046945",
   "postId" : 1,
   "category" : "GENERAL",
   "title" : "dummy post title",
@@ -697,9 +697,9 @@ Content-Type: application/hal+json;charset=UTF-8
 <pre class="highlightjs highlight nowrap"><code>{
   "@id" : 1,
   "createdBy" : "admin",
-  "createdAt" : "2019-09-28T16:38:20.395403",
+  "createdAt" : "2019-09-28T17:22:03.320074",
   "modifiedBy" : "admin",
-  "modifiedAt" : "2019-09-28T16:38:24.841646",
+  "modifiedAt" : "2019-09-28T17:22:07.046945",
   "postId" : 1,
   "category" : "GENERAL",
   "title" : "dummy post title",
@@ -883,9 +883,9 @@ Content-Length: 1475
     "postList" : [ {
       "@id" : 1,
       "createdBy" : "admin",
-      "createdAt" : "2019-09-28T16:38:20.396505",
+      "createdAt" : "2019-09-28T17:22:03.320728",
       "modifiedBy" : "admin",
-      "modifiedAt" : "2019-09-28T16:38:20.396505",
+      "modifiedAt" : "2019-09-28T17:22:03.320728",
       "postId" : 2,
       "category" : "GENERAL",
       "title" : "title #2",
@@ -1052,9 +1052,9 @@ Content-Length: 1475
     "postList" : [ {
       "@id" : 1,
       "createdBy" : "admin",
-      "createdAt" : "2019-09-28T16:38:20.396505",
+      "createdAt" : "2019-09-28T17:22:03.320728",
       "modifiedBy" : "admin",
-      "modifiedAt" : "2019-09-28T16:38:20.396505",
+      "modifiedAt" : "2019-09-28T17:22:03.320728",
       "postId" : 2,
       "category" : "GENERAL",
       "title" : "title #2",
@@ -1332,9 +1332,9 @@ Location: http://localhost:8080/posts
 {
   "@id" : 1,
   "createdBy" : "admin",
-  "createdAt" : "2019-09-28T16:38:24.475262",
+  "createdAt" : "2019-09-28T17:22:06.734005",
   "modifiedBy" : "admin",
-  "modifiedAt" : "2019-09-28T16:38:24.475319",
+  "modifiedAt" : "2019-09-28T17:22:06.734055",
   "postId" : 31,
   "category" : "GENERAL",
   "title" : "dummy post title",
@@ -1477,9 +1477,9 @@ Location: http://localhost:8080/posts
 <pre class="highlightjs highlight nowrap"><code>{
   "@id" : 1,
   "createdBy" : "admin",
-  "createdAt" : "2019-09-28T16:38:24.475262",
+  "createdAt" : "2019-09-28T17:22:06.734005",
   "modifiedBy" : "admin",
-  "modifiedAt" : "2019-09-28T16:38:24.475319",
+  "modifiedAt" : "2019-09-28T17:22:06.734055",
   "postId" : 31,
   "category" : "GENERAL",
   "title" : "dummy post title",
@@ -1664,9 +1664,9 @@ Content-Type: application/hal+json;charset=UTF-8
 {
   "@id" : 1,
   "createdBy" : "admin",
-  "createdAt" : "2019-09-28T16:38:20.395403",
+  "createdAt" : "2019-09-28T17:22:03.320074",
   "modifiedBy" : "admin",
-  "modifiedAt" : "2019-09-28T16:38:24.841646",
+  "modifiedAt" : "2019-09-28T17:22:07.046945",
   "postId" : 1,
   "category" : "GENERAL",
   "title" : "dummy post title",
@@ -1805,9 +1805,9 @@ Content-Type: application/hal+json;charset=UTF-8
 <pre class="highlightjs highlight nowrap"><code>{
   "@id" : 1,
   "createdBy" : "admin",
-  "createdAt" : "2019-09-28T16:38:20.395403",
+  "createdAt" : "2019-09-28T17:22:03.320074",
   "modifiedBy" : "admin",
-  "modifiedAt" : "2019-09-28T16:38:24.841646",
+  "modifiedAt" : "2019-09-28T17:22:07.046945",
   "postId" : 1,
   "category" : "GENERAL",
   "title" : "dummy post title",
@@ -1975,9 +1975,9 @@ Content-Type: application/hal+json;charset=UTF-8
 {
   "@id" : 1,
   "createdBy" : "admin",
-  "createdAt" : "2019-09-28T16:38:20.395403",
+  "createdAt" : "2019-09-28T17:22:03.320074",
   "modifiedBy" : "admin",
-  "modifiedAt" : "2019-09-28T16:38:25.240186",
+  "modifiedAt" : "2019-09-28T17:22:07.382762",
   "postId" : 1,
   "category" : "GENERAL",
   "title" : "dummy post title",
@@ -2102,9 +2102,9 @@ Content-Type: application/hal+json;charset=UTF-8
 <pre class="highlightjs highlight nowrap"><code>{
   "@id" : 1,
   "createdBy" : "admin",
-  "createdAt" : "2019-09-28T16:38:20.395403",
+  "createdAt" : "2019-09-28T17:22:03.320074",
   "modifiedBy" : "admin",
-  "modifiedAt" : "2019-09-28T16:38:25.240186",
+  "modifiedAt" : "2019-09-28T17:22:07.382762",
   "postId" : 1,
   "category" : "GENERAL",
   "title" : "dummy post title",
@@ -2240,14 +2240,14 @@ Content-Type: application/hal+json;charset=UTF-8
 <h2 id="resources-errors">오류</h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="errors-create-post">게시물 생성 오류</h3>
+<h3 id="errors-post">게시물 생성/수정 오류</h3>
 <div class="sect3">
-<h4 id="errors-create-post-null-param">필드가 null 인 경우</h4>
+<h4 id="error-post-null-param">필드가 null 인 경우</h4>
 <div class="paragraph">
 <p>Request body 의 json 필드가 required 인데, null 값을 포함하는 경우 아래와 같은 오류를 반환한다.</p>
 </div>
 <div class="sect4">
-<h5 id="errors-create-post-null-param_http_response">HTTP response</h5>
+<h5 id="error-post-null-param_http_response">HTTP response</h5>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 400 Bad Request
@@ -2270,7 +2270,7 @@ Content-Type: application/hal+json;charset=UTF-8
 </div>
 </div>
 <div class="sect4">
-<h5 id="errors-create-post-null-param_response_headers">Response headers</h5>
+<h5 id="error-post-null-param_response_headers">Response headers</h5>
 <table class="tableblock frame-all grid-all spread">
 <colgroup>
 <col style="width: 50%;">
@@ -2291,7 +2291,7 @@ Content-Type: application/hal+json;charset=UTF-8
 </table>
 </div>
 <div class="sect4">
-<h5 id="errors-create-post-null-param_response_body">Response body</h5>
+<h5 id="error-post-null-param_response_body">Response body</h5>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code>{
@@ -2310,7 +2310,7 @@ Content-Type: application/hal+json;charset=UTF-8
 </div>
 </div>
 <div class="sect4">
-<h5 id="errors-create-post-null-param_response_fields">Response fields</h5>
+<h5 id="error-post-null-param_response_fields">Response fields</h5>
 <table class="tableblock frame-all grid-all spread">
 <colgroup>
 <col style="width: 33%;">
@@ -2350,13 +2350,13 @@ Content-Type: application/hal+json;charset=UTF-8
 </div>
 </div>
 <div class="sect3">
-<h4 id="errors-create-post-invalid-param">제약사항을 어긴 경우</h4>
+<h4 id="error-post-invalid-param">제약사항을 어긴 경우</h4>
 <div class="paragraph">
 <p>Request body 의 json 필드가 유효하지 않은 값을 포함하는 경우 아래와 같은 오류를 반환한다.
 <code>좋아요 개수는 조회수보다 많을 수 없다</code> 와 같은 제약을 만족하지 못한 경우이다.</p>
 </div>
 <div class="sect4">
-<h5 id="errors-create-post-invalid-param_http_response">HTTP response</h5>
+<h5 id="error-post-invalid-param_http_response">HTTP response</h5>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 400 Bad Request
@@ -2385,7 +2385,7 @@ Content-Length: 448
 </div>
 </div>
 <div class="sect4">
-<h5 id="errors-create-post-invalid-param_response_headers">Response headers</h5>
+<h5 id="error-post-invalid-param_response_headers">Response headers</h5>
 <table class="tableblock frame-all grid-all spread">
 <colgroup>
 <col style="width: 50%;">
@@ -2406,7 +2406,7 @@ Content-Length: 448
 </table>
 </div>
 <div class="sect4">
-<h5 id="errors-create-post-invalid-param_response_body">Response body</h5>
+<h5 id="error-post-invalid-param_response_body">Response body</h5>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code>{
@@ -2431,7 +2431,7 @@ Content-Length: 448
 </div>
 </div>
 <div class="sect4">
-<h5 id="errors-create-post-invalid-param_response_fields">Response fields</h5>
+<h5 id="error-post-invalid-param_response_fields">Response fields</h5>
 <table class="tableblock frame-all grid-all spread">
 <colgroup>
 <col style="width: 33%;">
@@ -2481,7 +2481,7 @@ Content-Length: 448
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2019-09-28 16:37:51 +09:00
+Last updated 2019-09-28 17:13:56 +09:00
 </div>
 </div>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.9.1/styles/github.min.css">

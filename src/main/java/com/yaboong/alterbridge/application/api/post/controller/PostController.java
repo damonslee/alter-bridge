@@ -4,8 +4,7 @@ import com.yaboong.alterbridge.application.api.post.domain.PostDto;
 import com.yaboong.alterbridge.application.api.post.domain.PostResource;
 import com.yaboong.alterbridge.application.api.post.entity.Post;
 import com.yaboong.alterbridge.application.api.post.service.PostService;
-import com.yaboong.alterbridge.application.common.error.ErrorResource;
-import com.yaboong.alterbridge.application.common.validation.DtoValidator;
+import com.yaboong.alterbridge.application.common.validation.PostDtoValidator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -33,7 +32,7 @@ import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
 @RequiredArgsConstructor
 public class PostController {
 
-    private final DtoValidator dtoValidator;
+    private final PostDtoValidator postDtoValidator;
 
     private final PostService postService;
 
@@ -70,27 +69,18 @@ public class PostController {
             @RequestBody @Valid PostDto postDto,
             Errors errors
     ) {
-        if (errors.hasErrors()) {
-            return ResponseEntity.badRequest().body(
-                    ErrorResource.of(errors).addLink(new Link("/docs/index.html#error-post-null-param").withRel("profile"))
-            );
-        }
-
-        dtoValidator.validate(postDto, errors);
-        if (errors.hasErrors()) {
-            return ResponseEntity.badRequest().body(
-                    ErrorResource.of(errors).addLink(new Link("/docs/index.html#error-post-invalid-param").withRel("profile"))
-            );
-        }
-
-        Post newPost = postService.create(postDto);
-        ControllerLinkBuilder selfBuilder = linkTo(PostController.class);
-        return ResponseEntity
-                .created(selfBuilder.toUri())
-                .body(PostResource.of(newPost)
-                    .addLink(linkTo(PostController.class).withSelfRel().withType(HttpMethod.POST.name()))
-                    .addLink(new Link("/docs/index.html#resources-create-post").withRel("profile"))
-                    .addLink(linkTo(PostController.class).withRel("post-list").withType(HttpMethod.GET.name()))
+        return postDtoValidator.checkAndProceed(postDto, errors)
+                .orElseGet(() -> {
+                    Post newPost = postService.create(postDto);
+                    ControllerLinkBuilder selfBuilder = linkTo(PostController.class);
+                    return ResponseEntity
+                            .created(selfBuilder.toUri())
+                            .body(PostResource.of(newPost)
+                                    .addLink(linkTo(PostController.class).withSelfRel().withType(HttpMethod.POST.name()))
+                                    .addLink(new Link("/docs/index.html#resources-create-post").withRel("profile"))
+                                    .addLink(linkTo(PostController.class).withRel("post-list").withType(HttpMethod.GET.name()))
+                            );
+                    }
                 );
     }
 
@@ -100,28 +90,18 @@ public class PostController {
             @RequestBody @Valid PostDto postDto,
             Errors errors
     ) {
-        if (errors.hasErrors()) {
-            return ResponseEntity.badRequest().body(
-                    ErrorResource.of(errors).addLink(new Link("/docs/index.html#error-post-null-param").withRel("profile"))
-            );
-        }
-
-        dtoValidator.validate(postDto, errors);
-        if (errors.hasErrors()) {
-            return ResponseEntity.badRequest().body(
-                    ErrorResource.of(errors).addLink(new Link("/docs/index.html#error-post-invalid-param").withRel("profile"))
-            );
-        }
-
-        return postService
-                .modify(id, postDto)
-                .map(post -> ResponseEntity.ok(PostResource.of(post)
-                                .addLink(linkTo(PostController.class).slash(post.getPostId()).withSelfRel().withType(HttpMethod.PUT.name()))
-                                .addLink(new Link("/docs/index.html#resources-update-post").withRel("profile"))
-                                .addLink(linkTo(PostController.class).withRel("post-list").withType(HttpMethod.GET.name()))
-                ))
-                .orElseGet(() -> ResponseEntity.notFound().build())
-                ;
+        return postDtoValidator
+                .checkAndProceed(postDto, errors)
+                .orElseGet(() ->
+                        postService
+                            .modify(id, postDto)
+                            .map(post -> ResponseEntity.ok(PostResource.of(post)
+                                    .addLink(linkTo(PostController.class).slash(post.getPostId()).withSelfRel().withType(HttpMethod.PUT.name()))
+                                    .addLink(new Link("/docs/index.html#resources-update-post").withRel("profile"))
+                                    .addLink(linkTo(PostController.class).withRel("post-list").withType(HttpMethod.GET.name()))
+                            ))
+                            .orElseGet(() -> ResponseEntity.notFound().build())
+                );
     }
 
     @DeleteMapping("/{id}")
@@ -136,5 +116,4 @@ public class PostController {
                 .orElseGet(() -> ResponseEntity.notFound().build())
                 ;
     }
-
 }

@@ -2,18 +2,44 @@ package com.yaboong.alterbridge.application.common.validation;
 
 import com.yaboong.alterbridge.application.api.post.domain.PostDto;
 import com.yaboong.alterbridge.application.api.post.entity.Post;
+import com.yaboong.alterbridge.application.common.error.ErrorResource;
 import com.yaboong.alterbridge.application.common.type.Status;
 import org.apache.commons.lang3.EnumUtils;
+import org.springframework.hateoas.Link;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
+
+import java.util.Optional;
 
 /**
  * Created by yaboong on 2019-09-11
  */
 @Component
-public class DtoValidator {
+public class PostDtoValidator {
 
-    public void validate(PostDto postDto, Errors errors) {
+    public Optional<ResponseEntity> checkAndProceed(PostDto postDto, Errors errors) {
+        if (errors.hasErrors()) {
+            return Optional.of(
+                    ResponseEntity.badRequest().body(
+                            ErrorResource.of(errors).addLink(new Link("/docs/index.html#error-post-null-param").withRel("profile"))
+                    )
+            );
+        }
+
+        validate(postDto, errors);
+        if (errors.hasErrors()) {
+            return Optional.of(
+                    ResponseEntity.badRequest().body(
+                            ErrorResource.of(errors).addLink(new Link("/docs/index.html#error-post-invalid-param").withRel("profile"))
+                    )
+            );
+        }
+
+        return Optional.empty();
+    }
+
+    private void validate(PostDto postDto, Errors errors) {
         likeCountCannotExceedViewCount(postDto, errors);
         postCategoryValidation(postDto, errors);
         postStatusValidation(postDto, errors);

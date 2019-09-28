@@ -45,3 +45,24 @@ operation::update-post[snippets='curl-request,http-request,http-response,httpie-
 물리적으로 삭제하는 것이 아니라 status 컬럼을 DELETED 로 변경하는 논리삭제 작업이다.
 
 operation::delete-post[snippets='curl-request,http-request,http-response,httpie-request,links,request-headers,request-body,response-headers,response-body,response-fields']
+
+
+[[resources-errors]]
+== 오류
+
+[[errors-post]]
+=== 게시물 생성/수정 오류
+
+[[error-post-null-param]]
+==== 필드가 null 인 경우
+Request body 의 json 필드가 required 인데, null 값을 포함하는 경우 아래와 같은 오류를 반환한다.
+
+operation::error-create-post-null-param[snippets='http-response,response-headers,response-body,response-fields']
+
+
+[[error-post-invalid-param]]
+==== 제약사항을 어긴 경우
+Request body 의 json 필드가 유효하지 않은 값을 포함하는 경우 아래와 같은 오류를 반환한다.
+`좋아요 개수는 조회수보다 많을 수 없다` 와 같은 제약을 만족하지 못한 경우이다.
+
+operation::error-create-post-invalid-param[snippets='http-response,response-headers,response-body,response-fields']

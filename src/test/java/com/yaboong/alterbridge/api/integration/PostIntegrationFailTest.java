@@ -19,6 +19,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Import;
 import org.springframework.hateoas.MediaTypes;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.rules.SpringClassRule;
@@ -26,6 +27,13 @@ import org.springframework.test.context.junit4.rules.SpringMethodRule;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 
+import static org.springframework.restdocs.headers.HeaderDocumentation.headerWithName;
+import static org.springframework.restdocs.headers.HeaderDocumentation.responseHeaders;
+import static org.springframework.restdocs.hypermedia.HypermediaDocumentation.linkWithRel;
+import static org.springframework.restdocs.hypermedia.HypermediaDocumentation.links;
+import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
+import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
+import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -68,6 +76,10 @@ public class PostIntegrationFailTest {
     ObjectMapper objectMapper;
 
     @Test
+    @TestDescription(
+            "페이징 size 파라미터로 큰 값을 주어도" +
+            "프로퍼티에 spring.data.web.pageable.max-page-size 값에 지정한 만큼만 나와야함"
+    )
     public void Pageable_Size_제한() throws Exception {
         // GIVEN
         MockHttpServletRequestBuilder request = get("/posts")
@@ -108,6 +120,21 @@ public class PostIntegrationFailTest {
                 .andExpect(jsonPath("content[0].code").exists())
                 .andExpect(jsonPath("content[0].defaultMessage").exists())
                 .andExpect(jsonPath("_links.profile.href").exists())
+                .andDo(document("error-create-post-null-param",
+                        links(
+                                linkWithRel("profile").description("link to profile")
+                        ),
+                        responseHeaders(
+                                headerWithName(HttpHeaders.CONTENT_TYPE).description("Content-Type header")
+                        ),
+                        responseFields(
+                                fieldWithPath("content[0].field").description("error field"),
+                                fieldWithPath("content[0].code").description("error field restriction"),
+                                fieldWithPath("content[0].defaultMessage").description("message about the cause of the error"),
+                                fieldWithPath("_links.profile.href").description("link to profile")
+                        )
+                    )
+                )
         ;
     }
 
@@ -136,6 +163,22 @@ public class PostIntegrationFailTest {
                 .andExpect(jsonPath("content[0].defaultMessage").exists())
                 .andExpect(jsonPath("content[0].rejectedValue").exists())
                 .andExpect(jsonPath("_links.profile.href").exists())
+                .andDo(document("error-create-post-invalid-param",
+                        links(
+                                linkWithRel("profile").description("link to profile")
+                        ),
+                        responseHeaders(
+                                headerWithName(HttpHeaders.CONTENT_TYPE).description("Content-Type header")
+                        ),
+                        responseFields(
+                                fieldWithPath("content[0].field").description("error field"),
+                                fieldWithPath("content[0].code").description("error field restriction"),
+                                fieldWithPath("content[0].defaultMessage").description("message about the cause of the error"),
+                                fieldWithPath("content[0].rejectedValue").description("rejected field value of the request body"),
+                                fieldWithPath("_links.profile.href").description("link to profile")
+                        )
+                    )
+                )
         ;
     }
 

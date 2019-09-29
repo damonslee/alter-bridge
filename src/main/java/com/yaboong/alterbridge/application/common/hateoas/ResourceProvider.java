@@ -2,7 +2,6 @@ package com.yaboong.alterbridge.application.common.hateoas;
 
 import org.springframework.hateoas.Identifiable;
 import org.springframework.hateoas.Link;
-import org.springframework.hateoas.Resource;
 import org.springframework.http.HttpMethod;
 
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
@@ -10,9 +9,7 @@ import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
 /**
  * Created by yaboong on 2019-09-29
  */
-public class ResourceProvider<T extends Identifiable> extends Resource<T> {
-
-    private static final String PROFILE_LINK_PREFIX = "/docs/index.html#";
+public class ResourceProvider<T extends Identifiable> extends AbstractResourceProvider<T> {
 
     private final Class<?> controller;
 
@@ -26,15 +23,6 @@ public class ResourceProvider<T extends Identifiable> extends Resource<T> {
 
     public static <T extends Identifiable> ResourceProvider of(T content, Class<?> clazz) {
         return new ResourceProvider<>(content, clazz);
-    }
-
-    public static Link getProfileLink(String anchor) {
-        return new Link(PROFILE_LINK_PREFIX+ anchor).withRel("profile");
-    }
-
-    public ResourceProvider profile(String anchor) {
-        add(new Link(PROFILE_LINK_PREFIX+ anchor).withRel("profile"));
-        return this;
     }
 
     public ResourceProvider self(HttpMethod httpMethod) {
@@ -56,4 +44,5 @@ public class ResourceProvider<T extends Identifiable> extends Resource<T> {
         add(linkTo(controller).slash(this.content.getId()).withRel(rel).withType(httpMethod.name()));
         return this;
     }
+
 }

@@ -2,10 +2,9 @@ package com.yaboong.alterbridge.application.common.validation;
 
 import com.yaboong.alterbridge.application.api.post.domain.PostDto;
 import com.yaboong.alterbridge.application.api.post.entity.Post;
-import com.yaboong.alterbridge.application.common.error.ErrorResource;
+import com.yaboong.alterbridge.application.common.hateoas.ErrorResourceProvider;
 import com.yaboong.alterbridge.application.common.type.Status;
 import org.apache.commons.lang3.EnumUtils;
-import org.springframework.hateoas.Link;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
@@ -22,7 +21,7 @@ public class PostDtoValidator {
         if (errors.hasErrors()) {
             return Optional.of(
                     ResponseEntity.badRequest().body(
-                            ErrorResource.of(errors).addLink(new Link("/docs/index.html#error-post-null-param").withRel("profile"))
+                            ErrorResourceProvider.of(errors).buildWithProfile("error-post-null-param")
                     )
             );
         }
@@ -31,7 +30,7 @@ public class PostDtoValidator {
         if (errors.hasErrors()) {
             return Optional.of(
                     ResponseEntity.badRequest().body(
-                            ErrorResource.of(errors).addLink(new Link("/docs/index.html#error-post-invalid-param").withRel("profile"))
+                            ErrorResourceProvider.of(errors).buildWithProfile("error-post-invalid-param")
                     )
             );
         }

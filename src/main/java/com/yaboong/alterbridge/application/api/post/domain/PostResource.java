@@ -11,6 +11,7 @@ import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
 /**
  * Created by yaboong on 2019-09-14
  */
+@Deprecated(since = "ResourceProvider 사용")
 public class PostResource extends Resource<Post> {
 
     private static final String PROFILE_LINK_PREFIX = "/docs/index.html#";

@@ -440,18 +440,18 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#resources-posts-get_response_fields">Response fields</a></li>
 </ul>
 </li>
-<li><a href="#resources-posts-list">게시물 목록 조회</a>
+<li><a href="#resources-query-posts">게시물 목록 조회</a>
 <ul class="sectlevel3">
-<li><a href="#resources-posts-list_curl_request">Curl request</a></li>
-<li><a href="#resources-posts-list_http_request">HTTP request</a></li>
-<li><a href="#resources-posts-list_http_response">HTTP response</a></li>
-<li><a href="#resources-posts-list_httpie_request">HTTPie request</a></li>
-<li><a href="#resources-posts-list_links">Links</a></li>
-<li><a href="#resources-posts-list_request_headers">Request headers</a></li>
-<li><a href="#resources-posts-list_request_body">Request body</a></li>
-<li><a href="#resources-posts-list_response_headers">Response headers</a></li>
-<li><a href="#resources-posts-list_response_body">Response body</a></li>
-<li><a href="#resources-posts-list_response_fields">Response fields</a></li>
+<li><a href="#resources-query-posts_curl_request">Curl request</a></li>
+<li><a href="#resources-query-posts_http_request">HTTP request</a></li>
+<li><a href="#resources-query-posts_http_response">HTTP response</a></li>
+<li><a href="#resources-query-posts_httpie_request">HTTPie request</a></li>
+<li><a href="#resources-query-posts_links">Links</a></li>
+<li><a href="#resources-query-posts_request_headers">Request headers</a></li>
+<li><a href="#resources-query-posts_request_body">Request body</a></li>
+<li><a href="#resources-query-posts_response_headers">Response headers</a></li>
+<li><a href="#resources-query-posts_response_body">Response body</a></li>
+<li><a href="#resources-query-posts_response_fields">Response fields</a></li>
 </ul>
 </li>
 <li><a href="#resources-create-post">게시물 등록</a>
@@ -560,15 +560,15 @@ Host: localhost:8080</code></pre>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
-Content-Length: 718
+Content-Length: 717
 Content-Type: application/hal+json;charset=UTF-8
 
 {
   "@id" : 1,
   "createdBy" : "admin",
-  "createdAt" : "2019-09-28T17:22:03.320074",
+  "createdAt" : "2019-09-29T15:53:14.62573",
   "modifiedBy" : "admin",
-  "modifiedAt" : "2019-09-28T17:22:07.046945",
+  "modifiedAt" : "2019-09-29T15:53:19.723263",
   "postId" : 1,
   "category" : "GENERAL",
   "title" : "dummy post title",
@@ -697,9 +697,9 @@ Content-Type: application/hal+json;charset=UTF-8
 <pre class="highlightjs highlight nowrap"><code>{
   "@id" : 1,
   "createdBy" : "admin",
-  "createdAt" : "2019-09-28T17:22:03.320074",
+  "createdAt" : "2019-09-29T15:53:14.62573",
   "modifiedBy" : "admin",
-  "modifiedAt" : "2019-09-28T17:22:07.046945",
+  "modifiedAt" : "2019-09-29T15:53:19.723263",
   "postId" : 1,
   "category" : "GENERAL",
   "title" : "dummy post title",
@@ -844,13 +844,13 @@ Content-Type: application/hal+json;charset=UTF-8
 </div>
 </div>
 <div class="sect2">
-<h3 id="resources-posts-list">게시물 목록 조회</h3>
+<h3 id="resources-query-posts">게시물 목록 조회</h3>
 <div class="paragraph">
 <p><code>GET</code> 요청과 page, size 파라미터로 게시물 목록을 조회할 수 있다.
 한번에 최대로 조회 가능한 size 는 10 이다.</p>
 </div>
 <div class="sect3">
-<h4 id="resources-posts-list_curl_request">Curl request</h4>
+<h4 id="resources-query-posts_curl_request">Curl request</h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash" data-lang="bash">$ curl 'http://localhost:8080/posts?page=1&amp;size=1' -i -X GET \
@@ -860,7 +860,7 @@ Content-Type: application/hal+json;charset=UTF-8
 </div>
 </div>
 <div class="sect3">
-<h4 id="resources-posts-list_http_request">HTTP request</h4>
+<h4 id="resources-query-posts_http_request">HTTP request</h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http" data-lang="http">GET /posts?page=1&amp;size=1 HTTP/1.1
@@ -871,7 +871,7 @@ Host: localhost:8080</code></pre>
 </div>
 </div>
 <div class="sect3">
-<h4 id="resources-posts-list_http_response">HTTP response</h4>
+<h4 id="resources-query-posts_http_response">HTTP response</h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
@@ -883,9 +883,9 @@ Content-Length: 1475
     "postList" : [ {
       "@id" : 1,
       "createdBy" : "admin",
-      "createdAt" : "2019-09-28T17:22:03.320728",
+      "createdAt" : "2019-09-29T15:53:14.626344",
       "modifiedBy" : "admin",
-      "modifiedAt" : "2019-09-28T17:22:03.320728",
+      "modifiedAt" : "2019-09-29T15:53:14.626344",
       "postId" : 2,
       "category" : "GENERAL",
       "title" : "title #2",
@@ -895,7 +895,7 @@ Content-Length: 1475
       "status" : "NORMAL",
       "_links" : {
         "profile" : {
-          "href" : "/docs/index.html#resources-posts-get"
+          "href" : "/docs/index.html#resource-posts-get"
         },
         "self" : {
           "href" : "http://localhost:8080/posts/2",
@@ -929,7 +929,7 @@ Content-Length: 1475
       "href" : "http://localhost:8080/posts?page=30&amp;size=1"
     },
     "profile" : {
-      "href" : "/docs/index.html#resources-posts-list"
+      "href" : "/docs/index.html#resources-query-posts"
     }
   },
   "page" : {
@@ -943,7 +943,7 @@ Content-Length: 1475
 </div>
 </div>
 <div class="sect3">
-<h4 id="resources-posts-list_httpie_request">HTTPie request</h4>
+<h4 id="resources-query-posts_httpie_request">HTTPie request</h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-bash" data-lang="bash">$ http GET 'http://localhost:8080/posts?page=1&amp;size=1' \
@@ -953,7 +953,7 @@ Content-Length: 1475
 </div>
 </div>
 <div class="sect3">
-<h4 id="resources-posts-list_links">Links</h4>
+<h4 id="resources-query-posts_links">Links</h4>
 <table class="tableblock frame-all grid-all spread">
 <colgroup>
 <col style="width: 50%;">
@@ -994,7 +994,7 @@ Content-Length: 1475
 </table>
 </div>
 <div class="sect3">
-<h4 id="resources-posts-list_request_headers">Request headers</h4>
+<h4 id="resources-query-posts_request_headers">Request headers</h4>
 <table class="tableblock frame-all grid-all spread">
 <colgroup>
 <col style="width: 50%;">
@@ -1015,7 +1015,7 @@ Content-Length: 1475
 </table>
 </div>
 <div class="sect3">
-<h4 id="resources-posts-list_request_body">Request body</h4>
+<h4 id="resources-query-posts_request_body">Request body</h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code></code></pre>
@@ -1023,7 +1023,7 @@ Content-Length: 1475
 </div>
 </div>
 <div class="sect3">
-<h4 id="resources-posts-list_response_headers">Response headers</h4>
+<h4 id="resources-query-posts_response_headers">Response headers</h4>
 <table class="tableblock frame-all grid-all spread">
 <colgroup>
 <col style="width: 50%;">
@@ -1044,7 +1044,7 @@ Content-Length: 1475
 </table>
 </div>
 <div class="sect3">
-<h4 id="resources-posts-list_response_body">Response body</h4>
+<h4 id="resources-query-posts_response_body">Response body</h4>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code>{
@@ -1052,9 +1052,9 @@ Content-Length: 1475
     "postList" : [ {
       "@id" : 1,
       "createdBy" : "admin",
-      "createdAt" : "2019-09-28T17:22:03.320728",
+      "createdAt" : "2019-09-29T15:53:14.626344",
       "modifiedBy" : "admin",
-      "modifiedAt" : "2019-09-28T17:22:03.320728",
+      "modifiedAt" : "2019-09-29T15:53:14.626344",
       "postId" : 2,
       "category" : "GENERAL",
       "title" : "title #2",
@@ -1064,7 +1064,7 @@ Content-Length: 1475
       "status" : "NORMAL",
       "_links" : {
         "profile" : {
-          "href" : "/docs/index.html#resources-posts-get"
+          "href" : "/docs/index.html#resource-posts-get"
         },
         "self" : {
           "href" : "http://localhost:8080/posts/2",
@@ -1098,7 +1098,7 @@ Content-Length: 1475
       "href" : "http://localhost:8080/posts?page=30&amp;size=1"
     },
     "profile" : {
-      "href" : "/docs/index.html#resources-posts-list"
+      "href" : "/docs/index.html#resources-query-posts"
     }
   },
   "page" : {
@@ -1112,7 +1112,7 @@ Content-Length: 1475
 </div>
 </div>
 <div class="sect3">
-<h4 id="resources-posts-list_response_fields">Response fields</h4>
+<h4 id="resources-query-posts_response_fields">Response fields</h4>
 <table class="tableblock frame-all grid-all spread">
 <colgroup>
 <col style="width: 33%;">
@@ -1332,9 +1332,9 @@ Location: http://localhost:8080/posts
 {
   "@id" : 1,
   "createdBy" : "admin",
-  "createdAt" : "2019-09-28T17:22:06.734005",
+  "createdAt" : "2019-09-29T15:53:19.363896",
   "modifiedBy" : "admin",
-  "modifiedAt" : "2019-09-28T17:22:06.734055",
+  "modifiedAt" : "2019-09-29T15:53:19.363948",
   "postId" : 31,
   "category" : "GENERAL",
   "title" : "dummy post title",
@@ -1477,9 +1477,9 @@ Location: http://localhost:8080/posts
 <pre class="highlightjs highlight nowrap"><code>{
   "@id" : 1,
   "createdBy" : "admin",
-  "createdAt" : "2019-09-28T17:22:06.734005",
+  "createdAt" : "2019-09-29T15:53:19.363896",
   "modifiedBy" : "admin",
-  "modifiedAt" : "2019-09-28T17:22:06.734055",
+  "modifiedAt" : "2019-09-29T15:53:19.363948",
   "postId" : 31,
   "category" : "GENERAL",
   "title" : "dummy post title",
@@ -1658,15 +1658,15 @@ Content-Length: 157
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
-Content-Length: 615
+Content-Length: 614
 Content-Type: application/hal+json;charset=UTF-8
 
 {
   "@id" : 1,
   "createdBy" : "admin",
-  "createdAt" : "2019-09-28T17:22:03.320074",
+  "createdAt" : "2019-09-29T15:53:14.62573",
   "modifiedBy" : "admin",
-  "modifiedAt" : "2019-09-28T17:22:07.046945",
+  "modifiedAt" : "2019-09-29T15:53:19.723263",
   "postId" : 1,
   "category" : "GENERAL",
   "title" : "dummy post title",
@@ -1805,9 +1805,9 @@ Content-Type: application/hal+json;charset=UTF-8
 <pre class="highlightjs highlight nowrap"><code>{
   "@id" : 1,
   "createdBy" : "admin",
-  "createdAt" : "2019-09-28T17:22:03.320074",
+  "createdAt" : "2019-09-29T15:53:14.62573",
   "modifiedBy" : "admin",
-  "modifiedAt" : "2019-09-28T17:22:07.046945",
+  "modifiedAt" : "2019-09-29T15:53:19.723263",
   "postId" : 1,
   "category" : "GENERAL",
   "title" : "dummy post title",
@@ -1969,15 +1969,15 @@ Host: localhost:8080</code></pre>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
-Content-Length: 619
+Content-Length: 618
 Content-Type: application/hal+json;charset=UTF-8
 
 {
   "@id" : 1,
   "createdBy" : "admin",
-  "createdAt" : "2019-09-28T17:22:03.320074",
+  "createdAt" : "2019-09-29T15:53:14.62573",
   "modifiedBy" : "admin",
-  "modifiedAt" : "2019-09-28T17:22:07.382762",
+  "modifiedAt" : "2019-09-29T15:53:20.063935",
   "postId" : 1,
   "category" : "GENERAL",
   "title" : "dummy post title",
@@ -2102,9 +2102,9 @@ Content-Type: application/hal+json;charset=UTF-8
 <pre class="highlightjs highlight nowrap"><code>{
   "@id" : 1,
   "createdBy" : "admin",
-  "createdAt" : "2019-09-28T17:22:03.320074",
+  "createdAt" : "2019-09-29T15:53:14.62573",
   "modifiedBy" : "admin",
-  "modifiedAt" : "2019-09-28T17:22:07.382762",
+  "modifiedAt" : "2019-09-29T15:53:20.063935",
   "postId" : 1,
   "category" : "GENERAL",
   "title" : "dummy post title",
@@ -2251,8 +2251,8 @@ Content-Type: application/hal+json;charset=UTF-8
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 400 Bad Request
-Content-Length: 229
 Content-Type: application/hal+json;charset=UTF-8
+Content-Length: 221
 
 {
   "content" : [ {
@@ -2262,7 +2262,7 @@ Content-Type: application/hal+json;charset=UTF-8
   } ],
   "_links" : {
     "profile" : {
-      "href" : "/docs/index.html#errors-create-post-null-param"
+      "href" : "/docs/index.html#error-post-null-param"
     }
   }
 }</code></pre>
@@ -2302,7 +2302,7 @@ Content-Type: application/hal+json;charset=UTF-8
   } ],
   "_links" : {
     "profile" : {
-      "href" : "/docs/index.html#errors-create-post-null-param"
+      "href" : "/docs/index.html#error-post-null-param"
     }
   }
 }</code></pre>
@@ -2360,8 +2360,8 @@ Content-Type: application/hal+json;charset=UTF-8
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 400 Bad Request
+Content-Length: 440
 Content-Type: application/hal+json;charset=UTF-8
-Content-Length: 448
 
 {
   "content" : [ {
@@ -2377,7 +2377,7 @@ Content-Length: 448
   } ],
   "_links" : {
     "profile" : {
-      "href" : "/docs/index.html#errors-create-post-invalid-param"
+      "href" : "/docs/index.html#error-post-invalid-param"
     }
   }
 }</code></pre>
@@ -2423,7 +2423,7 @@ Content-Length: 448
   } ],
   "_links" : {
     "profile" : {
-      "href" : "/docs/index.html#errors-create-post-invalid-param"
+      "href" : "/docs/index.html#error-post-invalid-param"
     }
   }
 }</code></pre>
@@ -2481,7 +2481,7 @@ Content-Length: 448
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2019-09-28 17:13:56 +09:00
+Last updated 2019-09-29 15:07:08 +09:00
 </div>
 </div>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.9.1/styles/github.min.css">

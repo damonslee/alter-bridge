@@ -1,6 +1,7 @@
 package com.yaboong.alterbridge.application.api.post.entity;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.yaboong.alterbridge.application.api.comment.entity.Comment;
@@ -9,12 +10,12 @@ import com.yaboong.alterbridge.application.common.auditing.Auditable;
 import com.yaboong.alterbridge.application.common.type.Status;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
-import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.apache.commons.lang3.builder.ToStringStyle;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.DynamicInsert;
+import org.springframework.hateoas.Identifiable;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Function;
@@ -33,7 +34,7 @@ import java.util.function.Function;
 @DynamicInsert
 @JsonIgnoreProperties("comments")
 @JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class)
-public class Post extends Auditable<String> implements Function<PostDto, Post> {
+public class Post extends Auditable<String> implements Function<PostDto, Post>, Identifiable {
 
     public enum Category {
         GENERAL,
@@ -92,4 +93,9 @@ public class Post extends Auditable<String> implements Function<PostDto, Post> {
         return this;
     }
 
+    @Override
+    @JsonIgnore
+    public Serializable getId() {
+        return this.postId;
+    }
 }

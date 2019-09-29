@@ -16,7 +16,7 @@
 operation::posts-get[snippets='curl-request,http-request,http-response,httpie-request,links,request-headers,request-body,response-headers,response-body,response-fields']
 
 
-[[resources-posts-list]]
+[[resources-query-posts]]
 === 게시물 목록 조회
 
 `GET` 요청과 page, size 파라미터로 게시물 목록을 조회할 수 있다.
@@ -57,7 +57,7 @@ operation::delete-post[snippets='curl-request,http-request,http-response,httpie-
 ==== 필드가 null 인 경우
 Request body 의 json 필드가 required 인데, null 값을 포함하는 경우 아래와 같은 오류를 반환한다.
 
-operation::error-create-post-null-param[snippets='http-response,response-headers,response-body,response-fields']
+operation::error-create-update-post-null-param[snippets='http-response,response-headers,response-body,response-fields']
 
 
 [[error-post-invalid-param]]
@@ -65,4 +65,4 @@ operation::error-create-post-null-param[snippets='http-response,response-headers
 Request body 의 json 필드가 유효하지 않은 값을 포함하는 경우 아래와 같은 오류를 반환한다.
 `좋아요 개수는 조회수보다 많을 수 없다` 와 같은 제약을 만족하지 못한 경우이다.
 
-operation::error-create-post-invalid-param[snippets='http-response,response-headers,response-body,response-fields']
+operation::error-create-update-post-invalid-param[snippets='http-response,response-headers,response-body,response-fields']

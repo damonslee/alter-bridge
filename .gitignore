@@ -33,3 +33,6 @@ out/
 
 ### Querydsl ###
 generated
+
+### Asciidoc ###
+/src/main/resources/static/docs/**

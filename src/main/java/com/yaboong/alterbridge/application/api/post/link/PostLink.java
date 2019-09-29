@@ -6,6 +6,7 @@ import com.yaboong.alterbridge.application.api.post.entity.Post;
 import org.springframework.data.domain.Page;
 import org.springframework.data.web.PagedResourcesAssembler;
 import org.springframework.hateoas.PagedResources;
+import org.springframework.hateoas.Resource;
 import org.springframework.hateoas.ResourceAssembler;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
@@ -23,24 +24,24 @@ public class PostLink {
             PagedResourcesAssembler<Post> pagedResourcesAssembler,
             Page<Post> postPagedList
     ) {
-        PagedResources<ResourceProvider> postPagedResources = pagedResourcesAssembler.toResource(postPagedList, postPagingResourceAssembler);
-        postPagedResources.add(ResourceProvider.getProfileLink("resources-query-posts"));
+        PagedResources<Resource> postPagedResources = pagedResourcesAssembler.toResource(postPagedList, postPagingResourceAssembler);
+        postPagedResources.add(ResourceProvider.generateProfile("resources-query-posts"));
         return postPagedResources;
     }
 
-    public static ResourceProvider addLinksForCreatePost(Post post) {
+    public static Resource addLinksForCreatePost(Post post) {
         return ResourceProvider.of(post, PostController.class)
                 .self(HttpMethod.POST)
-                .profile("resources-create-post")
-                .rel(HttpMethod.GET, "post-list");
+                .rel(HttpMethod.GET, "post-list")
+                .buildWithProfile("resources-create-post");
     }
 
     public static Function<Post, ResponseEntity> addLinksForUpdatePost =
             post -> ResponseEntity.ok(
                         ResourceProvider.of(post, PostController.class)
                             .selfWithId(HttpMethod.PUT)
-                            .profile("resources-update-post")
                             .rel(HttpMethod.GET, "post-list")
+                            .buildWithProfile("resources-update-post")
                         );
 
     public static Function<Post, ResponseEntity> addLinksForGetPost =
@@ -49,7 +50,7 @@ public class PostLink {
                             .selfWithId(HttpMethod.GET)
                             .relWithId(HttpMethod.PUT, "update-post")
                             .relWithId(HttpMethod.DELETE, "delete-post")
-                            .profile("resources-posts-get")
+                            .buildWithProfile("resources-posts-get")
                         );
 
     public static Function<Post, ResponseEntity> addLinksForDeletePost =
@@ -57,13 +58,13 @@ public class PostLink {
                         ResourceProvider.of(post, PostController.class)
                             .selfWithId(HttpMethod.DELETE)
                             .rel(HttpMethod.GET, "post-list")
-                            .profile("resources-delete-post")
+                            .buildWithProfile("resources-delete-post")
                         );
 
-    private static ResourceAssembler<Post, ResourceProvider> postPagingResourceAssembler =
+    private static ResourceAssembler<Post, Resource> postPagingResourceAssembler =
             post -> ResourceProvider.of(post, PostController.class)
-                        .profile("resource-posts-get")
                         .selfWithId(HttpMethod.GET)
                         .relWithId(HttpMethod.PUT, "update-post")
-                        .relWithId(HttpMethod.DELETE, "delete-post");
+                        .relWithId(HttpMethod.DELETE, "delete-post")
+                        .buildWithProfile("resource-posts-get");
 }

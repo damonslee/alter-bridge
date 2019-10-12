@@ -1,4 +1,4 @@
-# Toy - Alter Bridge
+# Toy - Alter Bridge [![Build Status](https://travis-ci.org/yaboong/alter-bridge.svg?branch=master)](https://travis-ci.org/yaboong/alter-bridge)
 Yaboong's [Spring Boot](http://projects.spring.io/spring-boot/) sample app.
 
 ## 목적

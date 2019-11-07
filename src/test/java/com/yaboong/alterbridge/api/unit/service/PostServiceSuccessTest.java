@@ -91,7 +91,6 @@ public class PostServiceSuccessTest {
         // THEN
         verify(postRepository, times(1)).findById(postId);
         verify(post, times(1)).apply(postDto);
-        verify(postRepository, times(1)).save(post);
     }
 
     @Test
@@ -105,7 +104,6 @@ public class PostServiceSuccessTest {
 
         // THEN
         verify(post, times(1)).delete();
-        verify(postRepository, times(1)).save(post);
     }
 
     @Test

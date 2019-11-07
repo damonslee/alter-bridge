@@ -37,16 +37,14 @@ public class CommentServiceImpl implements CommentService {
     public Optional<Comment> modify(Long commentId, CommentDto commentDto) {
         return commentRepository
                 .findById(commentId)
-                .map(comment -> comment.apply(commentDto))
-                .map(commentRepository::save);
+                .map(comment -> comment.apply(commentDto));
     }
 
     @Override
     public Optional<Comment> softRemove(Long commentId) {
         return commentRepository
                 .findById(commentId)
-                .map(Comment::delete)
-                .map(commentRepository::save);
+                .map(Comment::delete);
     }
 
     @Override

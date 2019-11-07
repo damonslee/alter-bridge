@@ -34,15 +34,13 @@ public class PostServiceImpl implements PostService {
     public Optional<Post> modify(Long postId, PostDto postDto) {
         return postRepository
                 .findById(postId)
-                .map(post -> post.apply(postDto))
-                .map(postRepository::save);
+                .map(post -> post.apply(postDto));
     }
 
     @Override
     public Optional<Post> softRemove(Long postId) {
         return get(postId)
-                .map(Post::delete)
-                .map(postRepository::save);
+                .map(Post::delete);
     }
 
     @Override
